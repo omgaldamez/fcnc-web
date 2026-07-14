@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 1 · Auditoría y Ficha del negocio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">Fundamentos Cuantitativos para Negocios Creativos · Semana 1</div>
+  <h1>¿Por qué los números?</h1>
+  <div class="sub">Auditoría de un referente real + primera ficha de tu propio negocio. Cada campo tiene un ejemplo resuelto al lado: nada empieza en blanco.</div>
+  <div class="alumno-field">
+    <label for="nombreAlumno">Tu nombre (para el reporte):</label>
+    <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre">
+  </div>
+</header>
+
+<nav class="tabs">
+  <button id="tabBtnTeoria" class="active" onclick="cambiarTab('teoria')">Teoría</button>
+  <button id="tabBtnAuditoria" onclick="cambiarTab('auditoria')">Auditoría de un referente</button>
+  <button id="tabBtnFicha" onclick="cambiarTab('ficha')">Ficha de tu negocio</button>
+</nav>
+
+<div class="progreso-bar">
+  <span id="progresoTexto">Progreso: 0/4 campos clave</span>
+  <div class="progreso-track"><div class="progreso-fill" id="progresoFill" style="width:0%"></div></div>
+</div>
+
+<main>
+
+  <!-- ===================== PESTAÑA 0: TEORÍA ===================== -->
+  <section id="panelTeoria" class="panel active">
+    <div class="card">
+      <p style="margin-bottom:10px;">Antes de auditar un caso real y armar tu ficha, esta es la presentación de la sesión: qué es un modelo y por qué el número es una herramienta de decisión.</p>
+      <div style="max-width:700px;">
+        <iframe src="https://gamma.app/embed/5t6jb4n2qt87mpa" style="width: 100%; max-width: 100%; height: 450px; border:none; border-radius:8px;" allow="fullscreen" title="¿Por qué los números?"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PESTAÑA 1: AUDITORÍA ===================== -->
+  <section id="panelAuditoria" class="panel">
+
+    <div class="grid-two grid-two-parejo">
+      <div class="card">
+        <h3>El fenómeno, en números</h3>
+        <p>El mercado de taquerías y antojitos en México mueve más de $200 mil millones de pesos al año, con más de 145,000 puestos de tacos y tortas registrados. 9 de cada 10 personas en México comen tacos al menos una vez por semana.</p>
+        <div class="fuente">Fuente: INEGI/DENUE, citado en <a href="https://www.elimparcial.com/mexico/2026/03/31/en-mexico-los-tacos-generan-mas-de-200-mil-millones-de-pesos-al-ano-y-concentran-26-del-gasto-en-comida-fuera-de-casa-impulsados-por-su-disponibilidad-rapidez-y-presencia-en-mas-de-139-mil-taquerias/" target="_blank" rel="noopener">El Imparcial</a> y <a href="https://www.adn40.mx/mexico/2025-08-22/tacos-estan-mas-caros-2025-inegi-revela-razon" target="_blank" rel="noopener">ADN40</a>; Statista, citado en <a href="https://www.sdpnoticias.com/mexico/por-que-los-tacos-estan-tan-caros-inegi-responde/" target="_blank" rel="noopener">SDP Noticias</a>.</div>
+      </div>
+
+      <div class="card">
+        <span class="ejemplo-tag">Ejemplo resuelto</span>
+        <h3 style="margin-top:6px;">Los Cocuyos, Centro Histórico</h3>
+        <p>Un taco al pastor costaba $10 en 2015. Hoy cuesta $22. Las causas están identificadas: la tortilla subió cerca de 70% por década, la carne subió cerca de 60% en un solo año, y el gas LP ha ido al alza.</p>
+        <p>Ventas mensuales típicas reportadas para una taquería: entre $100,000 y $300,000 pesos, con una ganancia de entre $10,000 y $20,000 pesos por cada $100,000 vendidos.</p>
+        <div class="fuente">Fuente: El Economista, vía <a href="https://www.xataka.com.mx/otros-1/precio-taco-al-pastor-le-gano-a-inflacion-analisis-revela-que-10-anos-se-volvio-100-caro-para-cdmx" target="_blank" rel="noopener">Xataka México</a>; Research Land + INEGI, citado en <a href="https://laverdadnoticias.com/dinero-inteligente/mi-negocio/abrir-taqueria-en-mexico-2026" target="_blank" rel="noopener">La Verdad Noticias</a>.</div>
+      </div>
+    </div>
+
+    <div class="grid-two" style="margin-top:14px;">
+      <div class="card">
+        <h3>Tu supuesto</h3>
+        <p style="font-size:12.5px;color:var(--gris-nota);margin-bottom:8px;">Esto es un supuesto ilustrativo dentro de un rango real reportado; no es la contabilidad de un negocio específico.</p>
+
+        <div class="slider-row">
+          <div class="valores">
+            <span>Ventas mensuales</span>
+            <span>
+              <span class="num" id="ventasValor">$200,000</span>
+              <span class="warning-icon" id="warnVentas" tabindex="0" aria-label="Fuera de rango típico">
+                ⚠
+                <span class="tooltip-texto">Tu supuesto de ventas queda fuera del rango típico reportado para taquerías. Puede tener sentido para tu razonamiento; vale la pena que lo justifiques en la reflexión de abajo.</span>
+              </span>
+            </span>
+          </div>
+          <input type="range" id="ventasSlider" min="50000" max="350000" step="5000" value="200000" oninput="recalcularAuditoria()">
+          <div class="banda">Rango típico reportado: $100,000 – $300,000/mes</div>
+        </div>
+
+        <div class="slider-row">
+          <div class="valores">
+            <span>Ganancia por cada $100,000 vendidos</span>
+            <span>
+              <span class="num" id="margenValor">$15,000</span>
+              <span class="warning-icon" id="warnMargen" tabindex="0" aria-label="Fuera de rango típico">
+                ⚠
+                <span class="tooltip-texto">Tu supuesto de ganancia por cada $100,000 vendidos queda fuera del rango típico reportado para taquerías. Puede tener sentido para tu razonamiento; vale la pena que lo justifiques en la reflexión de abajo.</span>
+              </span>
+            </span>
+          </div>
+          <input type="range" id="margenSlider" min="0" max="40000" step="1000" value="15000" oninput="recalcularAuditoria()">
+          <div class="banda">Rango típico reportado: $10,000 &ndash; $20,000 por cada $100,000 vendidos</div>
+        </div>
+      </div>
+
+      <div class="grafica-columna">
+        <div class="card">
+          <h3 style="font-size:13px;margin-bottom:6px;">Comparación visual: ganancia diaria</h3>
+          <svg viewBox="0 0 420 110" class="barchart" role="img" aria-label="Comparación de ganancia diaria entre piso, tu supuesto y techo">
+            <text x="0" y="20" class="bar-label">Piso</text>
+            <rect x="70" y="8" width="250" height="18" rx="3" class="bar-track"></rect>
+            <rect id="barPisoFill" x="70" y="8" width="0" height="18" rx="3" class="bar-fill-fijo"></rect>
+            <text id="barPisoVal" x="412" y="21" class="bar-value">$333.33</text>
+
+            <text x="0" y="55" class="bar-label">Tu supuesto</text>
+            <rect x="70" y="43" width="250" height="18" rx="3" class="bar-track"></rect>
+            <rect id="barSupuestoFill" x="70" y="43" width="0" height="18" rx="3" class="bar-fill-editable"></rect>
+            <text id="barSupuestoVal" x="412" y="56" class="bar-value">$1,000.00</text>
+
+            <text x="0" y="90" class="bar-label">Techo</text>
+            <rect x="70" y="78" width="250" height="18" rx="3" class="bar-track"></rect>
+            <rect id="barTechoFill" x="70" y="78" width="0" height="18" rx="3" class="bar-fill-fijo"></rect>
+            <text id="barTechoVal" x="412" y="91" class="bar-value">$2,000.00</text>
+          </svg>
+        </div>
+
+        <div class="gauge-wrap">
+          <div class="gauge-etiquetas">
+            <span class="num">$333.33 (piso)</span>
+            <span class="num">$2,000.00 (techo)</span>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-marcador" id="gaugeMarcador"></div>
+          </div>
+          <div class="gauge-fuera" id="gaugeFuera"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:14px;font-size:15px;">Piso, tu supuesto y techo</h3>
+    <p style="font-size:12.5px;color:var(--gris-nota);margin-top:-4px;">Los mismos dos datos y la misma fórmula, aplicados tres veces: en los bordes del rango reportado y en tu propio punto medio.</p>
+
+    <div class="tickets-trio">
+      <div>
+        <div class="ticket ticket-fijo">
+          <div class="titulo-ticket">Piso reportado</div>
+          <div class="fila"><span>Ventas / mes</span><span class="num">$100,000</span></div>
+          <div class="fila"><span>Ingreso / día</span><span class="num">$3,333.33</span></div>
+          <div class="fila"><span>Ganancia / $100,000</span><span class="num">$10,000</span></div>
+          <div class="fila total"><span>Ganancia / día</span><span class="num">$333.33</span></div>
+        </div>
+        <p class="ticket-caption">El escenario más conservador dentro del rango reportado para taquerías.</p>
+      </div>
+
+      <div>
+        <div class="ticket ticket-editable">
+          <div class="titulo-ticket">Tu supuesto</div>
+          <div class="fila"><span>Ventas / mes</span><span class="num" id="ticketVentas">$200,000</span></div>
+          <div class="fila"><span>Ingreso / día</span><span class="num" id="ticketIngresoDia">$6,666.67</span></div>
+          <div class="fila"><span>Ganancia / $100,000</span><span class="num" id="ticketMargen">$15,000</span></div>
+          <div class="fila total"><span>Ganancia / día</span><span class="num" id="ticketGananciaDia">$1,000.00</span></div>
+          <div class="formula">ingreso diario = ventas del mes ÷ 30 días · ganancia diaria = ingreso diario × (ganancia por $100,000 ÷ 100,000)</div>
+        </div>
+        <p class="ticket-caption" id="notaDinamica">Tu ganancia diaria está a la mitad del camino entre el piso y el techo reportados.</p>
+      </div>
+
+      <div>
+        <div class="ticket ticket-fijo">
+          <div class="titulo-ticket">Techo reportado</div>
+          <div class="fila"><span>Ventas / mes</span><span class="num">$300,000</span></div>
+          <div class="fila"><span>Ingreso / día</span><span class="num">$10,000.00</span></div>
+          <div class="fila"><span>Ganancia / $100,000</span><span class="num">$20,000</span></div>
+          <div class="fila total"><span>Ganancia / día</span><span class="num">$2,000.00</span></div>
+        </div>
+        <p class="ticket-caption">El escenario más favorable dentro del rango reportado para taquerías.</p>
+      </div>
+    </div>
+
+    <div class="card reflexion-card">
+      <h3>Reflexión</h3>
+      <label class="field-label">Comparando tu ganancia diaria contra el piso y el techo reportados, ¿tu negocio se parece más al peor caso, al mejor, o está genuinamente en un punto intermedio? Si tuvieras que subir el precio del taco por el alza de la tortilla y la carne, ¿lo harías, o preferirías reducir tu ganancia por cada $100,000 vendidos? Argumenta.
+        <span class="hint">No hay respuesta única; lo que importa es que la decisión esté justificada.</span>
+      </label>
+      <textarea id="reflexionAuditoria" oninput="actualizarProgreso()"></textarea>
+    </div>
+  </section>
+
+  <!-- ===================== PESTAÑA 2: FICHA DEL NEGOCIO ===================== -->
+  <section id="panelFicha" class="panel">
+
+    <div class="grid-two">
+      <div class="card">
+        <span class="ejemplo-tag">Ejemplo resuelto</span>
+        <h3 style="margin-top:6px;">Café Andante</h3>
+        <p><strong>Problema que resuelve:</strong> gente que necesita un café rápido de camino al trabajo, sin hacer fila larga.</p>
+        <p><strong>A quién le vende:</strong> oficinistas de una zona con alto tránsito peatonal en la mañana.</p>
+        <p><strong>Qué vende, en una frase:</strong> café de especialidad para llevar, listo en menos de 2 minutos.</p>
+        <p><strong>Primera intuición numérica:</strong> $40 por café (precio por unidad), 30 cafés vendidos estimados al día.</p>
+        <p><strong>Métrica a rastrear:</strong> cafés vendidos por día, de ahí sale todo lo demás.</p>
+        <div class="fuente">Nota: esta es la primera intuición de un alumno de ejemplo, no una afirmación de negocio real; no requiere la misma validación de fuente que la auditoría.</div>
+      </div>
+
+      <div class="card">
+        <h3>Tu negocio</h3>
+
+        <label class="field-label">Nombre tentativo</label>
+        <input type="text" id="fNombre" oninput="actualizarProgreso()">
+
+        <label class="field-label">Problema o necesidad que resuelve</label>
+        <textarea id="fProblema" oninput="actualizarProgreso()"></textarea>
+
+        <label class="field-label">A quién le vende (cliente concreto)</label>
+        <input type="text" id="fCliente" oninput="actualizarProgreso()">
+
+        <label class="field-label">Qué vende, en una frase</label>
+        <input type="text" id="fQueVende" oninput="actualizarProgreso()">
+
+        <label class="field-label">Primera intuición numérica
+          <span class="hint">Sin exigir precisión, es tu punto de partida; se irá ajustando semana a semana. Si un cliente compra varias unidades en una sola visita (por ejemplo, alguien que se lleva 5 tacos), cuenta unidades vendidas, no clientes.</span>
+        </label>
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1;">
+            <label class="field-label" style="margin-top:0;font-size:12px;">Precio por unidad</label>
+            <input type="number" id="fPrecio" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
+          </div>
+          <div style="flex:1;">
+            <label class="field-label" style="margin-top:0;font-size:12px;">Unidades vendidas / día</label>
+            <input type="number" id="fClientes" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
+          </div>
+        </div>
+
+
+        <div class="ticket-wrap">
+          <div class="ticket">
+            <div class="titulo-ticket">Tu primer modelo</div>
+            <div class="fila"><span>Precio por unidad</span><span class="num" id="ticketFPrecio">N/D</span></div>
+            <div class="fila"><span>Unidades / día</span><span class="num" id="ticketFClientes">N/D</span></div>
+            <div class="fila"><span>Ingreso / día</span><span class="num" id="ticketFIngresoDia">N/D</span></div>
+            <div class="fila total"><span>Ingreso / mes</span><span class="num" id="ticketFIngreso">N/D</span></div>
+            <div class="formula">ingreso diario = precio × unidades vendidas ese día · ingreso mensual = ingreso diario × 30 días</div>
+          </div>
+        </div>
+
+        <label class="field-label">La métrica que más te importaría rastrear, y por qué</label>
+        <textarea id="fMetrica" oninput="actualizarProgreso()"></textarea>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button class="fab" onclick="generarPDF()">📄 Generar reporte PDF</button>
+
+<div class="footer-nota">Fundamentos Cuantitativos para Negocios Creativos, CENTRO · Semana 1 de 15</div>
+
+<script>
+function fmtMoney(n){
+  return '$' + n.toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function cambiarTab(tab){
+  document.getElementById('panelTeoria').classList.toggle('active', tab==='teoria');
+  document.getElementById('panelAuditoria').classList.toggle('active', tab==='auditoria');
+  document.getElementById('panelFicha').classList.toggle('active', tab==='ficha');
+  document.getElementById('tabBtnTeoria').classList.toggle('active', tab==='teoria');
+  document.getElementById('tabBtnAuditoria').classList.toggle('active', tab==='auditoria');
+  document.getElementById('tabBtnFicha').classList.toggle('active', tab==='ficha');
+}
+
+const GANANCIA_PISO = 100000/30 * (10000/100000);   // $333.33
+const GANANCIA_TECHO = 300000/30 * (20000/100000);  // $2,000.00
+
+function actualizarBarras(gPiso, gSupuesto, gTecho){
+  const trackW = 250;
+  const maxVal = Math.max(gPiso, gSupuesto, gTecho) * 1.1;
+  function setBar(id, val){
+    const el = document.getElementById(id);
+    const w = Math.max(0, (val/maxVal) * trackW);
+    el.setAttribute('width', w.toFixed(1));
+  }
+  setBar('barPisoFill', gPiso);
+  setBar('barSupuestoFill', gSupuesto);
+  setBar('barTechoFill', gTecho);
+  document.getElementById('barPisoVal').textContent = fmtMoney(gPiso);
+  document.getElementById('barSupuestoVal').textContent = fmtMoney(gSupuesto);
+  document.getElementById('barTechoVal').textContent = fmtMoney(gTecho);
+}
+
+function recalcularAuditoria(){
+  const ventas = parseInt(document.getElementById('ventasSlider').value, 10);
+  const gananciaPor100k = parseInt(document.getElementById('margenSlider').value, 10);
+
+  document.getElementById('ventasValor').textContent = fmtMoney(ventas).replace('.00','');
+  document.getElementById('margenValor').textContent = '$' + gananciaPor100k.toLocaleString('es-MX');
+
+  const ingresoDia = ventas / 30;
+  const gananciaDia = ingresoDia * (gananciaPor100k/100000);
+
+  document.getElementById('ticketVentas').textContent = fmtMoney(ventas).replace('.00','');
+  document.getElementById('ticketIngresoDia').textContent = fmtMoney(ingresoDia);
+  document.getElementById('ticketMargen').textContent = '$' + gananciaPor100k.toLocaleString('es-MX');
+  document.getElementById('ticketGananciaDia').textContent = fmtMoney(gananciaDia);
+
+  document.getElementById('warnMargen').classList.toggle('visible', gananciaPor100k < 10000 || gananciaPor100k > 20000);
+  document.getElementById('warnVentas').classList.toggle('visible', ventas < 100000 || ventas > 300000);
+
+  // Nota dinámica en el ticket editable, comparando contra piso y techo
+  const notaDinamica = document.getElementById('notaDinamica');
+  let pct = (gananciaDia - GANANCIA_PISO) / (GANANCIA_TECHO - GANANCIA_PISO) * 100;
+  if(gananciaDia < GANANCIA_PISO){
+    notaDinamica.textContent = 'Tu ganancia diaria queda por debajo incluso del piso reportado.';
+  } else if(gananciaDia > GANANCIA_TECHO){
+    notaDinamica.textContent = 'Tu ganancia diaria supera el techo reportado.';
+  } else if(pct < 45){
+    notaDinamica.textContent = `Tu ganancia diaria está más cerca del piso, al ${pct.toFixed(0)}% del camino hacia el techo.`;
+  } else if(pct > 55){
+    notaDinamica.textContent = `Tu ganancia diaria está más cerca del techo, al ${pct.toFixed(0)}% del camino desde el piso.`;
+  } else {
+    notaDinamica.textContent = `Tu ganancia diaria está casi a la mitad del camino entre el piso y el techo (${pct.toFixed(0)}%).`;
+  }
+
+  // Gauge
+  const pctClamp = Math.max(0, Math.min(100, pct));
+  document.getElementById('gaugeMarcador').style.left = pctClamp + '%';
+  const gaugeFuera = document.getElementById('gaugeFuera');
+  if(gananciaDia < GANANCIA_PISO){
+    gaugeFuera.textContent = '↓ fuera de rango, por debajo del piso';
+  } else if(gananciaDia > GANANCIA_TECHO){
+    gaugeFuera.textContent = '↑ fuera de rango, por arriba del techo';
+  } else {
+    gaugeFuera.textContent = '';
+  }
+
+  actualizarBarras(GANANCIA_PISO, gananciaDia, GANANCIA_TECHO);
+  actualizarProgreso();
+}
+
+function recalcularFicha(){
+  const precio = parseFloat(document.getElementById('fPrecio').value);
+  const clientes = parseFloat(document.getElementById('fClientes').value);
+
+  if(!isNaN(precio) && !isNaN(clientes)){
+    const ingresoDia = precio * clientes;
+    const ingresoMensual = ingresoDia * 30;
+    document.getElementById('ticketFPrecio').textContent = fmtMoney(precio);
+    document.getElementById('ticketFClientes').textContent = clientes;
+    document.getElementById('ticketFIngresoDia').textContent = fmtMoney(ingresoDia);
+    document.getElementById('ticketFIngreso').textContent = fmtMoney(ingresoMensual);
+  } else {
+    document.getElementById('ticketFPrecio').textContent = isNaN(precio) ? 'N/D' : fmtMoney(precio);
+    document.getElementById('ticketFClientes').textContent = isNaN(clientes) ? 'N/D' : clientes;
+    document.getElementById('ticketFIngresoDia').textContent = 'N/D';
+    document.getElementById('ticketFIngreso').textContent = 'N/D';
+  }
+}
+
+function actualizarProgreso(){
+  const camposClave = [
+    document.getElementById('fNombre').value.trim(),
+    document.getElementById('fQueVende').value.trim(),
+    document.getElementById('fPrecio').value,
+    document.getElementById('reflexionAuditoria').value.trim()
+  ];
+  const completos = camposClave.filter(v => v !== '' && v !== null && v !== undefined).length;
+  document.getElementById('progresoTexto').textContent = `Progreso: ${completos}/4 campos clave`;
+  document.getElementById('progresoFill').style.width = (completos/4*100) + '%';
+}
+
+function generarPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const azul = [43, 87, 154];
+  const naranja = [232, 121, 47];
+  const gris = [107, 114, 128];
+  const linea = [201, 205, 211];
+  const fondoTicket = [250, 250, 250];
+
+  const nombreAlumno = document.getElementById('nombreAlumno').value.trim() || '(sin nombre)';
+  const marginX = 14;
+  const pageW = 210;
+  const usableW = pageW - marginX*2; // 182
+
+  // ---------- Header ----------
+  doc.setFillColor(...azul);
+  doc.rect(0,0,pageW,26,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(9.5);
+  doc.text('FUNDAMENTOS CUANTITATIVOS PARA NEGOCIOS CREATIVOS', marginX, 10);
+  doc.setFontSize(15);
+  doc.text('Semana 1: ¿Por qué los números?', marginX, 19);
+  doc.setFontSize(9);
+  doc.text(`Alumno(a): ${nombreAlumno}`, pageW-marginX, 10, {align:'right'});
+  doc.text(`Fecha: ${new Date().toLocaleDateString('es-MX')}`, pageW-marginX, 16, {align:'right'});
+
+  let y = 33;
+  doc.setTextColor(...azul);
+  doc.setFontSize(11.5);
+  doc.text('AUDITORÍA DE UN REFERENTE: TAQUERÍA', marginX, y);
+  doc.setDrawColor(...naranja);
+  doc.setLineWidth(0.8);
+  doc.line(marginX, y+2, pageW-marginX, y+2);
+  y += 8;
+
+  // ---------- Helper: caja tipo ticket ----------
+  function ticketBox(x, boxY, w, h, titulo, filas, destacado){
+    doc.setDrawColor(...(destacado ? azul : linea));
+    doc.setLineWidth(destacado ? 0.7 : 0.4);
+    doc.setFillColor(...fondoTicket);
+    doc.roundedRect(x, boxY, w, h, 1.5, 1.5, 'FD');
+
+    doc.setFontSize(7.5);
+    doc.setTextColor(...(destacado ? azul : gris));
+    doc.text(titulo.toUpperCase(), x + w/2, boxY + 5.5, {align:'center'});
+
+    let fy = boxY + 11;
+    filas.forEach(([label, valor, esTotal]) => {
+      doc.setFontSize(8);
+      doc.setTextColor(30,36,48);
+      doc.setFont(undefined, esTotal ? 'bold' : 'normal');
+      if(esTotal) doc.setTextColor(201,96,29);
+      doc.text(label, x+3, fy);
+      doc.text(String(valor), x+w-3, fy, {align:'right'});
+      fy += 5.8;
+    });
+    doc.setFont(undefined, 'normal');
+  }
+
+  const ventas = parseFloat(document.getElementById('ventasSlider').value);
+  const gananciaPor100k = parseFloat(document.getElementById('margenSlider').value);
+  const ingresoDia = ventas/30;
+  const gananciaDia = ingresoDia * (gananciaPor100k/100000);
+  const gananciaPiso = (100000/30) * (10000/100000);
+  const gananciaTecho = (300000/30) * (20000/100000);
+
+  const boxW = (usableW - 8)/3;
+  const boxH = 34;
+  ticketBox(marginX, y, boxW, boxH, 'Piso reportado', [
+    ['Ventas/mes','$100,000'], ['Ingreso/día','$3,333.33'], ['Ganancia/$100k','$10,000'], ['Ganancia/día','$333.33', true]
+  ]);
+  ticketBox(marginX+boxW+4, y, boxW, boxH, 'Tu supuesto', [
+    ['Ventas/mes', '$'+Math.round(ventas).toLocaleString('es-MX')],
+    ['Ingreso/día', '$'+ingresoDia.toFixed(2)],
+    ['Ganancia/$100k', '$'+gananciaPor100k.toLocaleString('es-MX')],
+    ['Ganancia/día', '$'+gananciaDia.toFixed(2), true]
+  ], true);
+  ticketBox(marginX+2*(boxW+4), y, boxW, boxH, 'Techo reportado', [
+    ['Ventas/mes','$300,000'], ['Ingreso/día','$10,000.00'], ['Ganancia/$100k','$20,000'], ['Ganancia/día','$2,000.00', true]
+  ]);
+  y += boxH + 8;
+
+  // ---------- Gauge ----------
+  doc.setFontSize(7.5);
+  doc.setTextColor(...gris);
+  doc.text('$333.33 (piso)', marginX, y);
+  doc.text('$2,000.00 (techo)', pageW-marginX, y, {align:'right'});
+  y += 3;
+  doc.setDrawColor(...linea);
+  doc.setFillColor(237,238,241);
+  doc.roundedRect(marginX, y, usableW, 3.2, 1.6, 1.6, 'FD');
+  let pct = (gananciaDia - gananciaPiso) / (gananciaTecho - gananciaPiso) * 100;
+  const pctClamp = Math.max(0, Math.min(100, pct));
+  const markerX = marginX + usableW * (pctClamp/100);
+  doc.setFillColor(...azul);
+  doc.circle(markerX, y+1.6, 2.1, 'F');
+  y += 8;
+  if(gananciaDia < gananciaPiso || gananciaDia > gananciaTecho){
+    doc.setTextColor(...naranja);
+    doc.setFontSize(8);
+    const texto = gananciaDia < gananciaPiso ? '↓ Fuera de rango, por debajo del piso reportado' : '↑ Fuera de rango, por arriba del techo reportado';
+    doc.text(texto, pageW/2, y, {align:'center'});
+    y += 6;
+  }
+
+  // ---------- Gráfico de barras ----------
+  y += 3;
+  const barMaxVal = Math.max(gananciaPiso, gananciaDia, gananciaTecho) * 1.1;
+  const barLabelW = 22;
+  const barValueW = 24;
+  const barTrackX = marginX + barLabelW;
+  const barTrackW = usableW - barLabelW - barValueW;
+
+  function barRow(label, val, fillColor, rowY){
+    doc.setFontSize(7.5);
+    doc.setTextColor(30,36,48);
+    doc.setFont(undefined,'normal');
+    doc.text(label, marginX, rowY+3.2);
+    doc.setFillColor(237,238,241);
+    doc.roundedRect(barTrackX, rowY, barTrackW, 4, 1, 1, 'F');
+    const w = Math.max(0, (val/barMaxVal) * barTrackW);
+    doc.setFillColor(...fillColor);
+    doc.roundedRect(barTrackX, rowY, w, 4, 1, 1, 'F');
+    doc.setTextColor(...azul);
+    doc.setFont(undefined,'bold');
+    doc.text('$'+val.toFixed(2), barTrackX+barTrackW+3, rowY+3.2);
+    doc.setFont(undefined,'normal');
+  }
+
+  barRow('Piso', gananciaPiso, gris, y);
+  y += 7;
+  barRow('Tu supuesto', gananciaDia, azul, y);
+  y += 7;
+  barRow('Techo', gananciaTecho, gris, y);
+  y += 10;
+
+  // ---------- Reflexión ----------
+  y += 2;
+  doc.setTextColor(...azul);
+  doc.setFontSize(9.5);
+  doc.setFont(undefined,'bold');
+  doc.text('Reflexión:', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  doc.setFontSize(8.5);
+  const reflexionTexto = document.getElementById('reflexionAuditoria').value.trim() || '(sin completar)';
+  const reflexionLineas = doc.splitTextToSize(reflexionTexto, usableW);
+  const reflexionMax = reflexionLineas.slice(0,4); // limitar para mantener una página
+  doc.text(reflexionMax, marginX, y+5);
+  y += 5 + (reflexionMax.length * 4.6) + 8;
+
+  // ---------- Sección Ficha del negocio ----------
+  doc.setTextColor(...azul);
+  doc.setFontSize(11.5);
+  doc.text('FICHA DE TU NEGOCIO', marginX, y);
+  doc.setDrawColor(...naranja);
+  doc.line(marginX, y+2, pageW-marginX, y+2);
+  y += 8;
+
+  const colIzqW = usableW*0.6 - 4;
+  const colDerX = marginX + colIzqW + 8;
+  const colDerW = usableW - colIzqW - 8;
+  const yInicioFicha = y;
+
+  function campoCompacto(label, valor, xPos, wMax, currentY){
+    doc.setFontSize(8);
+    doc.setFont(undefined,'bold');
+    doc.setTextColor(...gris);
+    doc.text(label.toUpperCase(), xPos, currentY);
+    doc.setFont(undefined,'normal');
+    doc.setTextColor(30,36,48);
+    doc.setFontSize(9);
+    const texto = (valor && valor.trim()) ? valor : '(sin completar)';
+    const lineas = doc.splitTextToSize(texto, wMax);
+    doc.text(lineas, xPos, currentY+4.5);
+    return currentY + 4.5 + (lineas.length*4.4) + 4;
+  }
+
+  let yIzq = yInicioFicha;
+  yIzq = campoCompacto('Nombre tentativo', document.getElementById('fNombre').value, marginX, colIzqW, yIzq);
+  yIzq = campoCompacto('Problema que resuelve', document.getElementById('fProblema').value, marginX, colIzqW, yIzq);
+  yIzq = campoCompacto('A quién le vende', document.getElementById('fCliente').value, marginX, colIzqW, yIzq);
+  yIzq = campoCompacto('Qué vende, en una frase', document.getElementById('fQueVende').value, marginX, colIzqW, yIzq);
+  yIzq = campoCompacto('Métrica a rastrear y por qué', document.getElementById('fMetrica').value, marginX, colIzqW, yIzq);
+
+  const precio = parseFloat(document.getElementById('fPrecio').value);
+  const clientes = parseFloat(document.getElementById('fClientes').value);
+  const hayNumeros = !isNaN(precio) && !isNaN(clientes);
+  const ingresoDiaFicha = hayNumeros ? precio*clientes : 0;
+  const ingresoMensual = hayNumeros ? ingresoDiaFicha*30 : 0;
+
+  ticketBox(colDerX, yInicioFicha, colDerW, 34, 'Tu primer modelo', [
+    ['Precio/unidad', hayNumeros ? '$'+precio : 'N/D'],
+    ['Unidades/día', hayNumeros ? clientes : 'N/D'],
+    ['Ingreso/día', hayNumeros ? '$'+ingresoDiaFicha.toLocaleString('es-MX') : 'N/D'],
+    ['Ingreso/mes', hayNumeros ? '$'+ingresoMensual.toLocaleString('es-MX') : 'N/D', true]
+  ], true);
+
+  y = Math.max(yIzq, yInicioFicha+34) + 6;
+
+  // ---------- Fuentes (compacto) ----------
+  doc.setDrawColor(...linea);
+  doc.setLineWidth(0.3);
+  doc.line(marginX, y, pageW-marginX, y);
+  y += 5;
+  doc.setFontSize(7);
+  doc.setTextColor(...gris);
+  doc.setFont(undefined,'italic');
+  const fuentesTexto = 'Fuentes: INEGI/DENUE · El Imparcial · ADN40 · Statista (vía SDP Noticias) · Xataka México · La Verdad Noticias · Directo al Paladar México · Pickup Coffee (sitio oficial) · EstiloDF · Arena Pública. Bibliografía completa con enlaces disponible en la app.';
+  const fuentesLineas = doc.splitTextToSize(fuentesTexto, usableW);
+  doc.text(fuentesLineas, marginX, y);
+  doc.setFont(undefined,'normal');
+
+  doc.save(`fcnc-s1-reporte-${nombreAlumno.replace(/\s+/g,'_')}.pdf`);
+}
+
+// Inicialización
+recalcularAuditoria();
+recalcularFicha();
+</script>
+
+</body>
+</html>

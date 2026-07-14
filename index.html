@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fundamentos Cuantitativos para Negocios Creativos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .landing-main{ max-width:820px; margin:0 auto; padding:32px 24px 60px; }
+  .landing-header{ padding:22px 24px; }
+  .unidad-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--gris-nota);
+    margin:22px 0 8px;
+  }
+  .lista-semanas{ display:flex; flex-direction:column; gap:8px; }
+  .semana-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 16px;
+    background:#fff;
+    border:1px solid var(--linea);
+    border-radius:8px;
+    text-decoration:none;
+    color:var(--tinta);
+    transition:border-color .15s ease;
+  }
+  .semana-item.disponible:hover{ border-color:var(--azul); }
+  .semana-item .num{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--gris-nota);
+    font-size:13px;
+    min-width:70px;
+  }
+  .semana-item .titulo{ flex:1; font-size:14.5px; }
+  .semana-item .estado{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    padding:3px 8px;
+    border-radius:5px;
+  }
+  .estado.listo{ background:var(--nota-fondo); color:var(--azul-oscuro); }
+  .estado.pendiente{ background:var(--nota-fondo); color:var(--gris-nota); }
+  .semana-item.pendiente{ cursor:default; opacity:.6; pointer-events:none; }
+</style>
+</head>
+<body>
+
+<header class="top landing-header">
+  <div class="eyebrow">CENTRO — Negocios e Industrias Creativas</div>
+  <h1>Fundamentos Cuantitativos para Negocios Creativos</h1>
+  <div class="sub">15 semanas · 5 unidades. Cada sesión combina teoría, auditoría de un referente real, y la ficha de tu propio micro-emprendimiento.</div>
+</header>
+
+<main class="landing-main">
+
+  <div class="unidad-label">Unidad 1 · Matemáticas como herramienta estratégica (sem. 1–2)</div>
+  <div class="lista-semanas">
+    <a href="semana-01/index.html" class="semana-item disponible">
+      <span class="num">Semana 1</span>
+      <span class="titulo">¿Por qué los números?</span>
+      <span class="estado listo">Disponible</span>
+    </a>
+    <div class="semana-item pendiente">
+      <span class="num">Semana 2</span>
+      <span class="titulo">De los números a la estrategia</span>
+      <span class="estado pendiente">Próximamente</span>
+    </div>
+  </div>
+
+  <div class="unidad-label">Unidad 2 · Repaso de operaciones fundamentales (sem. 3–5)</div>
+  <div class="lista-semanas">
+    <div class="semana-item pendiente"><span class="num">Semana 3</span><span class="titulo">Operar con intención</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 4</span><span class="titulo">Fracciones, decimales y porcentajes</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 5</span><span class="titulo">Potencias y órdenes de magnitud</span><span class="estado pendiente">Próximamente</span></div>
+  </div>
+
+  <div class="unidad-label">Unidad 3 · Álgebra aplicada a negocios (sem. 6–8)</div>
+  <div class="lista-semanas">
+    <div class="semana-item pendiente"><span class="num">Semana 6</span><span class="titulo">La variable y las ecuaciones</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 7</span><span class="titulo">Despejar fórmulas</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 8</span><span class="titulo">Funciones lineales y gráficas</span><span class="estado pendiente">Próximamente</span></div>
+  </div>
+
+  <div class="unidad-label">Unidad 4 · Pre-cálculo (sem. 9–12)</div>
+  <div class="lista-semanas">
+    <div class="semana-item pendiente"><span class="num">Semana 9</span><span class="titulo">Cuando el mundo se curva</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 10</span><span class="titulo">Lo exponencial</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 11</span><span class="titulo">Crecimiento compuesto y viralidad</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 12</span><span class="titulo">Incertidumbre y azar</span><span class="estado pendiente">Próximamente</span></div>
+  </div>
+
+  <div class="unidad-label">Unidad 5 · Herramientas digitales, ética y cierre (sem. 13–15)</div>
+  <div class="lista-semanas">
+    <div class="semana-item pendiente"><span class="num">Semana 13</span><span class="titulo">Integrar el modelo</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 14</span><span class="titulo">Ética del número</span><span class="estado pendiente">Próximamente</span></div>
+    <div class="semana-item pendiente"><span class="num">Semana 15</span><span class="titulo">Cierre y pitch</span><span class="estado pendiente">Próximamente</span></div>
+  </div>
+
+</main>
+
+</body>
+</html>
