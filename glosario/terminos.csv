@@ -1,0 +1,6 @@
+termino,definicion,semana,semana_titulo,categoria
+Dato,"Un valor concreto que se observa o se mide: cuánto cobra un competidor, cuántas personas pasan frente a un local en una hora, cuánto cuesta un insumo.",1,¿Por qué los números?,general
+Métrica,El dato que sí importa seguir de cerca porque de él depende una decisión. No todos los datos son igual de importantes.,1,¿Por qué los números?,general
+Modelo,"Una versión simplificada de la realidad de un negocio que se usa para tomar una decisión concreta: cuánto cobrar, cuánta gente necesito, si el negocio se sostiene.",1,¿Por qué los números?,general
+Referente,"Un negocio que ya existe y que sirve de comparación. Sus números, aunque no sean exactos para tu caso, dan una primera idea de qué esperar.",1,¿Por qué los números?,general
+Supuesto,"Algo que el modelo da por cierto sin haberlo confirmado todavía. Nombrarlo es lo que permite revisar el modelo después, cuando lleguen datos reales.",1,¿Por qué los números?,general

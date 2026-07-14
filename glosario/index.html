@@ -10,7 +10,7 @@
 <style>
   .glosario-main{ max-width:820px; margin:0 auto; padding:24px 24px 60px; }
 
-  .buscador-wrap{ margin:16px 0 6px; }
+  .buscador-wrap{ margin:16px 0 10px; }
   .buscador-wrap input{
     width:100%;
     border:1px solid var(--linea);
@@ -22,27 +22,26 @@
     background:#fff;
   }
   .buscador-wrap input:focus-visible{ outline:3px solid var(--naranja); outline-offset:1px; }
-  .meta-nota{ font-size:12.5px; color:var(--gris-nota); margin-bottom:4px; }
-  .sin-resultados{
-    display:none;
-    text-align:center;
-    color:var(--gris-nota);
-    font-size:14px;
-    padding:30px 0;
-  }
 
-  .semana-seccion{ margin-top:26px; }
-  .semana-titulo{
+  .vista-toggle{ display:flex; gap:6px; margin-bottom:16px; }
+  .vista-btn{
     font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
-    letter-spacing:.06em;
+    font-size:11px;
+    letter-spacing:.05em;
     text-transform:uppercase;
-    color:var(--azul-oscuro);
-    border-bottom:2px solid var(--naranja);
-    padding-bottom:6px;
-    margin-bottom:12px;
+    padding:5px 12px;
+    border-radius:6px;
+    border:1px solid var(--linea);
+    background:#fff;
+    color:var(--gris-nota);
+    cursor:pointer;
+    transition:background .12s, color .12s, border-color .12s;
   }
+  .vista-btn.activo{ background:var(--azul); color:#fff; border-color:var(--azul); }
 
+  .meta-nota{ font-size:12.5px; color:var(--gris-nota); margin-bottom:18px; }
+
+  /* Tarjetas */
   .termino-card{
     background:#fff;
     border:1px solid var(--linea);
@@ -50,12 +49,7 @@
     padding:12px 16px;
     margin-bottom:10px;
   }
-  .termino-header{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:4px;
-  }
+  .termino-header{ display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap; }
   .termino-header h3{ font-size:15.5px; margin:0; }
   .categoria-tag{
     font-family:'IBM Plex Mono',monospace;
@@ -68,7 +62,51 @@
   .categoria-tag.general{ background:var(--nota-fondo); color:var(--gris-nota); }
   .categoria-tag.matematico{ background:rgba(43,87,154,.1); color:var(--azul-oscuro); }
   .categoria-tag.negocio{ background:rgba(232,121,47,.12); color:var(--naranja-oscuro); }
+  .semana-pill{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    background:var(--nota-fondo);
+    color:var(--gris-nota);
+    padding:2px 7px;
+    border-radius:5px;
+    margin-left:auto;
+  }
   .termino-card p{ margin:0; font-size:14px; }
+
+  /* Vista por semana */
+  .semana-seccion{ margin-top:26px; }
+  .semana-titulo{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--azul-oscuro);
+    border-bottom:2px solid var(--naranja);
+    padding-bottom:6px;
+    margin-bottom:12px;
+  }
+
+  /* Vista alfabética */
+  .letra-grupo{ margin-top:24px; }
+  .letra-header{
+    font-family:'Fraunces',serif;
+    font-size:26px;
+    font-weight:600;
+    color:var(--azul);
+    border-bottom:2px solid var(--naranja);
+    padding-bottom:4px;
+    margin-bottom:10px;
+    line-height:1;
+  }
+
+  .sin-resultados{
+    display:none;
+    text-align:center;
+    color:var(--gris-nota);
+    font-size:14px;
+    padding:30px 0;
+  }
+  .cargando{ text-align:center; color:var(--gris-nota); padding:40px 0; font-size:14px; }
 </style>
 </head>
 <body>
@@ -81,73 +119,157 @@
 
 <main class="glosario-main">
   <div class="buscador-wrap">
-    <input type="text" id="buscador" placeholder="Buscar un término..." oninput="filtrarGlosario()" aria-label="Buscar un término del glosario">
-  </div>
-  <div class="meta-nota">Última actualización: Semana 1</div>
-
-  <div id="listaGlosario">
-
-    <div class="semana-seccion" data-semana="1">
-      <div class="semana-titulo">Semana 1 · ¿Por qué los números?</div>
-
-      <div class="termino-card">
-        <div class="termino-header"><h3>Dato</h3><span class="categoria-tag general">General</span></div>
-        <p>Un valor concreto que se observa o se mide: cuánto cobra un competidor, cuántas personas pasan frente a un local en una hora, cuánto cuesta un insumo.</p>
-      </div>
-
-      <div class="termino-card">
-        <div class="termino-header"><h3>Métrica</h3><span class="categoria-tag general">General</span></div>
-        <p>El dato que sí importa seguir de cerca, porque de él depende una decisión. No todos los datos son igual de importantes.</p>
-      </div>
-
-      <div class="termino-card">
-        <div class="termino-header"><h3>Modelo</h3><span class="categoria-tag general">General</span></div>
-        <p>Una versión simplificada de la realidad de un negocio, que se usa para tomar una decisión concreta: cuánto cobrar, cuánta gente necesito, si el negocio se sostiene.</p>
-      </div>
-
-      <div class="termino-card">
-        <div class="termino-header"><h3>Supuesto</h3><span class="categoria-tag general">General</span></div>
-        <p>Algo que el modelo da por cierto sin haberlo confirmado todavía. Nombrarlo es lo que permite revisar el modelo después, cuando lleguen datos reales.</p>
-      </div>
-
-      <div class="termino-card">
-        <div class="termino-header"><h3>Referente</h3><span class="categoria-tag general">General</span></div>
-        <p>Un negocio que ya existe y que sirve de comparación. Sus números, aunque no sean exactos para tu caso, dan una primera idea de qué esperar.</p>
-      </div>
-    </div>
-
+    <input type="text" id="buscador" placeholder="Buscar un término..." oninput="filtrar()" aria-label="Buscar un término del glosario">
   </div>
 
+  <div class="vista-toggle">
+    <button class="vista-btn activo" id="btnSemana" onclick="cambiarVista('semana')">Por semana</button>
+    <button class="vista-btn" id="btnAlfabetico" onclick="cambiarVista('alfabetico')">Alfabético</button>
+  </div>
+
+  <div class="meta-nota" id="metaNota">Cargando…</div>
+
+  <div id="contenido"><div class="cargando">Cargando glosario…</div></div>
   <div class="sin-resultados" id="sinResultados">No hay ningún término que coincida con tu búsqueda.</div>
 </main>
 
 <script>
-function normalizar(texto){
-  return texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+var terminos = [];
+var vistaActual = 'semana';
+
+/* ── Parseo CSV ── */
+function parsearCSV(texto){
+  var lineas = texto.trim().split('\n');
+  var encabezados = lineas[0].split(',');
+  return lineas.slice(1).map(function(linea){
+    // Manejo básico de campos con comas dentro de comillas
+    var cols = [];
+    var dentro = false;
+    var actual = '';
+    for(var i = 0; i < linea.length; i++){
+      var c = linea[i];
+      if(c === '"'){ dentro = !dentro; }
+      else if(c === ',' && !dentro){ cols.push(actual); actual = ''; }
+      else { actual += c; }
+    }
+    cols.push(actual);
+    var obj = {};
+    encabezados.forEach(function(h, i){ obj[h.trim()] = (cols[i] || '').trim(); });
+    return obj;
+  }).filter(function(r){ return r.termino; });
 }
 
-function filtrarGlosario(){
-  const q = normalizar(document.getElementById('buscador').value.trim());
-  const secciones = document.querySelectorAll('.semana-seccion');
-  let algunResultado = false;
+function normalizar(t){
+  return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
 
-  secciones.forEach(seccion => {
-    const cards = seccion.querySelectorAll('.termino-card');
-    let visiblesEnSeccion = 0;
+/* ── Construir tarjeta ── */
+function crearCard(t, mostrarSemana){
+  var cat = t.categoria || 'general';
+  var catLabel = cat.charAt(0).toUpperCase() + cat.slice(1);
+  var pill = mostrarSemana
+    ? '<span class="semana-pill">Sem. ' + t.semana + '</span>'
+    : '';
+  return '<div class="termino-card">' +
+    '<div class="termino-header">' +
+      '<h3>' + t.termino + '</h3>' +
+      '<span class="categoria-tag ' + cat + '">' + catLabel + '</span>' +
+      pill +
+    '</div>' +
+    '<p>' + t.definicion + '</p>' +
+  '</div>';
+}
 
-    cards.forEach(card => {
-      const texto = normalizar(card.textContent);
-      const coincide = q === '' || texto.includes(q);
+/* ── Render por semana ── */
+function renderSemana(lista){
+  var grupos = {};
+  var orden  = [];
+  lista.forEach(function(t){
+    var key = 'sem' + t.semana;
+    if(!grupos[key]){ grupos[key] = { semana: t.semana, titulo: t.semana_titulo, items: [] }; orden.push(key); }
+    grupos[key].items.push(t);
+  });
+  return orden.map(function(key){
+    var g = grupos[key];
+    return '<div class="semana-seccion" data-semana="' + g.semana + '">' +
+      '<div class="semana-titulo">Semana ' + g.semana + ' · ' + g.titulo + '</div>' +
+      g.items.map(function(t){ return crearCard(t, false); }).join('') +
+    '</div>';
+  }).join('');
+}
+
+/* ── Render alfabético ── */
+function renderAlfabetico(lista){
+  var ordenados = lista.slice().sort(function(a,b){
+    return normalizar(a.termino).localeCompare(normalizar(b.termino), 'es');
+  });
+  var grupos = {};
+  var letras = [];
+  ordenados.forEach(function(t){
+    var letra = normalizar(t.termino[0]).toUpperCase();
+    if(!grupos[letra]){ grupos[letra] = []; letras.push(letra); }
+    grupos[letra].push(t);
+  });
+  return letras.map(function(letra){
+    return '<div class="letra-grupo" data-letra="' + letra + '">' +
+      '<div class="letra-header">' + letra + '</div>' +
+      grupos[letra].map(function(t){ return crearCard(t, true); }).join('') +
+    '</div>';
+  }).join('');
+}
+
+/* ── Cambio de vista ── */
+function cambiarVista(vista){
+  vistaActual = vista;
+  document.getElementById('btnSemana').classList.toggle('activo', vista === 'semana');
+  document.getElementById('btnAlfabetico').classList.toggle('activo', vista === 'alfabetico');
+  renderContenido(terminos);
+  filtrar();
+}
+
+function renderContenido(lista){
+  document.getElementById('contenido').innerHTML =
+    vistaActual === 'semana' ? renderSemana(lista) : renderAlfabetico(lista);
+}
+
+/* ── Filtrado ── */
+function filtrar(){
+  var q = normalizar(document.getElementById('buscador').value.trim());
+  var grupos = document.querySelectorAll('#contenido .semana-seccion, #contenido .letra-grupo');
+  var algunResultado = false;
+
+  grupos.forEach(function(grupo){
+    var cards = grupo.querySelectorAll('.termino-card');
+    var visibles = 0;
+    cards.forEach(function(card){
+      var coincide = !q || normalizar(card.textContent).includes(q);
       card.style.display = coincide ? '' : 'none';
-      if(coincide) visiblesEnSeccion++;
+      if(coincide) visibles++;
     });
-
-    seccion.style.display = visiblesEnSeccion > 0 ? '' : 'none';
-    if(visiblesEnSeccion > 0) algunResultado = true;
+    grupo.style.display = visibles > 0 ? '' : 'none';
+    if(visibles > 0) algunResultado = true;
   });
 
   document.getElementById('sinResultados').style.display = algunResultado ? 'none' : 'block';
 }
+
+/* ── Carga del CSV ── */
+fetch('terminos.csv')
+  .then(function(r){ return r.text(); })
+  .then(function(texto){
+    terminos = parsearCSV(texto);
+
+    // Meta nota con semana máxima
+    var maxSemana = terminos.reduce(function(m, t){ return Math.max(m, parseInt(t.semana)||0); }, 0);
+    document.getElementById('metaNota').textContent = 'Última actualización: Semana ' + maxSemana + ' · ' + terminos.length + ' términos';
+
+    renderContenido(terminos);
+    filtrar();
+  })
+  .catch(function(){
+    document.getElementById('contenido').innerHTML =
+      '<p style="color:var(--gris-nota);text-align:center;padding:30px 0;">No se pudo cargar el glosario. Abre la página desde un servidor local.</p>';
+  });
 </script>
 
 </body>
