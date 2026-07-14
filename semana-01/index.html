@@ -9,6 +9,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
+  .descarga-sesion{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:#fff;
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:6px;
+    padding:6px 12px;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:background .15s;
+  }
+  .descarga-sesion:hover{ background:rgba(255,255,255,.25); }
+
   .fab-aviso{
     position:fixed;
     bottom:78px; right:22px;
@@ -32,9 +51,12 @@
   <div class="eyebrow">Fundamentos Cuantitativos para Negocios Creativos · Semana 1</div>
   <h1>¿Por qué los números?</h1>
   <div class="sub">Auditoría de un referente real + primera ficha de tu propio negocio. Cada campo tiene un ejemplo resuelto al lado: nada empieza en blanco.</div>
-  <div class="alumno-field">
-    <label for="nombreAlumno">Tu nombre (para el reporte):</label>
-    <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso()">
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:8px;">
+    <div class="alumno-field" style="margin-top:0;">
+      <label for="nombreAlumno">Tu nombre (para el reporte):</label>
+      <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso()">
+    </div>
+    <a href="https://drive.google.com/file/d/1OuV1vDK-yDl-HYPGBxUhXpr5ZhIaJw62/view?usp=drive_link" target="_blank" rel="noopener" class="descarga-sesion">↓ Descargar sesión</a>
   </div>
 </header>
 
@@ -52,13 +74,10 @@
 <main>
 
   <!-- ===================== PESTAÑA 0: TEORÍA ===================== -->
-  <section id="panelTeoria" class="panel active">
-    <div class="card" style="padding:16px 20px;">
-      <p style="margin-bottom:12px;">Antes de auditar un caso real y armar tu ficha, esta es la presentación de la sesión: qué es un modelo y por qué el número es una herramienta de decisión.</p>
-      <div style="width:100%; aspect-ratio:16/9;">
-        <iframe src="https://gamma.app/embed/5t6jb4n2qt87mpa" style="width:100%; height:100%; border:none; border-radius:8px; display:block;" allow="fullscreen" title="¿Por qué los números?"></iframe>
-      </div>
-    </div>
+  <section id="panelTeoria" class="panel active" style="padding:0;">
+    <iframe src="https://gamma.app/embed/5t6jb4n2qt87mpa"
+      style="display:block; width:100%; height:calc(100vh - 180px); min-height:420px; border:none;"
+      allow="fullscreen" title="¿Por qué los números?"></iframe>
   </section>
 
   <!-- ===================== PESTAÑA 1: AUDITORÍA ===================== -->
