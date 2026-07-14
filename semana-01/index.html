@@ -8,6 +8,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="../assets/styles.css">
+<style>
+  .fab-aviso{
+    position:fixed;
+    bottom:78px; right:22px;
+    background:#fff8ec;
+    border:1px solid var(--naranja);
+    border-radius:10px;
+    padding:9px 13px;
+    font-size:12px;
+    color:var(--naranja-oscuro);
+    max-width:270px;
+    line-height:1.45;
+    z-index:99;
+    box-shadow:0 4px 12px rgba(232,121,47,.18);
+  }
+</style>
 </head>
 <body>
 
@@ -17,7 +33,7 @@
   <div class="sub">Auditoría de un referente real + primera ficha de tu propio negocio. Cada campo tiene un ejemplo resuelto al lado: nada empieza en blanco.</div>
   <div class="alumno-field">
     <label for="nombreAlumno">Tu nombre (para el reporte):</label>
-    <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre">
+    <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso()">
   </div>
 </header>
 
@@ -36,10 +52,10 @@
 
   <!-- ===================== PESTAÑA 0: TEORÍA ===================== -->
   <section id="panelTeoria" class="panel active">
-    <div class="card">
-      <p style="margin-bottom:10px;">Antes de auditar un caso real y armar tu ficha, esta es la presentación de la sesión: qué es un modelo y por qué el número es una herramienta de decisión.</p>
-      <div style="max-width:700px;">
-        <iframe src="https://gamma.app/embed/5t6jb4n2qt87mpa" style="width: 100%; max-width: 100%; height: 450px; border:none; border-radius:8px;" allow="fullscreen" title="¿Por qué los números?"></iframe>
+    <div class="card" style="padding:16px 20px;">
+      <p style="margin-bottom:12px;">Antes de auditar un caso real y armar tu ficha, esta es la presentación de la sesión: qué es un modelo y por qué el número es una herramienta de decisión.</p>
+      <div style="width:100%; aspect-ratio:16/9;">
+        <iframe src="https://gamma.app/embed/5t6jb4n2qt87mpa" style="width:100%; height:100%; border:none; border-radius:8px; display:block;" allow="fullscreen" title="¿Por qué los números?"></iframe>
       </div>
     </div>
   </section>
@@ -173,16 +189,31 @@
     </div>
 
     <div class="card reflexion-card">
-      <h3>Reflexión</h3>
+      <h3>Conclusión</h3>
       <label class="field-label">Comparando tu ganancia diaria contra el piso y el techo reportados, ¿tu negocio se parece más al peor caso, al mejor, o está genuinamente en un punto intermedio? Si tuvieras que subir el precio del taco por el alza de la tortilla y la carne, ¿lo harías, o preferirías reducir tu ganancia por cada $100,000 vendidos? Argumenta.
         <span class="hint">No hay respuesta única; lo que importa es que la decisión esté justificada.</span>
       </label>
-      <textarea id="reflexionAuditoria" oninput="actualizarProgreso()"></textarea>
+      <textarea id="conclusionAuditoria" oninput="actualizarProgreso()"></textarea>
     </div>
+
   </section>
 
   <!-- ===================== PESTAÑA 2: FICHA DEL NEGOCIO ===================== -->
   <section id="panelFicha" class="panel">
+
+    <div class="card reflexion-card">
+      <h3>Reflexión</h3>
+
+      <label class="field-label">Pregunta 1 · Sobre los márgenes
+        <span class="hint">¿Qué te dice la diferencia entre el piso y el techo de la taquería sobre cómo funciona un negocio de volumen?</span>
+      </label>
+      <textarea id="fReflexion1" oninput="actualizarProgreso()"></textarea>
+
+      <label class="field-label" style="margin-top:14px;">Pregunta 2 · Conexión con tu negocio
+        <span class="hint">¿Qué idea de la sesión de teoría cambia o refuerza algo en cómo pensabas sobre los números en tu propio proyecto?</span>
+      </label>
+      <textarea id="fReflexion2" oninput="actualizarProgreso()"></textarea>
+    </div>
 
     <div class="grid-two">
       <div class="card">
@@ -245,7 +276,8 @@
 
 </main>
 
-<button class="fab" onclick="generarPDF()">📄 Generar reporte PDF</button>
+<div id="fabAviso" class="fab-aviso" style="display:none;">⚠ Hay campos clave sin completar. El reporte se generará, pero es probable que no tenga todas las notas posibles para evaluación.</div>
+<button id="fabReporte" class="fab" onclick="generarPDF()" style="display:none;">📄 Generar reporte PDF</button>
 
 <div class="footer-nota">Fundamentos Cuantitativos para Negocios Creativos, CENTRO · Semana 1 de 15</div>
 
@@ -261,6 +293,7 @@ function cambiarTab(tab){
   document.getElementById('tabBtnTeoria').classList.toggle('active', tab==='teoria');
   document.getElementById('tabBtnAuditoria').classList.toggle('active', tab==='auditoria');
   document.getElementById('tabBtnFicha').classList.toggle('active', tab==='ficha');
+  actualizarProgreso();
 }
 
 const GANANCIA_PISO = 100000/30 * (10000/100000);   // $333.33
@@ -355,11 +388,21 @@ function actualizarProgreso(){
     document.getElementById('fNombre').value.trim(),
     document.getElementById('fQueVende').value.trim(),
     document.getElementById('fPrecio').value,
-    document.getElementById('reflexionAuditoria').value.trim()
+    document.getElementById('fReflexion1').value.trim(),
+    document.getElementById('fReflexion2').value.trim()
   ];
   const completos = camposClave.filter(v => v !== '' && v !== null && v !== undefined).length;
-  document.getElementById('progresoTexto').textContent = `Progreso: ${completos}/4 campos clave`;
-  document.getElementById('progresoFill').style.width = (completos/4*100) + '%';
+  document.getElementById('progresoTexto').textContent = `Progreso: ${completos}/5 campos clave`;
+  document.getElementById('progresoFill').style.width = (completos/5*100) + '%';
+
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  const enFicha = document.getElementById('panelFicha').classList.contains('active');
+  const fab = document.getElementById('fabReporte');
+  const aviso = document.getElementById('fabAviso');
+
+  const todo = nombre !== '' && completos === 5;
+  fab.style.display = (enFicha && todo) ? '' : 'none';
+  aviso.style.display = 'none';
 }
 
 function generarPDF(){
@@ -498,20 +541,19 @@ function generarPDF(){
   barRow('Techo', gananciaTecho, gris, y);
   y += 10;
 
-  // ---------- Reflexión ----------
+  // ---------- Conclusión de auditoría ----------
   y += 2;
   doc.setTextColor(...azul);
   doc.setFontSize(9.5);
   doc.setFont(undefined,'bold');
-  doc.text('Reflexión:', marginX, y);
+  doc.text('Conclusión:', marginX, y);
   doc.setFont(undefined,'normal');
   doc.setTextColor(30,36,48);
   doc.setFontSize(8.5);
-  const reflexionTexto = document.getElementById('reflexionAuditoria').value.trim() || '(sin completar)';
-  const reflexionLineas = doc.splitTextToSize(reflexionTexto, usableW);
-  const reflexionMax = reflexionLineas.slice(0,4); // limitar para mantener una página
-  doc.text(reflexionMax, marginX, y+5);
-  y += 5 + (reflexionMax.length * 4.6) + 8;
+  const conclusionTexto = document.getElementById('conclusionAuditoria').value.trim() || '(sin completar)';
+  const conclusionLineas = doc.splitTextToSize(conclusionTexto, usableW);
+  doc.text(conclusionLineas.slice(0,4), marginX, y+5);
+  y += 5 + (Math.min(conclusionLineas.length,4) * 4.6) + 8;
 
   // ---------- Sección Ficha del negocio ----------
   doc.setTextColor(...azul);
@@ -562,6 +604,24 @@ function generarPDF(){
 
   y = Math.max(yIzq, yInicioFicha+34) + 6;
 
+  // ---------- Reflexión (dos preguntas) ----------
+  function reflexionBloque(label, valor, yPos){
+    doc.setTextColor(...azul);
+    doc.setFontSize(8.5);
+    doc.setFont(undefined,'bold');
+    doc.text(label, marginX, yPos);
+    doc.setFont(undefined,'normal');
+    doc.setTextColor(30,36,48);
+    doc.setFontSize(8.5);
+    const texto = (valor && valor.trim()) ? valor : '(sin completar)';
+    const lineas = doc.splitTextToSize(texto, usableW);
+    doc.text(lineas.slice(0,4), marginX, yPos+5);
+    return yPos + 5 + (Math.min(lineas.length,4) * 4.6) + 6;
+  }
+  y = reflexionBloque('Reflexión 1 · Sobre los márgenes', document.getElementById('fReflexion1').value, y);
+  y = reflexionBloque('Reflexión 2 · Conexión con tu negocio', document.getElementById('fReflexion2').value, y);
+  y += 4;
+
   // ---------- Fuentes (compacto) ----------
   doc.setDrawColor(...linea);
   doc.setLineWidth(0.3);
@@ -581,6 +641,27 @@ function generarPDF(){
 // Inicialización
 recalcularAuditoria();
 recalcularFicha();
+
+// Aviso si el alumno intenta salir con datos sin guardar
+window.addEventListener('beforeunload', function(e){
+  const campos = [
+    document.getElementById('nombreAlumno').value,
+    document.getElementById('fNombre').value,
+    document.getElementById('fProblema').value,
+    document.getElementById('fCliente').value,
+    document.getElementById('fQueVende').value,
+    document.getElementById('fPrecio').value,
+    document.getElementById('fClientes').value,
+    document.getElementById('fMetrica').value,
+    document.getElementById('conclusionAuditoria').value,
+    document.getElementById('fReflexion1').value,
+    document.getElementById('fReflexion2').value
+  ];
+  if(campos.some(v => v && v.trim() !== '')){
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
 </script>
 
 </body>

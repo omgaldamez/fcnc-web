@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario — Fundamentos Cuantitativos para Negocios Creativos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  .glosario-main{ max-width:820px; margin:0 auto; padding:24px 24px 60px; }
+
+  .buscador-wrap{ margin:16px 0 6px; }
+  .buscador-wrap input{
+    width:100%;
+    border:1px solid var(--linea);
+    border-radius:8px;
+    padding:11px 14px;
+    font-family:'Public Sans',sans-serif;
+    font-size:15px;
+    color:var(--tinta);
+    background:#fff;
+  }
+  .buscador-wrap input:focus-visible{ outline:3px solid var(--naranja); outline-offset:1px; }
+  .meta-nota{ font-size:12.5px; color:var(--gris-nota); margin-bottom:4px; }
+  .sin-resultados{
+    display:none;
+    text-align:center;
+    color:var(--gris-nota);
+    font-size:14px;
+    padding:30px 0;
+  }
+
+  .semana-seccion{ margin-top:26px; }
+  .semana-titulo{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--azul-oscuro);
+    border-bottom:2px solid var(--naranja);
+    padding-bottom:6px;
+    margin-bottom:12px;
+  }
+
+  .termino-card{
+    background:#fff;
+    border:1px solid var(--linea);
+    border-radius:8px;
+    padding:12px 16px;
+    margin-bottom:10px;
+  }
+  .termino-header{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:4px;
+  }
+  .termino-header h3{ font-size:15.5px; margin:0; }
+  .categoria-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:2px 7px;
+    border-radius:5px;
+  }
+  .categoria-tag.general{ background:var(--nota-fondo); color:var(--gris-nota); }
+  .categoria-tag.matematico{ background:rgba(43,87,154,.1); color:var(--azul-oscuro); }
+  .categoria-tag.negocio{ background:rgba(232,121,47,.12); color:var(--naranja-oscuro); }
+  .termino-card p{ margin:0; font-size:14px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">Fundamentos Cuantitativos para Negocios Creativos</div>
+  <h1>Glosario del curso</h1>
+  <div class="sub">Vocabulario matemático y de negocio, acumulado semana con semana. Ningún término se reescribe, solo se agrega.</div>
+</header>
+
+<main class="glosario-main">
+  <div class="buscador-wrap">
+    <input type="text" id="buscador" placeholder="Buscar un término..." oninput="filtrarGlosario()" aria-label="Buscar un término del glosario">
+  </div>
+  <div class="meta-nota">Última actualización: Semana 1</div>
+
+  <div id="listaGlosario">
+
+    <div class="semana-seccion" data-semana="1">
+      <div class="semana-titulo">Semana 1 · ¿Por qué los números?</div>
+
+      <div class="termino-card">
+        <div class="termino-header"><h3>Dato</h3><span class="categoria-tag general">General</span></div>
+        <p>Un valor concreto que se observa o se mide: cuánto cobra un competidor, cuántas personas pasan frente a un local en una hora, cuánto cuesta un insumo.</p>
+      </div>
+
+      <div class="termino-card">
+        <div class="termino-header"><h3>Métrica</h3><span class="categoria-tag general">General</span></div>
+        <p>El dato que sí importa seguir de cerca, porque de él depende una decisión. No todos los datos son igual de importantes.</p>
+      </div>
+
+      <div class="termino-card">
+        <div class="termino-header"><h3>Modelo</h3><span class="categoria-tag general">General</span></div>
+        <p>Una versión simplificada de la realidad de un negocio, que se usa para tomar una decisión concreta: cuánto cobrar, cuánta gente necesito, si el negocio se sostiene.</p>
+      </div>
+
+      <div class="termino-card">
+        <div class="termino-header"><h3>Supuesto</h3><span class="categoria-tag general">General</span></div>
+        <p>Algo que el modelo da por cierto sin haberlo confirmado todavía. Nombrarlo es lo que permite revisar el modelo después, cuando lleguen datos reales.</p>
+      </div>
+
+      <div class="termino-card">
+        <div class="termino-header"><h3>Referente</h3><span class="categoria-tag general">General</span></div>
+        <p>Un negocio que ya existe y que sirve de comparación. Sus números, aunque no sean exactos para tu caso, dan una primera idea de qué esperar.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sin-resultados" id="sinResultados">No hay ningún término que coincida con tu búsqueda.</div>
+</main>
+
+<script>
+function normalizar(texto){
+  return texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function filtrarGlosario(){
+  const q = normalizar(document.getElementById('buscador').value.trim());
+  const secciones = document.querySelectorAll('.semana-seccion');
+  let algunResultado = false;
+
+  secciones.forEach(seccion => {
+    const cards = seccion.querySelectorAll('.termino-card');
+    let visiblesEnSeccion = 0;
+
+    cards.forEach(card => {
+      const texto = normalizar(card.textContent);
+      const coincide = q === '' || texto.includes(q);
+      card.style.display = coincide ? '' : 'none';
+      if(coincide) visiblesEnSeccion++;
+    });
+
+    seccion.style.display = visiblesEnSeccion > 0 ? '' : 'none';
+    if(visiblesEnSeccion > 0) algunResultado = true;
+  });
+
+  document.getElementById('sinResultados').style.display = algunResultado ? 'none' : 'block';
+}
+</script>
+
+</body>
+</html>
