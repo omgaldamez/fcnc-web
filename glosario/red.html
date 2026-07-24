@@ -110,6 +110,14 @@
   .node.oculto, .link.oculto{ display:none; }
   .node.selected circle{ stroke:var(--tinta) !important; stroke-width:4px; }
 
+  /* Treemap (vista mobile) */
+  .tm-group-rect{ fill-opacity:.10; stroke-width:1.5px; }
+  .tm-group-label{ font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.03em; text-transform:uppercase; fill:var(--tinta); pointer-events:none; }
+  .tm-leaf-rect{ stroke:#fff; stroke-width:1.5px; transition:opacity .12s ease; }
+  .tm-leaf-label{ font-family:'Public Sans',sans-serif; font-size:11.5px; font-weight:600; fill:#fff; pointer-events:none; }
+  .tm-leaf.dim .tm-leaf-rect, .tm-group.dim .tm-group-rect{ opacity:.18; }
+  .tm-group, .tm-leaf{ cursor:pointer; }
+
   /* Tooltip */
   .tooltip{
     position:fixed; z-index:40; pointer-events:none; max-width:240px;
@@ -385,22 +393,55 @@ function miembrosDeHub(d){
 
 /* ── Agrupación visible (Tema/Semana/Unidad): clave + etiqueta + color del blob ── */
 var colorPorClave = {};
-function grupoInfo(n){
+function asignarColores(claves){
+  claves.forEach(function(k,i){ if(!colorPorClave[k]) colorPorClave[k] = HULL_PALETTE[i % HULL_PALETTE.length]; });
+}
+function grupoInfo(n, agrupamientoOverride){
   if(n.tipo!=='termino') return null;
   var t = n.dato;
-  if(agrupar==='tema'){
+  var ag = agrupamientoOverride || agrupar;
+  if(ag==='tema'){
     var catKey = t.categoria_principal||'general';
-    return { key:catKey, label:ETIQUETAS_PRIN[catKey]||catKey, color:COLOR_PRINCIPAL[catKey]||'#6B7280' };
+    return { key:catKey, label:ETIQUETAS_PRIN[catKey]||catKey, tipoHub:'tema', color:COLOR_PRINCIPAL[catKey]||'#6B7280' };
   }
-  if(agrupar==='semana'){
-    var kSem = 'sem'+t.semana;
-    return { key:kSem, label:'Semana '+t.semana, color: colorPorClave[kSem] || '#2B579A' };
+  if(ag==='semana'){
+    var kSem = String(t.semana);
+    return { key:kSem, label:'Semana '+t.semana, tipoHub:'semana', color: colorPorClave[kSem] || '#2B579A' };
   }
-  if(agrupar==='unidad'){
+  if(ag==='unidad'){
     var u = unidadDe(t.semana);
-    return { key:u, label:u, color: colorPorClave[u] || '#2B579A' };
+    return { key:u, label:u, tipoHub:'unidad', color: colorPorClave[u] || '#2B579A' };
   }
   return null;
+}
+
+/* Misma agrupación que grupoInfo(), pero a partir de un término plano (usado por el treemap de mobile,
+   que no construye nodos D3). En modo cualitativa usa el eje activo (función/fase/naturaleza). En modo
+   Definiciones, "Libre" no tiene equivalente jerárquico, así que el treemap cae a "Tema". */
+function grupoInfoTermino(t){
+  if(modo==='cualitativa'){
+    var v = ejeValor(t);
+    return { key:v, label:v, tipoHub:eje, color:'#1D3E73' };
+  }
+  return grupoInfo({ tipo:'termino', dato:t }, agrupar==='libre' ? 'tema' : agrupar);
+}
+
+/* ── Detección de dispositivo (breakpoint 820px, el mismo del sitio) ── */
+function esMobile(){ return window.matchMedia('(max-width: 820px)').matches; }
+
+/* ── Medición de texto real para truncar etiquetas del treemap ── */
+var medidorCanvas = document.createElement('canvas').getContext && document.createElement('canvas').getContext('2d');
+function truncarTexto(str, maxPx){
+  if(maxPx <= 0) return str;
+  if(!medidorCanvas){
+    var maxChars = Math.max(1, Math.floor(maxPx/6.5));
+    return str.length > maxChars ? str.slice(0, maxChars-1)+'…' : str;
+  }
+  medidorCanvas.font = "600 11.5px 'Public Sans', sans-serif";
+  if(medidorCanvas.measureText(str).width <= maxPx) return str;
+  var s = str;
+  while(s.length > 1 && medidorCanvas.measureText(s+'…').width > maxPx){ s = s.slice(0, -1); }
+  return s.length < str.length ? s+'…' : str;
 }
 
 /* ── Estado D3 ── */
@@ -410,17 +451,16 @@ var ocultosSet = new Set();
 
 function medir(){ var panel = document.querySelector('.grafo-panel'); ancho = panel.clientWidth; alto = panel.clientHeight; }
 
-function initSVG(){
+/* Limpia el <svg> y le quita cualquier zoom/drag previo: tanto renderGrafo() como
+   renderTreemap() parten de este estado en blanco, así que se puede cambiar de vista
+   (incluso cruzando el breakpoint mobile) sin dejar restos de la vista anterior. */
+function prepararSVG(){
   medir();
-  svg = d3.select('#grafo').attr('viewBox','0 0 '+ancho+' '+alto);
-  gZoom = svg.append('g');
-  gHulls = gZoom.append('g');
-  gLinks = gZoom.append('g');
-  gNodes = gZoom.append('g');
-  gHullLabels = gZoom.append('g');
-  zoomBeh = d3.zoom().scaleExtent([0.35,3]).on('zoom', function(ev){ gZoom.attr('transform', ev.transform); });
-  svg.call(zoomBeh).on('dblclick.zoom', null);
-  svg.on('click', function(){ deseleccionar(); });
+  var svgSel = d3.select('#grafo');
+  svgSel.selectAll('*').remove();
+  svgSel.on('.zoom', null);
+  svgSel.attr('viewBox','0 0 '+ancho+' '+alto);
+  return svgSel;
 }
 
 /* ── Blob irregular alrededor de un cluster ── */
@@ -482,7 +522,17 @@ function actualizarHulls(){
     .text(function(d){ return d.info.label; });
 }
 
-function render(){
+function renderGrafo(){
+  svg = prepararSVG();
+  gZoom = svg.append('g');
+  gHulls = gZoom.append('g');
+  gLinks = gZoom.append('g');
+  gNodes = gZoom.append('g');
+  gHullLabels = gZoom.append('g');
+  zoomBeh = d3.zoom().scaleExtent([0.35,3]).on('zoom', function(ev){ gZoom.attr('transform', ev.transform); });
+  svg.call(zoomBeh).on('dblclick.zoom', null);
+  svg.on('click', function(){ deseleccionar(); });
+
   var g = construir();
   nodosCur = g.nodos; enlacesCur = g.enlaces;
 
@@ -495,10 +545,8 @@ function render(){
     var claves = [];
     nodosCur.forEach(function(n){ var gi=grupoInfo(n); if(gi && claves.indexOf(gi.key)<0) claves.push(gi.key); });
     claves.sort(function(a,b){ return a.localeCompare(b,'es'); });
-    claves.forEach(function(k,i){
-      targetX[k] = (i+0.5)*(ancho/claves.length);
-      if(!colorPorClave[k]) colorPorClave[k] = HULL_PALETTE[i % HULL_PALETTE.length];
-    });
+    asignarColores(claves);
+    claves.forEach(function(k,i){ targetX[k] = (i+0.5)*(ancho/claves.length); });
   }
 
   var lk = gLinks.selectAll('line').data(enlacesCur, function(d){ return (d.source.id||d.source)+'::'+(d.target.id||d.target); });
@@ -564,18 +612,111 @@ function tick(){
   actualizarHulls();
 }
 
+/* ── Treemap (vista mobile): layout determinista, sin simulación, sin pan/zoom ──
+   Reutiliza el mismo CSV, el mismo sidebar y la misma paleta que el grafo; solo cambia
+   cómo se visualiza la agrupación (Tema/Semana/Unidad en Definiciones, o el eje activo
+   en Cualitativa). El filtro de la leyenda se aplica antes de construir la jerarquía,
+   así los grupos restantes se reacomodan para llenar el espacio en vez de dejar huecos. */
+function renderTreemap(){
+  if(sim){ sim.stop(); sim = null; }
+  var svgSel = prepararSVG();
+  var w = ancho, h = alto;
+
+  var visibles = terminos.filter(pasaFiltro);
+  var porClave = {}, orden = [];
+  visibles.forEach(function(t){
+    var gi = grupoInfoTermino(t);
+    if(!porClave[gi.key]){ porClave[gi.key] = { items:[] }; orden.push(gi.key); }
+    porClave[gi.key].items.push(t);
+  });
+  orden.sort(function(a,b){ return a.localeCompare(b,'es'); });
+  asignarColores(orden.filter(function(k){ return !colorPorClave[k]; }));
+
+  var dataRoot = {
+    children: orden.map(function(k){
+      var grupo = porClave[k];
+      var info = grupoInfoTermino(grupo.items[0]);
+      return { name:info.label, key:k, color:info.color, tipoHub:info.tipoHub,
+        children: grupo.items.map(function(t){ return { name:t.termino, dato:t }; }) };
+    })
+  };
+
+  if(!dataRoot.children.length){
+    svgSel.append('text').attr('x',w/2).attr('y',h/2).attr('text-anchor','middle')
+      .attr('fill','var(--gris-nota)').attr('font-family',"'Public Sans',sans-serif").attr('font-size','13px')
+      .text('Ningún término coincide con el filtro activo.');
+    return;
+  }
+
+  var root = d3.hierarchy(dataRoot).sum(function(d){ return d.children ? 0 : 1; });
+  d3.treemap().size([w,h]).paddingOuter(6).paddingTop(24).paddingInner(3).round(true)(root);
+
+  var grupos = svgSel.selectAll('g.tm-group').data(root.children).enter().append('g')
+    .attr('class','tm-group')
+    .attr('transform', function(d){ return 'translate('+d.x0+','+d.y0+')'; });
+
+  grupos.append('rect').attr('class','tm-group-rect')
+    .attr('width', function(d){ return Math.max(0, d.x1-d.x0); })
+    .attr('height', function(d){ return Math.max(0, d.y1-d.y0); })
+    .attr('rx', 8)
+    .attr('fill', function(d){ return d.data.color; })
+    .attr('stroke', function(d){ return d.data.color; })
+    .on('click', function(ev,d){ ev.stopPropagation(); mostrarGrupoTreemap(d); });
+
+  grupos.append('text').attr('class','tm-group-label')
+    .attr('x', 8).attr('y', 16)
+    .text(function(d){ return truncarTexto(d.data.name+' ('+d.children.length+')', (d.x1-d.x0)-14); });
+
+  var hojas = grupos.selectAll('g.tm-leaf').data(function(d){ return d.children; }).enter().append('g')
+    .attr('class','tm-leaf')
+    .attr('transform', function(d){ return 'translate('+(d.x0-d.parent.x0)+','+(d.y0-d.parent.y0)+')'; })
+    .on('click', function(ev,d){ ev.stopPropagation(); seleccionar(d.data.dato.termino); });
+
+  hojas.append('rect').attr('class','tm-leaf-rect')
+    .attr('width', function(d){ return Math.max(0, d.x1-d.x0); })
+    .attr('height', function(d){ return Math.max(0, d.y1-d.y0); })
+    .attr('rx', 6)
+    .attr('fill', function(d){ return COLOR_PRINCIPAL[d.data.dato.categoria_principal||'general']||'#6B7280'; });
+
+  hojas.append('text').attr('class','tm-leaf-label')
+    .attr('x', 6).attr('y', 15)
+    .text(function(d){ return truncarTexto(d.data.name, (d.x1-d.x0)-10); });
+
+  svgSel.on('click', function(){ deseleccionar(); });
+}
+
+/* Resumen de un grupo del treemap (equivalente mobile de seleccionarHub) */
+function mostrarGrupoTreemap(d){
+  seleccionado = null;
+  var info = d.data;
+  var miembros = d.children.map(function(c){ return c.data.dato; });
+  var chips = miembros.map(function(t){
+    var color = COLOR_PRINCIPAL[t.categoria_principal||'general'];
+    return '<button class="rel-chip" onclick="seleccionar(\''+t.termino.replace(/'/g,"\\'")+'\')"><span class="punto" style="background:'+color+'"></span>'+t.termino+'</button>';
+  }).join('');
+  document.getElementById('sidebar').innerHTML =
+    botonCerrar() +
+    '<div class="sidebar-eyebrow">Grupo · '+etiquetaGrupoHub(info.tipoHub)+'</div>'+
+    '<h2>'+info.name+'</h2>'+
+    '<p class="sidebar-def">'+miembros.length+' término'+(miembros.length>1?'s':'')+' '+descripcionGrupoHub(info.tipoHub)+'</p>'+
+    '<div class="sidebar-sub">Términos del grupo</div><div class="rel-chips">'+chips+'</div>'+
+    (info.tipoHub==='semana' ? fuentesHTML(info.key) : '');
+  mostrarSidebar();
+}
+
 function dragStart(ev,d){ if(!ev.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }
 function dragged(ev,d){ d.fx=ev.x; d.fy=ev.y; }
 function dragEnd(ev,d){ if(!ev.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }
 function reacomodar(){ nodosCur.forEach(function(n){ n.fx=null; n.fy=null; }); sim.alpha(0.9).restart(); }
 
-/* ── Resaltado ── */
+/* ── Resaltado (solo aplica a la vista de grafo; no-op si el treemap está activo) ── */
 function resaltarVecinos(id){
+  if(!nodeSel) return;
   var vec = ady[id] || new Set([id]);
   nodeSel.classed('dim', function(d){ return !vec.has(d.id); });
   linkSel.classed('dim', function(d){ return !(d.source.id===id || d.target.id===id); });
 }
-function quitarResaltado(){ nodeSel.classed('dim', false); linkSel.classed('dim', false); }
+function quitarResaltado(){ if(!nodeSel) return; nodeSel.classed('dim', false); linkSel.classed('dim', false); }
 
 /* ── Tooltip ── */
 var tooltipEl = document.getElementById('tooltip');
@@ -604,7 +745,7 @@ function ocultarTooltip(){ tooltipEl.classList.remove('visible'); }
 /* ── Selección ── */
 function seleccionar(id){
   seleccionado = id;
-  nodeSel.classed('selected', function(d){ return d.id===id; });
+  if(nodeSel) nodeSel.classed('selected', function(d){ return d.id===id; });
   resaltarVecinos(id);
   renderSidebar(id);
   mostrarSidebar();
@@ -612,11 +753,13 @@ function seleccionar(id){
 function etiquetaGrupoHub(hubTipo){
   if(hubTipo==='semana') return 'Sesión';
   if(hubTipo==='tema') return 'Tema';
+  if(hubTipo==='unidad') return 'Unidad';
   return nombreEje();
 }
 function descripcionGrupoHub(hubTipo){
   if(hubTipo==='semana') return 'comparten esta sesión del curso.';
   if(hubTipo==='tema') return 'comparten este tema.';
+  if(hubTipo==='unidad') return 'comparten esta unidad del curso.';
   return 'comparten este rol en el curso.';
 }
 function seleccionarHub(d){
@@ -691,28 +834,36 @@ function renderSidebar(id){
 
 function renderSidebarVacio(){
   var nTerm = terminos.length;
-  var nCon = modo==='definiciones' ? enlacesCur.length : 0;
-  var introDef = agrupar==='libre'
-    ? 'Cada término es un nodo circular; el <strong>color</strong> es su categoría y el <strong>borde</strong> su etiqueta secundaria. Las líneas finas unen términos relacionados; las líneas punteadas los unen con su nodo de <strong>Sesión</strong> (S1, S2…) y de <strong>Tema</strong>, que también son nodos clickeables.'
-    : 'Los términos se agrupan por <strong>'+ (agrupar==='tema'?'tema':agrupar==='semana'?'semana':'unidad') +'</strong>: cada mancha de color señala un cluster, con su nombre arriba.';
-  var intro = modo==='definiciones' ? introDef
-    : 'Cada término se enlaza al grupo (<strong>'+nombreEje()+'</strong>) al que pertenece. Los nodos oscuros son los grupos; a su alrededor se juntan los términos que comparten ese rol. Cambia el eje para releer el glosario por función, fase del arco o naturaleza.';
+  var intro, nCon = null;
+  if(esMobile()){
+    intro = modo==='definiciones'
+      ? 'Los términos se agrupan por <strong>'+(agrupar==='tema'?'tema':agrupar==='semana'?'sesión':'unidad')+'</strong>: cada bloque de color es un grupo y, dentro, cada celda es un término. Toca una celda para ver su definición; toca el encabezado del grupo para ver todos sus términos.'
+      : 'Los términos se agrupan por <strong>'+nombreEje()+'</strong>. Toca una celda para ver el término; toca el encabezado del grupo para verlos todos.';
+  } else {
+    var introDef = agrupar==='libre'
+      ? 'Cada término es un nodo circular; el <strong>color</strong> es su categoría y el <strong>borde</strong> su etiqueta secundaria. Las líneas finas unen términos relacionados; las líneas punteadas los unen con su nodo de <strong>Sesión</strong> (S1, S2…) y de <strong>Tema</strong>, que también son nodos clickeables.'
+      : 'Los términos se agrupan por <strong>'+ (agrupar==='tema'?'tema':agrupar==='semana'?'semana':'unidad') +'</strong>: cada mancha de color señala un cluster, con su nombre arriba.';
+    intro = modo==='definiciones' ? introDef
+      : 'Cada término se enlaza al grupo (<strong>'+nombreEje()+'</strong>) al que pertenece. Los nodos oscuros son los grupos; a su alrededor se juntan los términos que comparten ese rol. Cambia el eje para releer el glosario por función, fase del arco o naturaleza.';
+    nCon = modo==='definiciones' ? enlacesCur.length : null;
+  }
   document.getElementById('sidebar').innerHTML =
     '<div class="sidebar-eyebrow">'+(modo==='definiciones'?'Red de definiciones':'Red cualitativa · '+nombreEje())+'</div>'+
     '<p class="sidebar-vacio">'+intro+'</p>'+
     '<div class="sidebar-meta" style="margin-top:12px;">'+
       '<div class="stat-fila"><span>Términos</span><span>'+nTerm+'</span></div>'+
-      (modo==='definiciones'?'<div class="stat-fila"><span>Conexiones</span><span>'+nCon+'</span></div>':'')+
+      (nCon!==null?'<div class="stat-fila"><span>Conexiones</span><span>'+nCon+'</span></div>':'')+
     '</div>'+
-    '<p class="sidebar-vacio" style="margin-top:12px;">Haz clic en cualquier nodo para ver definición, relaciones y fuentes de su semana.</p>';
+    '<p class="sidebar-vacio" style="margin-top:12px;">Toca cualquier término para ver definición, relaciones y fuentes de su semana.</p>';
 }
 
 /* ── Sidebar mostrar/ocultar ── */
 function mostrarSidebar(){ document.getElementById('sidebar').classList.remove('oculto'); }
 function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('oculto'); }
 
-/* ── Filtro aplicado ── */
+/* ── Filtro aplicado (grafo: oculta clases; treemap: reconstruye la jerarquía) ── */
 function aplicarFiltro(){
+  if(esMobile()){ renderTreemap(); return; }
   if(!nodeSel) return;
   var vis = {};
   nodosCur.forEach(function(n){ vis[n.id] = (n.tipo==='hub') ? true : pasaFiltro(n.dato); });
@@ -734,9 +885,14 @@ function aplicarFiltro(){
   if(seleccionado && !vis[seleccionado]) deseleccionar();
 }
 
-/* ── Buscador ── */
+/* ── Buscador (grafo: atenúa nodos que no coinciden; treemap: atenúa celdas) ── */
 function buscar(){
   var q = normalizar(document.getElementById('buscador').value.trim());
+  if(esMobile()){
+    d3.selectAll('#grafo .tm-leaf').classed('dim', function(d){ return !!q && !normalizar(d.data.name).includes(q); });
+    return;
+  }
+  if(!nodeSel) return;
   if(!q){ if(!seleccionado) quitarResaltado(); return; }
   nodeSel.classed('dim', function(d){ return d.tipo==='hub' || !normalizar(d.id).includes(q); });
   linkSel.classed('dim', true);
@@ -747,6 +903,31 @@ document.getElementById('buscador').addEventListener('change', function(){
   if(hit) seleccionar(hit.termino);
 });
 
+/* ── Dispositivo: qué vista se renderiza y qué controles aplican ──
+   Bajo el breakpoint de 820px (el mismo del sitio) se usa el treemap en vez del grafo
+   de fuerzas: en touch, el pan/zoom de un grafo compite con el scroll de la página y los
+   nodos son targets chicos, mientras que un treemap es celdas grandes sin necesidad de
+   arrastrar ni hacer zoom. "Libre" no tiene equivalente jerárquico, así que en mobile
+   se oculta y, si estaba activo, se cae a "Tema". */
+function ajustarControlesPorDispositivo(){
+  var m = esMobile();
+  var btnReacomodar = document.querySelector('.btn-reacomodar');
+  var hint = document.getElementById('grafoHint');
+  var btnLibre = document.querySelector('#segAgrupar button[data-g="libre"]');
+  if(btnReacomodar) btnReacomodar.style.display = m ? 'none' : '';
+  if(hint) hint.style.display = m ? 'none' : '';
+  if(btnLibre) btnLibre.style.display = m ? 'none' : '';
+  if(m && agrupar==='libre'){
+    agrupar = 'tema';
+    document.querySelectorAll('#segAgrupar button').forEach(function(b){ b.classList.toggle('activo', b.dataset.g==='tema'); });
+  }
+}
+function renderVista(){
+  ajustarControlesPorDispositivo();
+  esMobilePrev = esMobile();
+  if(esMobilePrev){ renderTreemap(); } else { renderGrafo(); }
+}
+
 /* ── Controles ── */
 function setModo(m){
   modo = m;
@@ -754,30 +935,31 @@ function setModo(m){
   document.getElementById('ctrlAgrupar').style.display = (m==='definiciones')?'':'none';
   document.getElementById('ctrlEje').style.display = (m==='cualitativa')?'':'none';
   seleccionado = null;
-  render();
+  renderVista();
   renderSidebarVacio();
 }
 function setAgrupar(g){
   agrupar = g;
   document.querySelectorAll('#segAgrupar button').forEach(function(b){ b.classList.toggle('activo', b.dataset.g===g); });
-  render();
+  renderVista();
+  if(!seleccionado) renderSidebarVacio();
 }
 function setEje(e){
   eje = e;
   document.querySelectorAll('#segEje button').forEach(function(b){ b.classList.toggle('activo', b.dataset.e===e); });
-  render();
+  renderVista();
   if(!seleccionado) renderSidebarVacio();
 }
 
 /* ── Carga ── */
+var esMobilePrev = null;
 Promise.all([ fetch('terminos.csv').then(function(r){return r.text();}), fetch('fuentes.csv').then(function(r){return r.text();}) ])
   .then(function(res){
     terminos = parsearCSV(res[0]);
     fuentes = parsearCSV(res[1]);
     terminos.forEach(function(t){ porNombre[t.termino] = t; });
     fuentes.forEach(function(f){ (fuentesPorSemana[f.semana] = fuentesPorSemana[f.semana] || []).push(f); });
-    initSVG();
-    render();
+    renderVista();
     renderSidebarVacio();
   })
   .catch(function(){
@@ -785,11 +967,19 @@ Promise.all([ fetch('terminos.csv').then(function(r){return r.text();}), fetch('
       '<p class="sidebar-vacio">No se pudo cargar la red. Abre la página desde un servidor local (no con doble clic sobre el archivo).</p>';
   });
 
+/* Resize con debounce: si se cruza el breakpoint mobile/desktop se cambia de vista por
+   completo; si no, el grafo solo reencuadra su viewBox y el treemap se reacomoda
+   (relevante en un giro de pantalla del teléfono). */
+var resizeTimer;
 window.addEventListener('resize', function(){
-  if(!sim) return;
-  medir();
-  svg.attr('viewBox','0 0 '+ancho+' '+alto);
-  sim.alpha(0.3).restart();
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function(){
+    if(!terminos.length) return;
+    var m = esMobile();
+    if(m !== esMobilePrev){ renderVista(); return; }
+    if(m){ renderTreemap(); }
+    else if(sim){ medir(); svg.attr('viewBox','0 0 '+ancho+' '+alto); sim.alpha(0.3).restart(); }
+  }, 120);
 });
 </script>
 
