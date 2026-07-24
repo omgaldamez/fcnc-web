@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 2 · De los números a la estrategia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  .descarga-sesion{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:#fff;
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:6px;
+    padding:6px 12px;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:background .15s;
+  }
+  .descarga-sesion:hover{ background:rgba(255,255,255,.25); }
+
+  /* ---- Marcador de propuesta reemplazable (prototipo para revisión académica) ---- */
+  .propuesta-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    background:#fff2e6;
+    color:var(--naranja-oscuro);
+    border:1px dashed var(--naranja);
+    padding:2px 8px;
+    border-radius:5px;
+  }
+  .propuesta-nota{
+    font-size:11.5px;
+    color:var(--naranja-oscuro);
+    background:#fff8ec;
+    border-left:3px solid var(--naranja);
+    padding:6px 10px;
+    border-radius:0 6px 6px 0;
+    margin:8px 0 0;
+    line-height:1.45;
+  }
+
+  /* ---- Placeholder de Gamma ---- */
+  .gamma-placeholder{
+    margin:16px 0;
+    border:2px dashed var(--linea);
+    border-radius:var(--radio);
+    background:repeating-linear-gradient(45deg,#fbfbfc,#fbfbfc 12px,#f4f5f7 12px,#f4f5f7 24px);
+    padding:44px 28px;
+    text-align:center;
+  }
+  .gamma-placeholder .etiqueta{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--gris-nota);
+    background:#fff;
+    border:1px solid var(--linea);
+    border-radius:99px;
+    padding:4px 12px;
+    margin-bottom:14px;
+  }
+  .gamma-placeholder h3{ font-size:18px; margin-bottom:6px; }
+  .gamma-placeholder p{ font-size:13.5px; color:var(--gris-nota); max-width:560px; margin:0 auto 6px; }
+  .gamma-placeholder code{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    background:#fff;
+    border:1px solid var(--linea);
+    border-radius:5px;
+    padding:2px 6px;
+    color:var(--azul-oscuro);
+  }
+
+  /* ---- Tarjetas de palanca (comparación de dos movimientos) ---- */
+  .palancas{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:10px;
+  }
+  @media (max-width:820px){ .palancas{ grid-template-columns:1fr; } }
+  .palanca{
+    border:1px solid var(--linea);
+    border-radius:8px;
+    padding:11px 13px;
+    background:#fff;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .palanca.gana{ border-color:var(--azul); box-shadow:0 0 0 2px rgba(43,87,154,.10); }
+  .palanca .mov{ font-size:12.5px; color:var(--azul-oscuro); font-weight:600; margin-bottom:2px; }
+  .palanca .mov-nota{ font-size:11px; color:var(--gris-nota); font-style:italic; margin-bottom:4px; }
+  .palanca .gan{ font-family:'IBM Plex Mono',monospace; font-size:20px; color:var(--naranja-oscuro); }
+  .palanca .gan-sub{ font-size:11.5px; color:var(--gris-nota); margin-top:2px; }
+  .palanca-veredicto{
+    font-size:13px;
+    color:var(--tinta);
+    background:var(--nota-fondo);
+    border-radius:8px;
+    padding:9px 12px;
+    margin-top:10px;
+    line-height:1.5;
+  }
+  .palanca-veredicto strong{ color:var(--azul-oscuro); }
+
+  /* ---- Tira semanal: primeras sumas (ancla de Sheets) ---- */
+  .semana-strip{ margin-top:12px; }
+  .semana-strip .celdas{
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    align-items:stretch;
+  }
+  .semana-strip .celda{
+    flex:1;
+    min-width:64px;
+    border:1px solid var(--linea);
+    border-radius:5px;
+    background:#fff;
+    text-align:center;
+    padding:6px 4px;
+  }
+  .semana-strip .celda .dia{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--gris-nota);
+  }
+  .semana-strip .celda .val{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--azul-oscuro);
+    margin-top:2px;
+  }
+  .semana-strip .celda.suma{
+    border-color:var(--azul);
+    background:#f2f6fc;
+  }
+  .semana-strip .celda.suma .dia{ color:var(--azul-oscuro); font-weight:600; }
+  .semana-strip .celda.suma .val{ font-weight:600; }
+  .semana-strip .pie{
+    font-size:11.5px;
+    color:var(--gris-nota);
+    font-style:italic;
+    margin-top:6px;
+  }
+
+  /* ---- Selector: la métrica que importa ---- */
+  .metrica-opciones{ display:flex; flex-direction:column; gap:7px; margin-top:6px; }
+  .metrica-op{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    border:1px solid var(--linea);
+    border-radius:8px;
+    padding:9px 12px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .metrica-op:hover{ border-color:var(--azul); }
+  .metrica-op input{ width:auto; margin:0; accent-color:var(--azul); }
+  .metrica-op .texto{ flex:1; font-size:13.5px; }
+  .metrica-op .impacto{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--naranja-oscuro);
+    white-space:nowrap;
+  }
+  .metrica-op.seleccionada{ border-color:var(--azul); background:#f2f6fc; }
+
+  .info-ico{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:17px; height:17px;
+    border-radius:50%;
+    border:1px solid var(--gris-nota);
+    color:var(--gris-nota);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    background:#fff;
+    cursor:pointer;
+    flex:0 0 auto;
+    padding:0;
+  }
+  .info-ico:hover{ border-color:var(--azul); color:var(--azul); }
+  .metrica-info{
+    display:none;
+    flex:1 0 100%;
+    font-size:12px;
+    color:var(--tinta);
+    background:var(--nota-fondo);
+    border-radius:6px;
+    padding:8px 10px;
+    line-height:1.5;
+    cursor:default;
+  }
+  .metrica-info.visible{ display:block; }
+
+  .fab-aviso{
+    position:fixed;
+    bottom:78px; right:22px;
+    background:#fff8ec;
+    border:1px solid var(--naranja);
+    border-radius:10px;
+    padding:9px 13px;
+    font-size:12px;
+    color:var(--naranja-oscuro);
+    max-width:270px;
+    line-height:1.45;
+    z-index:99;
+    box-shadow:0 4px 12px rgba(232,121,47,.18);
+  }
+  .fab-warn{ background:#c97d10 !important; box-shadow:0 6px 16px rgba(201,125,16,.4) !important; }
+  .fab-warn:hover{ background:#a8650c !important; transform:translateY(-1px); }
+  .fab-ok  { background:#1d7a4e !important; box-shadow:0 6px 16px rgba(29,122,78,.4) !important; }
+  .fab-ok:hover  { background:#155e3b !important; transform:translateY(-1px); }
+  .fab[data-tip]{ overflow:visible; }
+  .fab[data-tip]:hover::after{
+    content:attr(data-tip);
+    position:absolute;
+    bottom:calc(100% + 10px); right:0;
+    background:rgba(10,10,10,.9);
+    color:#fff;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.03em;
+    padding:7px 12px;
+    border-radius:7px;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:999;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="../index.html" class="nav-back">← Inicio</a>
+  <div class="eyebrow">Fundamentos Cuantitativos para Negocios Creativos · Semana 2</div>
+  <h1>De los números a la estrategia</h1>
+  <div class="sub">De dato a decisión con la lente de proporción: por cada cliente, por cada día. Construyes el tablero de supuestos de tu negocio y eliges la métrica que de verdad importa.</div>
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:8px;">
+    <div class="alumno-field" style="margin-top:0;">
+      <label for="nombreAlumno">Tu nombre (para el reporte):</label>
+      <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso()">
+    </div>
+    <a href="https://drive.google.com/file/d/1YfP0-dX-pcLYVSiKEIMe8WhbVMKfsqvB/view?usp=drive_link" target="_blank" rel="noopener" class="descarga-sesion">↓ Descargar sesión</a>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button id="tabBtnTeoria" class="active" onclick="cambiarTab('teoria')">Teoría</button>
+  <button id="tabBtnAuditoria" onclick="cambiarTab('auditoria')">Auditoría de un referente</button>
+  <button id="tabBtnFicha" onclick="cambiarTab('ficha')">Tu tablero de supuestos</button>
+  <button id="tabBtnRecursos" onclick="cambiarTab('recursos')">Recursos</button>
+</nav>
+
+<div class="progreso-bar">
+  <span id="progresoTexto">Progreso: 0/5 campos clave</span>
+  <div class="progreso-track"><div class="progreso-fill" id="progresoFill" style="width:0%"></div></div>
+</div>
+
+<main>
+
+  <!-- ===================== PESTAÑA 0: TEORÍA ===================== -->
+  <section id="panelTeoria" class="panel active" style="padding:0;">
+    <iframe src="https://gamma.app/embed/dfiaxb1z4wk0ncj"
+      style="display:block; width:100%; height:calc(100vh - 180px); min-height:420px; border:none;"
+      allow="fullscreen" title="De los números a la estrategia"></iframe>
+  </section>
+
+  <!-- ===================== PESTAÑA 1: AUDITORÍA ===================== -->
+  <section id="panelAuditoria" class="panel">
+
+    <div class="propuesta-nota">
+      <span class="propuesta-tag">◇ Propuesta reemplazable</span>
+      &nbsp; Este referente (la taquería) se reutiliza de Semana 1 por continuidad. El área académica puede sustituirlo por otro caso: solo cambian los datos y el precio de esta pestaña; la lógica de proporción y de comparación de palancas se mantiene intacta.
+    </div>
+
+    <div class="grid-two grid-two-parejo" style="margin-top:14px;">
+      <div class="card">
+        <h3>El fenómeno, en números</h3>
+        <p>Seguimos con la taquería que auditamos en Semana 1. Ya sabemos que una taquería típica vende entre $100,000 y $300,000 al mes, y que un taco al pastor ronda los $22. Esta semana no miramos el total: miramos la <strong>proporción</strong> que lo produce.</p>
+        <p>Todo negocio de volumen vive de una cadena de "por cada": por cada cliente que entra, cuántos tacos se lleva; por cada día abierto, cuánto se vende. Cambiar el total siempre pasa por mover uno de esos "por cada".</p>
+        <p style="font-size:13px;">Esta misma pregunta se juega a escala nacional: en el Hot Sale 2025 se vendieron casi 2 productos por cada orden (AMVO), y un análisis de 2026 de Propty muestra que el ticket promedio, por sí solo, no explica el desempeño de una tienda: importa también qué tan seguido regresa la gente.</p>
+        <div class="fuente">Fuente (rango de referencia): INEGI/DENUE y caso Los Cocuyos, ya citados en la auditoría de Semana 1. Los valores de abajo son ilustrativos dentro de ese rango, no la contabilidad de un negocio específico.</div>
+      </div>
+
+      <div class="card">
+        <span class="ejemplo-tag">De dato a decisión</span>
+        <h3 style="margin-top:6px;">La pregunta que importa</h3>
+        <p>Imagina que quieres que la taquería venda más. Tienes dos caminos posibles, y solo energía para empujar uno bien:</p>
+        <p><strong>Camino A:</strong> atraer <strong>un cliente más al día</strong> (más publicidad, mejor ubicación en la banqueta).</p>
+        <p><strong>Camino B:</strong> lograr que <strong>cada cliente lleve un poco más</strong> (una orden extra, agrandar el pedido).</p>
+        <p>El dato crudo no decide por ti. La proporción, sí: mueve los deslizadores y observa cuál camino agrega más pesos al mes.</p>
+      </div>
+    </div>
+
+    <div class="grid-two" style="margin-top:14px;">
+      <div class="card">
+        <h3>Tus dos supuestos de proporción</h3>
+        <p style="font-size:12.5px;color:var(--gris-nota);margin-bottom:8px;">Precio del taco fijo en $22 y mes de 30 días, para aislar el efecto de la proporción.</p>
+
+        <div class="slider-row">
+          <div class="valores">
+            <span>Clientes por día</span>
+            <span class="num" id="audClientesValor">87</span>
+          </div>
+          <input type="range" id="audClientesSlider" min="30" max="200" step="1" value="87" oninput="recalcularAuditoria()">
+          <div class="banda">Ilustrativo: una taquería concurrida recibe decenas a un par de cientos de clientes al día.</div>
+        </div>
+
+        <div class="slider-row">
+          <div class="valores">
+            <span>Tacos por cada cliente</span>
+            <span class="num" id="audTacosValor">3.5</span>
+          </div>
+          <input type="range" id="audTacosSlider" min="1" max="6" step="0.1" value="3.5" oninput="recalcularAuditoria()">
+          <div class="banda">"Por cada cliente": cuántos tacos se lleva en promedio una persona que entra.</div>
+        </div>
+
+        <div class="ticket-wrap">
+          <div class="ticket ticket-editable">
+            <div class="titulo-ticket">Lo que produce esa proporción</div>
+            <div class="fila"><span>Tacos por día</span><span class="num" id="audTacosDia">304.5</span></div>
+            <div class="fila"><span>Ingreso por día</span><span class="num" id="audIngresoDia">$6,699.00</span></div>
+            <div class="fila total"><span>Ingreso por mes</span><span class="num" id="audIngresoMes">$200,970.00</span></div>
+            <div class="formula">tacos por día = clientes por día × tacos por cada cliente · ingreso = tacos × $22 · mes = ingreso por día × 30</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grafica-columna">
+        <div class="card">
+          <h3 style="font-size:14px;margin-bottom:4px;">¿Qué palanca mueve más el ingreso mensual?</h3>
+          <p style="font-size:12px;color:var(--gris-nota);margin:0 0 4px;">La misma "cantidad de esfuerzo" en cada camino no rinde igual. Depende de la proporción actual.</p>
+          <div class="palancas">
+            <div class="palanca" id="palancaA">
+              <div class="mov">Camino A · +1 cliente por día</div>
+              <div class="gan" id="palancaAValor">+$2,310</div>
+              <div class="gan-sub">más al mes</div>
+            </div>
+            <div class="palanca" id="palancaB">
+              <div class="mov">Camino B · +0.1 tacos por cliente</div>
+              <div class="mov-nota">1 de cada 10 clientes pide uno extra</div>
+              <div class="gan" id="palancaBValor">+$5,742</div>
+              <div class="gan-sub">más al mes</div>
+            </div>
+          </div>
+          <div class="palanca-veredicto" id="palancaVeredicto"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reflexion-card">
+      <h3>Conclusión</h3>
+      <label class="field-label">Con los valores que dejaste, ¿qué camino conviene empujar en esta taquería, y por qué? ¿En qué momento se invierte la respuesta: es decir, cuándo conviene más traer un cliente nuevo que hacer que cada quien lleve más? Argumenta con la proporción, no solo con el total.
+        <span class="hint">No hay respuesta única; lo que importa es que la decisión esté justificada con el "por cada".</span>
+      </label>
+      <textarea id="conclusionAuditoria" oninput="actualizarProgreso()"></textarea>
+    </div>
+
+  </section>
+
+  <!-- ===================== PESTAÑA 2: TU TABLERO DE SUPUESTOS ===================== -->
+  <section id="panelFicha" class="panel">
+
+    <div class="card">
+      <h3>De tu ficha de Semana 1 a tu tablero de supuestos</h3>
+      <p>En Semana 1 tu negocio quedó descrito con dos números: precio por unidad y unidades por día. Ahí había dos supuestos escondidos que dábamos por hechos: que cada cliente compra <em>una</em> unidad y que el mes tiene <em>30</em> días de venta.</p>
+      <p>Un <strong>tablero de supuestos</strong> saca esos números a la luz para poder moverlos. Descomponemos "unidades por día" en su proporción real (clientes por día × unidades por cada cliente) y volvemos "días abiertos al mes" un supuesto que tú decides. Ninguno cambia tu negocio; cambian lo que <em>puedes ajustar</em> para decidir.</p>
+    </div>
+
+    <div class="grid-two" style="margin-top:14px;">
+      <div class="card">
+        <span class="ejemplo-tag">Ejemplo resuelto</span>
+        <span class="propuesta-tag" style="margin-left:6px;">◇ Propuesta reemplazable</span>
+        <h3 style="margin-top:8px;">Café Andante</h3>
+        <p>El mismo negocio de ejemplo de Semana 1, ahora como tablero de supuestos:</p>
+        <div class="ticket-wrap">
+          <div class="ticket ticket-fijo">
+            <div class="titulo-ticket">Tablero de Café Andante</div>
+            <div class="fila"><span>Precio por unidad</span><span class="num">$40</span></div>
+            <div class="fila"><span>Clientes por día</span><span class="num">24</span></div>
+            <div class="fila"><span>Unidades por cada cliente</span><span class="num">1.25</span></div>
+            <div class="fila"><span>Días abiertos al mes</span><span class="num">26</span></div>
+            <div class="fila"><span>Unidades por día</span><span class="num">30</span></div>
+            <div class="fila total"><span>Ingreso por mes</span><span class="num">$31,200</span></div>
+          </div>
+        </div>
+        <p style="margin-top:8px;"><strong>Su métrica que importa:</strong> unidades por cada cliente. Con sus números, convencer a cada cliente de llevar un poco más (un pan con el café) rinde <span class="num">+$2,496</span> al mes, más que traer un cliente nuevo (<span class="num">+$1,300</span>). Por eso Café Andante decide empujar el "lleva algo más", no la publicidad.</p>
+        <div class="fuente">Nota: negocio de ejemplo ficticio; sus números no requieren validación de fuente como la auditoría.</div>
+      </div>
+
+      <div class="card">
+        <h3>Tu tablero</h3>
+
+        <label class="field-label">Precio por unidad
+          <span class="hint">El que definiste en tu ficha de Semana 1.</span>
+        </label>
+        <input type="number" id="fPrecio" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
+
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1;">
+            <label class="field-label">Clientes por día</label>
+            <input type="number" id="fClientes" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
+          </div>
+          <div style="flex:1;">
+            <label class="field-label">Unidades por cada cliente</label>
+            <input type="number" id="fUnidadesCliente" min="0" step="0.1" oninput="recalcularFicha(); actualizarProgreso()">
+          </div>
+        </div>
+
+        <label class="field-label">Días abiertos al mes
+          <span class="hint">Cuántos días al mes vende tu negocio de verdad. Si abres todos los días, 30; si descansas, menos.</span>
+        </label>
+        <input type="number" id="fDias" min="1" max="31" step="1" value="30" oninput="recalcularFicha(); actualizarProgreso()">
+
+        <div class="ticket-wrap">
+          <div class="ticket ticket-editable">
+            <div class="titulo-ticket">Tu tablero de supuestos v1</div>
+            <div class="fila"><span>Unidades por día</span><span class="num" id="tUnidadesDia">N/D</span></div>
+            <div class="fila"><span>Ingreso por día</span><span class="num" id="tIngresoDia">N/D</span></div>
+            <div class="fila"><span>Ingreso por semana</span><span class="num" id="tIngresoSemana">N/D</span></div>
+            <div class="fila total"><span>Ingreso por mes</span><span class="num" id="tIngresoMes">N/D</span></div>
+            <div class="formula">unidades por día = clientes × unidades por cada cliente · ingreso por día = precio × unidades por día · mes = ingreso por día × días abiertos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h3>Primeras sumas: tu semana, celda por celda</h3>
+      <p style="font-size:12.5px;color:var(--gris-nota);margin-top:-2px;">Así se ve una hoja de cálculo por dentro: cada día es una celda, y la celda de la derecha las <strong>suma</strong>. Esto es lo que reconstruirás en Google Sheets en clase.</p>
+      <div class="semana-strip">
+        <div class="celdas" id="semanaCeldas"><!-- generado por JS --></div>
+        <div class="pie">La celda azul es <span class="num">=SUMA(Lun:Dom)</span>. En Sheets será literalmente esa fórmula sobre siete celdas.</div>
+      </div>
+    </div>
+
+    <div class="card reflexion-card">
+      <h3>La métrica que importa</h3>
+      <p style="font-size:13px;color:var(--gris-nota);margin-top:-2px;">De todos tus supuestos, ¿cuál es la palanca que más mueve tu ingreso mensual? Al lado de cada uno aparece cuánto ganarías al mes con un empujón chico y comparable. Elige uno y justifica tu decisión.</p>
+
+      <div class="metrica-opciones" id="metricaOpciones">
+        <label class="metrica-op" data-metrica="clientes">
+          <input type="radio" name="metrica" value="clientes" onchange="seleccionarMetrica()">
+          <span class="texto">Clientes por día <span style="color:var(--gris-nota);">: traer 1 cliente más al día</span></span>
+          <span class="impacto" id="impClientes">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoClientes')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoClientes">Traer un cliente más al día es la unidad natural más chica de esta palanca: no hay "medio cliente". Su efecto se multiplica por lo que deja cada cliente en promedio (precio × unidades por cliente).</div>
+        </label>
+        <label class="metrica-op" data-metrica="unidades">
+          <input type="radio" name="metrica" value="unidades" onchange="seleccionarMetrica()">
+          <span class="texto">Unidades por cada cliente <span style="color:var(--gris-nota);">: +0.1 por cliente</span></span>
+          <span class="impacto" id="impUnidades">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoUnidades')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoUnidades">"0.1 por cliente" no se pide literal: describe que, en promedio, 1 de cada 10 clientes termina llevando una unidad extra. Diez clientes, una unidad de más entre todos.</div>
+        </label>
+        <label class="metrica-op" data-metrica="precio">
+          <input type="radio" name="metrica" value="precio" onchange="seleccionarMetrica()">
+          <span class="texto">Precio por unidad <span style="color:var(--gris-nota);">: +$1 al precio</span></span>
+          <span class="impacto" id="impPrecio">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoPrecio')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoPrecio">Subir $1 el precio es el ajuste más chico y natural en pesos. Supone que el cliente sigue comprando al precio nuevo: no está modelado si a ese precio deja de venir.</div>
+        </label>
+        <label class="metrica-op" data-metrica="dias">
+          <input type="radio" name="metrica" value="dias" onchange="seleccionarMetrica()">
+          <span class="texto">Días abiertos al mes <span style="color:var(--gris-nota);">: abrir 1 día más</span></span>
+          <span class="impacto" id="impDias">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoDias')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoDias">Abrir 1 día más al mes (por ejemplo, de 30 a 31) es la unidad natural más chica de esta palanca. Supone que hay quién atienda ese día extra: el costo de abrir no está incluido aquí, solo el ingreso.</div>
+        </label>
+      </div>
+
+      <label class="field-label" style="margin-top:12px;">¿Por qué esa es la métrica que importa para tu negocio?
+        <span class="hint">La palanca más grande en pesos no siempre es la más fácil de mover en la vida real. Justifica tu elección con las dos cosas: cuánto mueve y qué tan realista es moverla.</span>
+      </label>
+      <textarea id="metricaJustif" oninput="actualizarProgreso()"></textarea>
+    </div>
+
+  </section>
+
+  <!-- ===================== PESTAÑA: RECURSOS ===================== -->
+  <section id="panelRecursos" class="panel">
+    <p class="entrega-nota">Las preguntas de reflexión de abajo son parte de tu entrega de la semana, no solo repaso: desarrolla cada respuesta (evita frases sueltas) y sube tus respuestas a Brightspace, actividad <strong>S02 · Reflexión audio y video</strong>. El PDF que descargues ya viene nombrado como <strong>NombreApellido_ReflexionS02</strong>, tomando lo que escribiste en "Tu nombre" al inicio de la página: solo sube ese archivo tal cual.</p>
+    <div class="grid-two grid-two-parejo">
+
+      <!-- Video -->
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:210px; background:#0a0a1a;">
+          <iframe
+            src="https://drive.google.com/file/d/1JqbK1XJar9bSsd_RMwkrCA7GPV6MeBDx/preview"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
+            allow="autoplay" allowfullscreen
+            title="Video de la sesión · Semana 2"></iframe>
+        </div>
+        <div style="padding:16px 20px 20px;">
+          <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--azul); margin:0 0 6px;">NotebookLM · Video</p>
+          <h3 style="margin:0 0 8px;">Video de la sesión</h3>
+          <p style="font-size:13px; color:#555; margin:0 0 14px;">Resumen visual generado con NotebookLM sobre los temas de esta semana.</p>
+          <a href="https://drive.google.com/file/d/1JqbK1XJar9bSsd_RMwkrCA7GPV6MeBDx/view?usp=drive_link"
+             target="_blank" rel="noopener"
+             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--azul); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ↓ Descargar MP4
+          </a>
+        </div>
+      </div>
+
+      <!-- Audio -->
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:210px; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%); padding:20px; display:flex; align-items:center; justify-content:center; box-sizing:border-box;">
+          <iframe
+            src="https://drive.google.com/file/d/1FcbnbUQ_cAbC-g4dY9kc9_Wj-Uli66bQ/preview"
+            style="width:100%; height:100px; border:none; background:transparent;"
+            allow="autoplay"
+            title="Audio de la sesión · Semana 2"></iframe>
+        </div>
+        <div style="padding:16px 20px 20px;">
+          <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--naranja); margin:0 0 6px;">NotebookLM · Audio</p>
+          <h3 style="margin:0 0 8px;">Podcast de la sesión</h3>
+          <p style="font-size:13px; color:#555; margin:0 0 14px;">Episodio generado con NotebookLM: escucha los conceptos clave de esta semana en formato conversacional.</p>
+          <a href="https://drive.google.com/file/d/1FcbnbUQ_cAbC-g4dY9kc9_Wj-Uli66bQ/view?usp=drive_link"
+             target="_blank" rel="noopener"
+             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--naranja); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ↓ Descargar M4A
+          </a>
+        </div>
+      </div>
+
+      <!-- Reflexión: video -->
+      <div class="acordeon acordeon-col">
+        <details open>
+          <summary>Reflexión y preguntas · Video: "De contar a decidir"</summary>
+          <div class="acordeon-contenido">
+            <p>El video usa la analogía de una receta para explicar qué es una proporción: una receta no dice solo "harina", dice una relación (por ejemplo, 200 gramos por cada 4 huevos) que se mantiene aunque cambie el número de comensales. Aplica esa misma lógica a la auditoría de la taquería: 87 clientes al día con un consumo de 3.5 tacos por persona, mostrando que estos números no están sueltos, sino que son eslabones de una cadena que termina en el ingreso mensual.</p>
+            <p>Después compara qué pasa al mover cada palanca por separado: el número de clientes nuevos frente al consumo promedio por cliente, y muestra que, con el volumen de visitas actual, subir un poco el consumo rinde más del doble que sumar un cliente. Cierra señalando que ninguna palanca es "mejor" de forma universal: cuál conviene depende de cuántos clientes tiene el negocio hoy.</p>
+            <div class="reflexion-bloque" data-bloque="Video · De contar a decidir">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">1. Si tuvieras que elegir entre atraer a un cliente nuevo o lograr que tus clientes actuales consuman un poco más, ¿tienes los datos para saber cuál es el camino correcto? Describe qué datos tienes y cuáles te faltan.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">2. ¿Qué es lo que tus números te están diciendo que hagas hoy para crecer mañana? Desarrolla tu respuesta con el cálculo que la respalda.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Reflexión: audio -->
+      <div class="acordeon acordeon-col">
+        <details open>
+          <summary>Reflexión y preguntas · Audio: "Vender más tacos con pura matemática"</summary>
+          <div class="acordeon-contenido">
+            <p>Este episodio explora cómo la precisión numérica se vuelve una herramienta de supervivencia para un negocio. Empieza con la historia de los Baniwa, un pueblo de la Amazonia que solo tiene palabras para "uno", "dos" y "muchos" (una muestra de que contar con exactitud es una construcción cultural, no algo innato) y de ahí explica por qué un número aislado, como el ingreso mensual de una taquería ($200,970), no basta para decidir: lo que importa es la proporción, el "por cada".</p>
+            <p>Después conecta esa idea con datos reales del Hot Sale 2025, donde el ticket promedio fue de $1,100, y con el análisis de Propty, que advierte que el ticket promedio es un mito si no se considera junto con la recurrencia y el volumen de clientes. Cierra comparando dos caminos de crecimiento para la taquería (atraer un cliente nuevo al día o lograr que los clientes actuales consuman un poco más) y ubica el punto de cruce en 35 clientes: por debajo conviene más el Camino A, por encima el Camino B.</p>
+            <div class="reflexion-bloque" data-bloque="Audio · Vender más tacos con pura matemática">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">1. ¿Cuál es la palanca que más pesos movería en tu negocio hoy mismo si pudieras ajustarla solo un poco? Justifica tu respuesta con la proporción actual de tu negocio, no solo con la intuición.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">2. Si el éxito depende del punto donde estás parado hoy, ¿sabes en qué lado del "punto de cruce" se encuentra tu proyecto? Explica cómo lo calculaste o qué te falta para calcularlo.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div id="fabAviso" class="fab-aviso" style="display:none;">⚠ Hay campos clave sin completar. El reporte se generará, pero es probable que no tenga todas las notas posibles para evaluación.</div>
+<button id="fabReporte" class="fab" onclick="generarPDF()" style="display:none;">📄 Generar tablero PDF</button>
+<div id="fabAvisoReflexion" class="fab-aviso" style="display:none;">⚠ Hay respuestas por debajo del mínimo de caracteres. El reporte se generará, pero es probable que no tenga todas las notas posibles para evaluación.</div>
+<button id="fabReflexion" class="fab" onclick="generarPDFReflexion()" style="display:none;">📄 Generar reporte de reflexión PDF</button>
+
+<div class="footer-nota">Fundamentos Cuantitativos para Negocios Creativos, CENTRO · Semana 2 de 15 · Prototipo para revisión académica</div>
+
+<script>
+const PRECIO_TACO = 22;
+const DIAS_MES_AUD = 30;
+const CODIGO_SESION = 'S02';
+
+function nombreArchivoAlumno(){
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  const sinAcentos = nombre.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const limpio = sinAcentos.replace(/[^a-zA-Z0-9]+/g, '');
+  return limpio || 'SinNombre';
+}
+
+function fmtMoney(n){
+  return '$' + n.toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtMoney0(n){
+  return '$' + Math.round(n).toLocaleString('es-MX');
+}
+
+function cambiarTab(tab){
+  document.getElementById('panelTeoria').classList.toggle('active', tab==='teoria');
+  document.getElementById('panelAuditoria').classList.toggle('active', tab==='auditoria');
+  document.getElementById('panelFicha').classList.toggle('active', tab==='ficha');
+  document.getElementById('panelRecursos').classList.toggle('active', tab==='recursos');
+  document.getElementById('tabBtnTeoria').classList.toggle('active', tab==='teoria');
+  document.getElementById('tabBtnAuditoria').classList.toggle('active', tab==='auditoria');
+  document.getElementById('tabBtnFicha').classList.toggle('active', tab==='ficha');
+  document.getElementById('tabBtnRecursos').classList.toggle('active', tab==='recursos');
+  actualizarProgreso();
+  actualizarProgresoReflexion();
+}
+
+/* ---------------- RECURSOS: formulario de reflexión ---------------- */
+function onReflexionInput(ta){
+  actualizarContadorReflexion(ta);
+  actualizarProgresoReflexion();
+}
+
+function actualizarContadorReflexion(ta){
+  const min = parseInt(ta.getAttribute('minlength'), 10) || 150;
+  const n = ta.value.trim().length;
+  const contador = ta.nextElementSibling;
+  contador.textContent = n + ' / ' + min + ' caracteres mínimo';
+  contador.classList.toggle('ok', n >= min);
+}
+
+function actualizarProgresoReflexion(){
+  const textareas = document.querySelectorAll('.reflexion-textarea');
+  if(textareas.length === 0) return;
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  let completos = 0;
+  textareas.forEach(ta => {
+    const min = parseInt(ta.getAttribute('minlength'), 10) || 150;
+    if(ta.value.trim().length >= min) completos++;
+  });
+  const enRecursos = document.getElementById('panelRecursos').classList.contains('active');
+  const fab = document.getElementById('fabReflexion');
+  const aviso = document.getElementById('fabAvisoReflexion');
+  const listoParaPDF = nombre !== '' && enRecursos;
+  aviso.style.display = 'none';
+  fab.style.display = listoParaPDF ? '' : 'none';
+  if(listoParaPDF){
+    if(completos === textareas.length){
+      fab.className = 'fab fab-ok';
+      fab.innerHTML = '✓ Generar reporte de reflexión PDF';
+      fab.removeAttribute('data-tip');
+    } else {
+      fab.className = 'fab fab-warn';
+      fab.innerHTML = '⚠ Generar reporte de reflexión PDF';
+      fab.setAttribute('data-tip', 'Hay respuestas por debajo del mínimo de caracteres: haz clic para continuar de todas formas');
+    }
+  }
+}
+
+function generarPDFReflexion(){
+  if(document.getElementById('fabReflexion').classList.contains('fab-warn')){
+    if(!confirm('⚠ Hay respuestas por debajo del mínimo de caracteres.\n\n¿Quieres generar el reporte de todas formas?\n\nSe incluirá todo lo que hayas llenado hasta ahora.')) return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const azul = [43, 87, 154];
+  const naranja = [232, 121, 47];
+  const gris = [107, 114, 128];
+  const nombreAlumno = document.getElementById('nombreAlumno').value.trim() || '(sin nombre)';
+  const marginX = 15;
+  const pageW = 210;
+  const usableW = pageW - marginX*2;
+  let y = 20;
+
+  doc.setFont(undefined, 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(...azul);
+  doc.text('Reflexión: audio y video', marginX, y);
+  y += 7;
+  doc.setFont(undefined, 'normal');
+  doc.setFontSize(9.5);
+  doc.setTextColor(...gris);
+  doc.text(document.title, marginX, y); y += 5;
+  doc.text('Alumno(a): ' + nombreAlumno, marginX, y); y += 5;
+  doc.text('Fecha: ' + new Date().toLocaleDateString('es-MX'), marginX, y); y += 9;
+
+  document.querySelectorAll('.reflexion-bloque').forEach(bloque => {
+    const nombreBloque = bloque.getAttribute('data-bloque');
+    if(y > 265){ doc.addPage(); y = 20; }
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(12.5);
+    doc.setTextColor(...naranja);
+    doc.text(nombreBloque, marginX, y);
+    y += 3;
+    doc.setDrawColor(...naranja);
+    doc.setLineWidth(0.5);
+    doc.line(marginX, y, pageW-marginX, y);
+    y += 7;
+
+    bloque.querySelectorAll('.reflexion-item').forEach(item => {
+      const pregunta = item.querySelector('.reflexion-pregunta').textContent.trim();
+      const respuesta = item.querySelector('.reflexion-textarea').value.trim() || '(sin responder)';
+
+      const preguntaLineas = doc.splitTextToSize(pregunta, usableW);
+      const respLineas = doc.splitTextToSize(respuesta, usableW);
+      if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + 10 > 280){ doc.addPage(); y = 20; }
+
+      doc.setFont(undefined, 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...azul);
+      doc.text(preguntaLineas, marginX, y);
+      y += preguntaLineas.length * 4.6 + 2;
+
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(30,36,48);
+      doc.text(respLineas, marginX, y);
+      y += respLineas.length * 4.6 + 7;
+    });
+    y += 3;
+  });
+
+  doc.save(nombreArchivoAlumno() + '_Reflexion' + CODIGO_SESION + '.pdf');
+}
+
+/* ---------------- AUDITORÍA: proporción y palancas ---------------- */
+function recalcularAuditoria(){
+  const clientes = parseInt(document.getElementById('audClientesSlider').value, 10);
+  const tacosCliente = parseFloat(document.getElementById('audTacosSlider').value);
+
+  document.getElementById('audClientesValor').textContent = clientes;
+  document.getElementById('audTacosValor').textContent = tacosCliente.toFixed(1);
+
+  const tacosDia = clientes * tacosCliente;
+  const ingresoDia = tacosDia * PRECIO_TACO;
+  const ingresoMes = ingresoDia * DIAS_MES_AUD;
+
+  document.getElementById('audTacosDia').textContent = tacosDia.toFixed(1);
+  document.getElementById('audIngresoDia').textContent = fmtMoney(ingresoDia);
+  document.getElementById('audIngresoMes').textContent = fmtMoney(ingresoMes);
+
+  // Palanca A: +1 cliente/día  ->  gana precio * tacosCliente * días al mes
+  const ganA = PRECIO_TACO * tacosCliente * DIAS_MES_AUD;
+  // Palanca B: +0.1 tacos/cliente -> gana precio * clientes * 0.1 * días al mes
+  const ganB = PRECIO_TACO * clientes * 0.1 * DIAS_MES_AUD;
+
+  document.getElementById('palancaAValor').textContent = '+' + fmtMoney0(ganA);
+  document.getElementById('palancaBValor').textContent = '+' + fmtMoney0(ganB);
+
+  const pA = document.getElementById('palancaA');
+  const pB = document.getElementById('palancaB');
+  pA.classList.toggle('gana', ganA >= ganB);
+  pB.classList.toggle('gana', ganB > ganA);
+
+  // Punto de cruce: ganA = ganB  ->  tacosCliente = 0.1 * clientes  ->  clientes = 10 * tacosCliente
+  const clientesCruce = Math.round(10 * tacosCliente);
+  const vered = document.getElementById('palancaVeredicto');
+  if(Math.abs(ganA - ganB) < 1e-6){
+    vered.innerHTML = `Justo aquí <strong>los dos caminos empatan</strong>. Con más clientes que estos, empujar los tacos por cliente rinde más; con menos, conviene traer clientes nuevos.`;
+  } else if(ganB > ganA){
+    vered.innerHTML = `Gana el <strong>Camino B</strong>: como ya tienes muchos clientes, que cada uno lleve un poco más rinde más que traer uno nuevo. Se invertiría por debajo de <span class="num">~${clientesCruce}</span> clientes/día.`;
+  } else {
+    vered.innerHTML = `Gana el <strong>Camino A</strong>: con relativamente pocos clientes, traer uno nuevo rinde más que subir el promedio por cliente. Se invertiría por arriba de <span class="num">~${clientesCruce}</span> clientes/día.`;
+  }
+
+  actualizarProgreso();
+}
+
+/* ---------------- TABLERO DEL ALUMNO ---------------- */
+function seleccionarMetrica(){
+  document.querySelectorAll('#metricaOpciones .metrica-op').forEach(op=>{
+    const input = op.querySelector('input');
+    op.classList.toggle('seleccionada', input.checked);
+  });
+  actualizarProgreso();
+}
+
+function toggleInfoMetrica(id){
+  document.getElementById(id).classList.toggle('visible');
+}
+
+function recalcularFicha(){
+  const precio = parseFloat(document.getElementById('fPrecio').value);
+  const clientes = parseFloat(document.getElementById('fClientes').value);
+  const unidadesCliente = parseFloat(document.getElementById('fUnidadesCliente').value);
+  const dias = parseFloat(document.getElementById('fDias').value);
+
+  const hay = !isNaN(precio) && !isNaN(clientes) && !isNaN(unidadesCliente) && !isNaN(dias) && dias > 0;
+
+  const strip = document.getElementById('semanaCeldas');
+
+  if(hay){
+    const unidadesDia = clientes * unidadesCliente;
+    const ingresoDia = precio * unidadesDia;
+    const ingresoSemana = ingresoDia * 7;
+    const ingresoMes = ingresoDia * dias;
+
+    document.getElementById('tUnidadesDia').textContent = (Math.round(unidadesDia*10)/10).toLocaleString('es-MX');
+    document.getElementById('tIngresoDia').textContent = fmtMoney(ingresoDia);
+    document.getElementById('tIngresoSemana').textContent = fmtMoney(ingresoSemana);
+    document.getElementById('tIngresoMes').textContent = fmtMoney(ingresoMes);
+
+    // Tira semanal (primeras sumas): 7 días iguales + celda suma
+    const dch = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+    let html = '';
+    dch.forEach(d=>{
+      html += `<div class="celda"><div class="dia">${d}</div><div class="val">${fmtMoney0(ingresoDia)}</div></div>`;
+    });
+    html += `<div class="celda suma"><div class="dia">=SUMA</div><div class="val">${fmtMoney0(ingresoSemana)}</div></div>`;
+    strip.innerHTML = html;
+
+    // Palancas del alumno (mismo criterio que la auditoría)
+    const impClientes = precio * unidadesCliente * dias;      // +1 cliente/día
+    const impUnidades = precio * clientes * 0.1 * dias;       // +0.1 unidades/cliente
+    const impPrecio   = unidadesDia * dias;                   // +$1 precio  (= clientes*unidadesCliente*dias)
+    const impDias     = ingresoDia;                           // +1 día abierto
+
+    document.getElementById('impClientes').textContent = '+' + fmtMoney0(impClientes) + '/mes';
+    document.getElementById('impUnidades').textContent = '+' + fmtMoney0(impUnidades) + '/mes';
+    document.getElementById('impPrecio').textContent   = '+' + fmtMoney0(impPrecio) + '/mes';
+    document.getElementById('impDias').textContent     = '+' + fmtMoney0(impDias) + '/mes';
+  } else {
+    ['tUnidadesDia','tIngresoDia','tIngresoSemana','tIngresoMes'].forEach(id=>{
+      document.getElementById(id).textContent = 'N/D';
+    });
+    strip.innerHTML = '<div class="celda" style="flex:1 0 100%;color:var(--gris-nota);">Completa precio, clientes, unidades por cliente y días para ver tu semana.</div>';
+    ['impClientes','impUnidades','impPrecio','impDias'].forEach(id=>{
+      document.getElementById(id).textContent = 'N/D';
+    });
+  }
+}
+
+function metricaElegida(){
+  const el = document.querySelector('input[name="metrica"]:checked');
+  return el ? el.value : '';
+}
+
+function actualizarProgreso(){
+  const camposClave = [
+    document.getElementById('fPrecio').value,
+    document.getElementById('fClientes').value,
+    document.getElementById('fUnidadesCliente').value,
+    metricaElegida(),
+    document.getElementById('metricaJustif').value.trim()
+  ];
+  const completos = camposClave.filter(v => v !== '' && v !== null && v !== undefined).length;
+  document.getElementById('progresoTexto').textContent = `Progreso: ${completos}/5 campos clave`;
+  document.getElementById('progresoFill').style.width = (completos/5*100) + '%';
+
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  const enFicha = document.getElementById('panelFicha').classList.contains('active');
+  const fab = document.getElementById('fabReporte');
+  const aviso = document.getElementById('fabAviso');
+
+  const todo = nombre !== '' && completos === 5;
+  const listoParaPDF = nombre !== '' && enFicha;
+  aviso.style.display = 'none';
+  fab.style.display = listoParaPDF ? '' : 'none';
+  if(listoParaPDF){
+    if(todo){
+      fab.className = 'fab fab-ok';
+      fab.innerHTML = '✓ Generar tablero PDF';
+      fab.removeAttribute('data-tip');
+    } else {
+      fab.className = 'fab fab-warn';
+      fab.innerHTML = '⚠ Generar PDF';
+      fab.setAttribute('data-tip', 'Hay campos clave sin completar: haz clic para continuar de todas formas');
+    }
+  }
+}
+
+/* ---------------- PDF: tablero de supuestos v1 ---------------- */
+function generarPDF(){
+  if(document.getElementById('fabReporte').classList.contains('fab-warn')){
+    if(!confirm('⚠ Hay campos clave sin completar.\n\n¿Quieres generar el tablero de todas formas?\n\nSe incluirá todo lo que hayas llenado hasta ahora.')) return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const azul = [43, 87, 154];
+  const naranja = [232, 121, 47];
+  const gris = [107, 114, 128];
+  const linea = [201, 205, 211];
+  const fondoTicket = [250, 250, 250];
+
+  const nombreAlumno = document.getElementById('nombreAlumno').value.trim() || '(sin nombre)';
+  const marginX = 14;
+  const pageW = 210;
+  const usableW = pageW - marginX*2;
+
+  // Header
+  doc.setFillColor(...azul);
+  doc.rect(0,0,pageW,26,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(9.5);
+  doc.text('FUNDAMENTOS CUANTITATIVOS PARA NEGOCIOS CREATIVOS', marginX, 10);
+  doc.setFontSize(15);
+  doc.text('Semana 2: De los números a la estrategia', marginX, 19);
+  doc.setFontSize(9);
+  doc.text(`Alumno(a): ${nombreAlumno}`, pageW-marginX, 10, {align:'right'});
+  doc.text(`Fecha: ${new Date().toLocaleDateString('es-MX')}`, pageW-marginX, 16, {align:'right'});
+
+  let y = 33;
+
+  function seccion(titulo){
+    doc.setTextColor(...azul);
+    doc.setFontSize(11.5);
+    doc.setFont(undefined,'bold');
+    doc.text(titulo, marginX, y);
+    doc.setFont(undefined,'normal');
+    doc.setDrawColor(...naranja);
+    doc.setLineWidth(0.8);
+    doc.line(marginX, y+2, pageW-marginX, y+2);
+    y += 8;
+  }
+
+  function ticketBox(x, boxY, w, h, titulo, filas, destacado){
+    doc.setDrawColor(...(destacado ? azul : linea));
+    doc.setLineWidth(destacado ? 0.7 : 0.4);
+    doc.setFillColor(...fondoTicket);
+    doc.roundedRect(x, boxY, w, h, 1.5, 1.5, 'FD');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...(destacado ? azul : gris));
+    doc.text(titulo.toUpperCase(), x + w/2, boxY + 5.5, {align:'center'});
+    let fy = boxY + 11;
+    filas.forEach(([label, valor, esTotal]) => {
+      doc.setFontSize(8);
+      doc.setTextColor(30,36,48);
+      doc.setFont(undefined, esTotal ? 'bold' : 'normal');
+      if(esTotal) doc.setTextColor(201,96,29);
+      doc.text(label, x+3, fy);
+      doc.text(String(valor), x+w-3, fy, {align:'right'});
+      fy += 5.8;
+    });
+    doc.setFont(undefined, 'normal');
+  }
+
+  // ---- Sección tablero del alumno ----
+  seccion('TU TABLERO DE SUPUESTOS v1');
+
+  const precio = parseFloat(document.getElementById('fPrecio').value);
+  const clientes = parseFloat(document.getElementById('fClientes').value);
+  const unidadesCliente = parseFloat(document.getElementById('fUnidadesCliente').value);
+  const dias = parseFloat(document.getElementById('fDias').value);
+  const hay = !isNaN(precio) && !isNaN(clientes) && !isNaN(unidadesCliente) && !isNaN(dias) && dias>0;
+
+  const unidadesDia = hay ? clientes*unidadesCliente : 0;
+  const ingresoDia = hay ? precio*unidadesDia : 0;
+  const ingresoMes = hay ? ingresoDia*dias : 0;
+
+  const boxW = (usableW - 8)/2;
+  ticketBox(marginX, y, boxW, 40, 'Tus supuestos', [
+    ['Precio/unidad', hay ? '$'+precio.toLocaleString('es-MX') : 'N/D'],
+    ['Clientes/día', hay ? clientes.toLocaleString('es-MX') : 'N/D'],
+    ['Unidades/cliente', hay ? unidadesCliente.toLocaleString('es-MX') : 'N/D'],
+    ['Días abiertos/mes', hay ? dias.toLocaleString('es-MX') : 'N/D']
+  ], false);
+  ticketBox(marginX+boxW+8, y, boxW, 40, 'Lo que producen', [
+    ['Unidades/día', hay ? (Math.round(unidadesDia*10)/10).toLocaleString('es-MX') : 'N/D'],
+    ['Ingreso/día', hay ? '$'+ingresoDia.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D'],
+    ['Ingreso/semana', hay ? '$'+(ingresoDia*7).toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D'],
+    ['Ingreso/mes', hay ? '$'+ingresoMes.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D', true]
+  ], true);
+  y += 40 + 8;
+
+  // ---- La métrica que importa ----
+  seccion('LA MÉTRICA QUE IMPORTA');
+
+  const impacto = {
+    clientes: hay ? precio*unidadesCliente*dias : 0,
+    unidades: hay ? precio*clientes*0.1*dias : 0,
+    precio:   hay ? unidadesDia*dias : 0,
+    dias:     hay ? ingresoDia : 0
+  };
+  const etiquetas = {
+    clientes: 'Clientes por día (+1/día)',
+    unidades: 'Unidades por cada cliente (+0.1)',
+    precio:   'Precio por unidad (+$1)',
+    dias:     'Días abiertos al mes (+1)'
+  };
+  const elegida = metricaElegida();
+
+  doc.setFontSize(8.5);
+  ['clientes','unidades','precio','dias'].forEach(k=>{
+    const es = (k===elegida);
+    doc.setFont(undefined, es ? 'bold' : 'normal');
+    doc.setTextColor(...(es ? azul : [30,36,48]));
+    doc.text((es ? '► ' : '   ') + etiquetas[k], marginX, y);
+    doc.setTextColor(...(es ? [201,96,29] : gris));
+    doc.text('+$'+Math.round(impacto[k]).toLocaleString('es-MX')+'/mes', pageW-marginX, y, {align:'right'});
+    y += 5.6;
+  });
+  doc.setFont(undefined,'normal');
+  y += 2;
+
+  doc.setTextColor(...azul);
+  doc.setFontSize(9);
+  doc.setFont(undefined,'bold');
+  doc.text('Métrica elegida: ', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  doc.text(elegida ? etiquetas[elegida] : '(sin elegir)', marginX+30, y);
+  y += 6;
+
+  doc.setTextColor(...azul);
+  doc.setFont(undefined,'bold');
+  doc.setFontSize(8.5);
+  doc.text('Justificación:', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  const just = document.getElementById('metricaJustif').value.trim() || '(sin completar)';
+  const justLineas = doc.splitTextToSize(just, usableW);
+  doc.text(justLineas.slice(0,5), marginX, y+5);
+  y += 5 + (Math.min(justLineas.length,5)*4.6) + 8;
+
+  // ---- Auditoría del referente ----
+  seccion('AUDITORÍA DEL REFERENTE (PROPUESTA REEMPLAZABLE)');
+
+  const audClientes = parseInt(document.getElementById('audClientesSlider').value,10);
+  const audTacos = parseFloat(document.getElementById('audTacosSlider').value);
+  const audGanA = PRECIO_TACO*audTacos*DIAS_MES_AUD;
+  const audGanB = PRECIO_TACO*audClientes*0.1*DIAS_MES_AUD;
+
+  doc.setFontSize(8.5);
+  doc.setTextColor(30,36,48);
+  doc.text(`Supuestos: ${audClientes} clientes/día · ${audTacos.toFixed(1)} tacos por cliente · taco a $${PRECIO_TACO}.`, marginX, y);
+  y += 6;
+  doc.text(`Camino A (+1 cliente/día): +$${Math.round(audGanA).toLocaleString('es-MX')}/mes`, marginX, y);
+  doc.text(`Camino B (+0.1 tacos/cliente): +$${Math.round(audGanB).toLocaleString('es-MX')}/mes`, pageW-marginX, y, {align:'right'});
+  y += 6;
+  doc.setTextColor(...azul);
+  doc.setFont(undefined,'bold');
+  doc.text('Conclusión de la auditoría:', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  const concl = document.getElementById('conclusionAuditoria').value.trim() || '(sin completar)';
+  const conclLineas = doc.splitTextToSize(concl, usableW);
+  doc.text(conclLineas.slice(0,4), marginX, y+5);
+  y += 5 + (Math.min(conclLineas.length,4)*4.6) + 8;
+
+  // ---- Fuentes ----
+  doc.setDrawColor(...linea);
+  doc.setLineWidth(0.3);
+  doc.line(marginX, y, pageW-marginX, y);
+  y += 5;
+  doc.setFontSize(7);
+  doc.setTextColor(...gris);
+  doc.setFont(undefined,'italic');
+  const fuentes = 'Referente ilustrativo dentro de rangos reportados en Semana 1 (INEGI/DENUE; caso Los Cocuyos). Prototipo para revisión académica: el referente y los ejemplos numéricos son propuestas reemplazables.';
+  doc.text(doc.splitTextToSize(fuentes, usableW), marginX, y);
+  doc.setFont(undefined,'normal');
+
+  doc.save(`fcnc-s2-tablero-${nombreAlumno.replace(/\s+/g,'_')}.pdf`);
+}
+
+// Inicialización
+recalcularAuditoria();
+recalcularFicha();
+seleccionarMetrica();
+actualizarProgresoReflexion();
+
+window.addEventListener('beforeunload', function(e){
+  const campos = [
+    document.getElementById('nombreAlumno').value,
+    document.getElementById('fPrecio').value,
+    document.getElementById('fClientes').value,
+    document.getElementById('fUnidadesCliente').value,
+    document.getElementById('metricaJustif').value,
+    document.getElementById('conclusionAuditoria').value
+  ];
+  const camposReflexion = Array.from(document.querySelectorAll('.reflexion-textarea')).map(ta => ta.value);
+  if(campos.some(v => v && v.trim() !== '') || camposReflexion.some(v => v && v.trim() !== '')){
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+</script>
+
+</body>
+</html>

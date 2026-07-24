@@ -42,6 +42,26 @@
     z-index:99;
     box-shadow:0 4px 12px rgba(232,121,47,.18);
   }
+  .fab-warn{ background:#c97d10 !important; box-shadow:0 6px 16px rgba(201,125,16,.4) !important; }
+  .fab-warn:hover{ background:#a8650c !important; transform:translateY(-1px); }
+  .fab-ok  { background:#1d7a4e !important; box-shadow:0 6px 16px rgba(29,122,78,.4) !important; }
+  .fab-ok:hover  { background:#155e3b !important; transform:translateY(-1px); }
+  .fab[data-tip]{ overflow:visible; }
+  .fab[data-tip]:hover::after{
+    content:attr(data-tip);
+    position:absolute;
+    bottom:calc(100% + 10px); right:0;
+    background:rgba(10,10,10,.9);
+    color:#fff;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.03em;
+    padding:7px 12px;
+    border-radius:7px;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:999;
+  }
 </style>
 </head>
 <body>
@@ -64,6 +84,7 @@
   <button id="tabBtnTeoria" class="active" onclick="cambiarTab('teoria')">Teoría</button>
   <button id="tabBtnAuditoria" onclick="cambiarTab('auditoria')">Auditoría de un referente</button>
   <button id="tabBtnFicha" onclick="cambiarTab('ficha')">Ficha de tu negocio</button>
+  <button id="tabBtnRecursos" onclick="cambiarTab('recursos')">Recursos</button>
 </nav>
 
 <div class="progreso-bar">
@@ -294,14 +315,135 @@
     </div>
   </section>
 
+  <!-- ===================== PESTAÑA: RECURSOS ===================== -->
+  <section id="panelRecursos" class="panel">
+    <p class="entrega-nota">Las preguntas de reflexión de abajo son parte de tu entrega de la semana, no solo repaso: desarrolla cada respuesta (evita frases sueltas) y sube tus respuestas a Brightspace, actividad <strong>S01 · Reflexión audio y video</strong>. El PDF que descargues ya viene nombrado como <strong>NombreApellido_ReflexionS01</strong>, tomando lo que escribiste en "Tu nombre" al inicio de la página: solo sube ese archivo tal cual.</p>
+    <div class="grid-two grid-two-parejo">
+
+      <!-- Video -->
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:210px; background:#0a0a1a;">
+          <iframe
+            src="https://drive.google.com/file/d/1mKAvqrb6Lv0oxBl88A6RC6DMbkmb5lkQ/preview"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
+            allow="autoplay" allowfullscreen
+            title="Video de la sesión · Semana 1"></iframe>
+        </div>
+        <div style="padding:16px 20px 20px;">
+          <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--azul); margin:0 0 6px;">NotebookLM · Video</p>
+          <h3 style="margin:0 0 8px;">Video de la sesión</h3>
+          <p style="font-size:13px; color:#555; margin:0 0 14px;">Resumen visual generado con NotebookLM sobre los temas de esta semana.</p>
+          <a href="https://drive.google.com/file/d/1mKAvqrb6Lv0oxBl88A6RC6DMbkmb5lkQ/view?usp=drive_link"
+             target="_blank" rel="noopener"
+             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--azul); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ↓ Descargar MP4
+          </a>
+        </div>
+      </div>
+
+      <!-- Audio -->
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:210px; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%); padding:20px; display:flex; align-items:center; justify-content:center; box-sizing:border-box;">
+          <iframe
+            src="https://drive.google.com/file/d/1nbraBSSAhsNvBYffjVCbj7xPDnLeExX4/preview"
+            style="width:100%; height:100px; border:none; background:transparent;"
+            allow="autoplay"
+            title="Audio de la sesión · Semana 1"></iframe>
+        </div>
+        <div style="padding:16px 20px 20px;">
+          <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--naranja); margin:0 0 6px;">NotebookLM · Audio</p>
+          <h3 style="margin:0 0 8px;">Podcast de la sesión</h3>
+          <p style="font-size:13px; color:#555; margin:0 0 14px;">Episodio generado con NotebookLM: escucha los conceptos clave de esta semana en formato conversacional.</p>
+          <a href="https://drive.google.com/file/d/1nbraBSSAhsNvBYffjVCbj7xPDnLeExX4/view?usp=drive_link"
+             target="_blank" rel="noopener"
+             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--naranja); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ↓ Descargar M4A
+          </a>
+        </div>
+      </div>
+
+      <!-- Reflexión: video -->
+      <div class="acordeon acordeon-col">
+        <details open>
+          <summary>Reflexión y preguntas · Video: "Lente de simplificación"</summary>
+          <div class="acordeon-contenido">
+            <p>El video explica que un modelo es una herramienta de simplificación, con las analogías del mapa del metro y el globo terráqueo: ambos eliminan detalle innecesario para poder navegar y decidir. Retoma la frase de George Box ("todos los modelos son falsos, pero algunos son útiles") para señalar que la utilidad de un modelo de negocio no depende de que sea una copia exacta de la realidad, sino de que capture lo esencial para predecir un resultado.</p>
+            <p>Vuelve al caso de Sede Café y Pickup Coffee para mostrar cómo distintos supuestos sobre el origen del grano y la accesibilidad del precio llevan a decisiones operativas distintas partiendo del mismo problema, y cierra explicando que este tipo de modelos (físicos, matemáticos o computacionales) es lo que permite a industrias como la medicina o la ingeniería probar escenarios de "qué pasaría si" antes de arriesgar capital real.</p>
+            <div class="reflexion-bloque" data-bloque="Video · Lente de simplificación">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">1. ¿Qué información secundaria o "ruido" podrías eliminar hoy de tu plan para que tu modelo sea más claro y ejecutable? Menciona al menos un elemento concreto que quitarías y por qué.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">2. ¿Cómo cambiaría tu decisión estratégica si ajustaras la palanca de "conveniencia" sobre la de "experiencia" en tu modelo de servicio? Describe el cambio con un ejemplo de tu negocio.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">3. ¿Qué modelo simplificado puedes construir esta semana para probar tu supuesto más importante con datos reales del mercado? Explica qué datos necesitarías y cómo los conseguirías.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Reflexión: audio -->
+      <div class="acordeon acordeon-col">
+        <details open>
+          <summary>Reflexión y preguntas · Audio: "Vender tacos no es imprimir"</summary>
+          <div class="acordeon-contenido">
+            <p>Este audio presenta el modelo como una herramienta de decisión: una versión simplificada de la realidad que ayuda a resolver cuánto cobrar y si un negocio se sostiene. A partir de ahí distingue las piezas de cualquier análisis cuantitativo: el dato (lo que se mide), la métrica (el dato que de verdad importa seguir), el supuesto (lo que se da por cierto sin haberlo confirmado) y el referente (un negocio real que sirve de comparación).</p>
+            <p>Para mostrar cómo estas piezas cambian según el negocio, contrasta dos modelos de café para llevar: Sede Café, que apuesta por la operación directa y el origen mexicano del grano, y Pickup Coffee, que prioriza la escala masiva con precios desde $13 pesos. Después analiza el mercado de las taquerías en México (más de 200 mil millones de pesos al año) usando el caso de Los Cocuyos, donde el precio del taco al pastor subió 120% en una década, muy por encima de la inflación, y cierra situando los márgenes netos realistas de una taquería típica entre 10% y 20%.</p>
+            <div class="reflexion-bloque" data-bloque="Audio · Vender tacos no es imprimir">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">1. ¿Cuál es la métrica crítica que realmente mueve la aguja en tu propuesta de negocio? Explica por qué, con un ejemplo numérico de tu propio modelo.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">2. De todos tus supuestos actuales, ¿cuál es el que tiene mayor riesgo de quebrar tu modelo si resulta ser falso? Describe qué pasaría con tus números si ese supuesto fuera falso.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">3. Si comparas tu idea con un referente real, ¿en qué proporciones de precio o calidad te estás diferenciando de él? Da cifras concretas de tu referente y de tu propuesta.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
 </main>
 
 <div id="fabAviso" class="fab-aviso" style="display:none;">⚠ Hay campos clave sin completar. El reporte se generará, pero es probable que no tenga todas las notas posibles para evaluación.</div>
 <button id="fabReporte" class="fab" onclick="generarPDF()" style="display:none;">📄 Generar reporte PDF</button>
+<div id="fabAvisoReflexion" class="fab-aviso" style="display:none;">⚠ Hay respuestas por debajo del mínimo de caracteres. El reporte se generará, pero es probable que no tenga todas las notas posibles para evaluación.</div>
+<button id="fabReflexion" class="fab" onclick="generarPDFReflexion()" style="display:none;">📄 Generar reporte de reflexión PDF</button>
 
 <div class="footer-nota">Fundamentos Cuantitativos para Negocios Creativos, CENTRO · Semana 1 de 15</div>
 
 <script>
+const CODIGO_SESION = 'S01';
+
+function nombreArchivoAlumno(){
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  const sinAcentos = nombre.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const limpio = sinAcentos.replace(/[^a-zA-Z0-9]+/g, '');
+  return limpio || 'SinNombre';
+}
+
 function fmtMoney(n){
   return '$' + n.toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
@@ -310,10 +452,121 @@ function cambiarTab(tab){
   document.getElementById('panelTeoria').classList.toggle('active', tab==='teoria');
   document.getElementById('panelAuditoria').classList.toggle('active', tab==='auditoria');
   document.getElementById('panelFicha').classList.toggle('active', tab==='ficha');
+  document.getElementById('panelRecursos').classList.toggle('active', tab==='recursos');
   document.getElementById('tabBtnTeoria').classList.toggle('active', tab==='teoria');
   document.getElementById('tabBtnAuditoria').classList.toggle('active', tab==='auditoria');
   document.getElementById('tabBtnFicha').classList.toggle('active', tab==='ficha');
+  document.getElementById('tabBtnRecursos').classList.toggle('active', tab==='recursos');
   actualizarProgreso();
+  actualizarProgresoReflexion();
+}
+
+/* ---------------- RECURSOS: formulario de reflexión ---------------- */
+function onReflexionInput(ta){
+  actualizarContadorReflexion(ta);
+  actualizarProgresoReflexion();
+}
+
+function actualizarContadorReflexion(ta){
+  const min = parseInt(ta.getAttribute('minlength'), 10) || 150;
+  const n = ta.value.trim().length;
+  const contador = ta.nextElementSibling;
+  contador.textContent = n + ' / ' + min + ' caracteres mínimo';
+  contador.classList.toggle('ok', n >= min);
+}
+
+function actualizarProgresoReflexion(){
+  const textareas = document.querySelectorAll('.reflexion-textarea');
+  if(textareas.length === 0) return;
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  let completos = 0;
+  textareas.forEach(ta => {
+    const min = parseInt(ta.getAttribute('minlength'), 10) || 150;
+    if(ta.value.trim().length >= min) completos++;
+  });
+  const enRecursos = document.getElementById('panelRecursos').classList.contains('active');
+  const fab = document.getElementById('fabReflexion');
+  const aviso = document.getElementById('fabAvisoReflexion');
+  const listoParaPDF = nombre !== '' && enRecursos;
+  aviso.style.display = 'none';
+  fab.style.display = listoParaPDF ? '' : 'none';
+  if(listoParaPDF){
+    if(completos === textareas.length){
+      fab.className = 'fab fab-ok';
+      fab.innerHTML = '✓ Generar reporte de reflexión PDF';
+      fab.removeAttribute('data-tip');
+    } else {
+      fab.className = 'fab fab-warn';
+      fab.innerHTML = '⚠ Generar reporte de reflexión PDF';
+      fab.setAttribute('data-tip', 'Hay respuestas por debajo del mínimo de caracteres: haz clic para continuar de todas formas');
+    }
+  }
+}
+
+function generarPDFReflexion(){
+  if(document.getElementById('fabReflexion').classList.contains('fab-warn')){
+    if(!confirm('⚠ Hay respuestas por debajo del mínimo de caracteres.\n\n¿Quieres generar el reporte de todas formas?\n\nSe incluirá todo lo que hayas llenado hasta ahora.')) return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const azul = [43, 87, 154];
+  const naranja = [232, 121, 47];
+  const gris = [107, 114, 128];
+  const nombreAlumno = document.getElementById('nombreAlumno').value.trim() || '(sin nombre)';
+  const marginX = 15;
+  const pageW = 210;
+  const usableW = pageW - marginX*2;
+  let y = 20;
+
+  doc.setFont(undefined, 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(...azul);
+  doc.text('Reflexión: audio y video', marginX, y);
+  y += 7;
+  doc.setFont(undefined, 'normal');
+  doc.setFontSize(9.5);
+  doc.setTextColor(...gris);
+  doc.text(document.title, marginX, y); y += 5;
+  doc.text('Alumno(a): ' + nombreAlumno, marginX, y); y += 5;
+  doc.text('Fecha: ' + new Date().toLocaleDateString('es-MX'), marginX, y); y += 9;
+
+  document.querySelectorAll('.reflexion-bloque').forEach(bloque => {
+    const nombreBloque = bloque.getAttribute('data-bloque');
+    if(y > 265){ doc.addPage(); y = 20; }
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(12.5);
+    doc.setTextColor(...naranja);
+    doc.text(nombreBloque, marginX, y);
+    y += 3;
+    doc.setDrawColor(...naranja);
+    doc.setLineWidth(0.5);
+    doc.line(marginX, y, pageW-marginX, y);
+    y += 7;
+
+    bloque.querySelectorAll('.reflexion-item').forEach(item => {
+      const pregunta = item.querySelector('.reflexion-pregunta').textContent.trim();
+      const respuesta = item.querySelector('.reflexion-textarea').value.trim() || '(sin responder)';
+
+      const preguntaLineas = doc.splitTextToSize(pregunta, usableW);
+      const respLineas = doc.splitTextToSize(respuesta, usableW);
+      if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + 10 > 280){ doc.addPage(); y = 20; }
+
+      doc.setFont(undefined, 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...azul);
+      doc.text(preguntaLineas, marginX, y);
+      y += preguntaLineas.length * 4.6 + 2;
+
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(30,36,48);
+      doc.text(respLineas, marginX, y);
+      y += respLineas.length * 4.6 + 7;
+    });
+    y += 3;
+  });
+
+  doc.save(nombreArchivoAlumno() + '_Reflexion' + CODIGO_SESION + '.pdf');
 }
 
 const GANANCIA_PISO = 100000/30 * (10000/100000);   // $333.33
@@ -421,11 +674,26 @@ function actualizarProgreso(){
   const aviso = document.getElementById('fabAviso');
 
   const todo = nombre !== '' && completos === 5;
-  fab.style.display = (enFicha && todo) ? '' : 'none';
+  const listoParaPDF = nombre !== '' && enFicha;
   aviso.style.display = 'none';
+  fab.style.display = listoParaPDF ? '' : 'none';
+  if(listoParaPDF){
+    if(todo){
+      fab.className = 'fab fab-ok';
+      fab.innerHTML = '✓ Generar reporte PDF';
+      fab.removeAttribute('data-tip');
+    } else {
+      fab.className = 'fab fab-warn';
+      fab.innerHTML = '⚠ Generar PDF';
+      fab.setAttribute('data-tip', 'Hay campos clave sin completar: haz clic para continuar de todas formas');
+    }
+  }
 }
 
 function generarPDF(){
+  if(document.getElementById('fabReporte').classList.contains('fab-warn')){
+    if(!confirm('⚠ Hay campos clave sin completar.\n\n¿Quieres generar el reporte de todas formas?\n\nSe incluirá todo lo que hayas llenado hasta ahora.')) return;
+  }
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   const azul = [43, 87, 154];
@@ -661,6 +929,7 @@ function generarPDF(){
 // Inicialización
 recalcularAuditoria();
 recalcularFicha();
+actualizarProgresoReflexion();
 
 // Aviso si el alumno intenta salir con datos sin guardar
 window.addEventListener('beforeunload', function(e){
@@ -677,7 +946,8 @@ window.addEventListener('beforeunload', function(e){
     document.getElementById('fReflexion1').value,
     document.getElementById('fReflexion2').value
   ];
-  if(campos.some(v => v && v.trim() !== '')){
+  const camposReflexion = Array.from(document.querySelectorAll('.reflexion-textarea')).map(ta => ta.value);
+  if(campos.some(v => v && v.trim() !== '') || camposReflexion.some(v => v && v.trim() !== '')){
     e.preventDefault();
     e.returnValue = '';
   }

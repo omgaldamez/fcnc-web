@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glosario — Fundamentos Cuantitativos para Negocios Creativos</title>
+<title>Glosario · Fundamentos Cuantitativos para Negocios Creativos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
@@ -62,6 +62,61 @@
   .categoria-tag.general{ background:var(--nota-fondo); color:var(--gris-nota); }
   .categoria-tag.matematico{ background:rgba(43,87,154,.1); color:var(--azul-oscuro); }
   .categoria-tag.negocio{ background:rgba(232,121,47,.12); color:var(--naranja-oscuro); }
+
+  /* Etiquetas secundarias */
+  .tag-sec{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:.03em;
+    padding:2px 7px;
+    border-radius:5px;
+  }
+  .tag-sec.fundamentos{ background:rgba(109,40,217,.10); color:#6d28d9; }
+  .tag-sec.proporcion-tasa{ background:rgba(15,118,110,.10); color:#0f766e; }
+  .tag-sec.palancas{ background:rgba(190,24,93,.10); color:#be185d; }
+  .tag-sec.costos{ background:rgba(21,128,61,.10); color:#15803d; }
+  .tag-sec.notacion{ background:rgba(67,56,202,.10); color:#4338ca; }
+
+  /* Leyenda como filtro clickeable */
+  .leyenda .categoria-tag,
+  .leyenda .tag-sec{
+    cursor:pointer;
+    border:1px solid transparent;
+    user-select:none;
+    transition:opacity .12s ease, filter .12s ease;
+  }
+  .leyenda .categoria-tag:hover,
+  .leyenda .tag-sec:hover{ border-color:currentColor; }
+  .leyenda .categoria-tag:focus-visible,
+  .leyenda .tag-sec:focus-visible{ outline:2px solid var(--azul); outline-offset:2px; }
+  .leyenda .categoria-tag.inactiva,
+  .leyenda .tag-sec.inactiva{
+    opacity:.4;
+    filter:grayscale(55%);
+  }
+
+  /* Leyenda de colores */
+  .leyenda{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 14px;
+    margin:0 0 18px;
+    padding:10px 14px;
+    background:var(--papel-carta);
+    border:1px solid var(--linea);
+    border-radius:8px;
+  }
+  .leyenda-grupo{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .leyenda-titulo{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--gris-nota);
+    margin-right:2px;
+  }
+  .leyenda-sep{ width:1px; align-self:stretch; background:var(--linea); margin:0 2px; }
+  @media (max-width:600px){ .leyenda-sep{ display:none; } }
   .semana-pill{
     font-family:'IBM Plex Mono',monospace;
     font-size:10px;
@@ -126,6 +181,26 @@
   <div class="vista-toggle">
     <button class="vista-btn activo" id="btnSemana" onclick="cambiarVista('semana')">Por semana</button>
     <button class="vista-btn" id="btnAlfabetico" onclick="cambiarVista('alfabetico')">Alfabético</button>
+    <a class="vista-btn" id="btnRed" href="red.html" style="margin-left:auto;text-decoration:none;display:inline-block;">Ver red de términos ↗</a>
+  </div>
+
+  <div class="leyenda" id="leyenda">
+    <div class="leyenda-grupo">
+      <span class="leyenda-titulo">Principal (clic para filtrar)</span>
+      <span class="categoria-tag general" role="button" tabindex="0" data-tipo="principal" data-valor="general" onclick="toggleFiltroTag(this,'principal','general')" onkeydown="onLeyendaKeydown(event,this,'principal','general')">General</span>
+      <span class="categoria-tag matematico" role="button" tabindex="0" data-tipo="principal" data-valor="matematico" onclick="toggleFiltroTag(this,'principal','matematico')" onkeydown="onLeyendaKeydown(event,this,'principal','matematico')">Matemático</span>
+      <span class="categoria-tag negocio" role="button" tabindex="0" data-tipo="principal" data-valor="negocio" onclick="toggleFiltroTag(this,'principal','negocio')" onkeydown="onLeyendaKeydown(event,this,'principal','negocio')">Negocio</span>
+    </div>
+    <div class="leyenda-sep"></div>
+    <div class="leyenda-grupo">
+      <span class="leyenda-titulo">Secundaria</span>
+      <span class="tag-sec fundamentos" role="button" tabindex="0" data-tipo="secundaria" data-valor="fundamentos" onclick="toggleFiltroTag(this,'secundaria','fundamentos')" onkeydown="onLeyendaKeydown(event,this,'secundaria','fundamentos')">Fundamentos</span>
+      <span class="tag-sec proporcion-tasa" role="button" tabindex="0" data-tipo="secundaria" data-valor="proporcion-tasa" onclick="toggleFiltroTag(this,'secundaria','proporcion-tasa')" onkeydown="onLeyendaKeydown(event,this,'secundaria','proporcion-tasa')">Proporción / tasa</span>
+      <span class="tag-sec palancas" role="button" tabindex="0" data-tipo="secundaria" data-valor="palancas" onclick="toggleFiltroTag(this,'secundaria','palancas')" onkeydown="onLeyendaKeydown(event,this,'secundaria','palancas')">Palancas</span>
+      <span class="tag-sec costos" role="button" tabindex="0" data-tipo="secundaria" data-valor="costos" onclick="toggleFiltroTag(this,'secundaria','costos')" onkeydown="onLeyendaKeydown(event,this,'secundaria','costos')">Costos</span>
+      <span class="tag-sec notacion" role="button" tabindex="0" data-tipo="secundaria" data-valor="notacion" onclick="toggleFiltroTag(this,'secundaria','notacion')" onkeydown="onLeyendaKeydown(event,this,'secundaria','notacion')">Notación</span>
+    </div>
+    <button class="vista-btn" id="btnLimpiarFiltro" onclick="limpiarFiltroTags()" style="margin-left:auto;">Mostrar todo</button>
   </div>
 
   <div class="meta-nota" id="metaNota">Cargando…</div>
@@ -164,17 +239,75 @@ function normalizar(t){
   return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
 
+var ETIQUETAS_SEC = {
+  'fundamentos': 'Fundamentos',
+  'proporcion-tasa': 'Proporción / tasa',
+  'palancas': 'Palancas',
+  'costos': 'Costos',
+  'notacion': 'Notación'
+};
+
+/* ── Filtro por etiquetas (leyenda clickeable) ── */
+var filtroPrincipal = new Set(['general', 'matematico', 'negocio']);
+var filtroSecundaria = new Set(Object.keys(ETIQUETAS_SEC));
+
+function terminosFiltrados(){
+  return terminos.filter(function(t){
+    var cat = t.categoria_principal || 'general';
+    if(!filtroPrincipal.has(cat)) return false;
+    var secs = (t.categorias_secundarias || '')
+      .split(';')
+      .map(function(s){ return s.trim(); })
+      .filter(Boolean);
+    if(secs.length === 0) return true;
+    return secs.some(function(s){ return filtroSecundaria.has(s); });
+  });
+}
+
+function toggleFiltroTag(el, tipo, valor){
+  var set = tipo === 'principal' ? filtroPrincipal : filtroSecundaria;
+  if(set.has(valor)){ set.delete(valor); } else { set.add(valor); }
+  el.classList.toggle('inactiva', !set.has(valor));
+  renderContenido(terminosFiltrados());
+  filtrar();
+}
+
+function onLeyendaKeydown(e, el, tipo, valor){
+  if(e.key === 'Enter' || e.key === ' '){
+    e.preventDefault();
+    toggleFiltroTag(el, tipo, valor);
+  }
+}
+
+function limpiarFiltroTags(){
+  filtroPrincipal = new Set(['general', 'matematico', 'negocio']);
+  filtroSecundaria = new Set(Object.keys(ETIQUETAS_SEC));
+  document.querySelectorAll('#leyenda .categoria-tag, #leyenda .tag-sec').forEach(function(el){
+    el.classList.remove('inactiva');
+  });
+  renderContenido(terminosFiltrados());
+  filtrar();
+}
+
 /* ── Construir tarjeta ── */
 function crearCard(t, mostrarSemana){
-  var cat = t.categoria || 'general';
+  var cat = t.categoria_principal || 'general';
   var catLabel = cat.charAt(0).toUpperCase() + cat.slice(1);
   var pill = mostrarSemana
     ? '<span class="semana-pill">Sem. ' + t.semana + '</span>'
     : '';
+  var secundarias = (t.categorias_secundarias || '')
+    .split(';')
+    .map(function(s){ return s.trim(); })
+    .filter(function(s){ return s && ETIQUETAS_SEC[s]; })
+    .slice(0, 3)
+    .map(function(s){ return '<span class="tag-sec ' + s + '">' + ETIQUETAS_SEC[s] + '</span>'; })
+    .join('');
   return '<div class="termino-card">' +
     '<div class="termino-header">' +
       '<h3>' + t.termino + '</h3>' +
       '<span class="categoria-tag ' + cat + '">' + catLabel + '</span>' +
+      secundarias +
       pill +
     '</div>' +
     '<p>' + t.definicion + '</p>' +
@@ -224,7 +357,7 @@ function cambiarVista(vista){
   vistaActual = vista;
   document.getElementById('btnSemana').classList.toggle('activo', vista === 'semana');
   document.getElementById('btnAlfabetico').classList.toggle('activo', vista === 'alfabetico');
-  renderContenido(terminos);
+  renderContenido(terminosFiltrados());
   filtrar();
 }
 
@@ -264,7 +397,7 @@ fetch('terminos.csv')
     var maxSemana = terminos.reduce(function(m, t){ return Math.max(m, parseInt(t.semana)||0); }, 0);
     document.getElementById('metaNota').textContent = 'Última actualización: Semana ' + maxSemana + ' · ' + terminos.length + ' términos';
 
-    renderContenido(terminos);
+    renderContenido(terminosFiltrados());
     filtrar();
   })
   .catch(function(){

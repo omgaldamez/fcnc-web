@@ -1,4 +1,4 @@
-/* Fundamentos Cuantitativos para Negocios Creativos — CENTRO */
+/* Fundamentos Cuantitativos para Negocios Creativos: CENTRO */
 /* Estilos compartidos de marca para todas las sesiones */
 
 :root{
@@ -460,6 +460,73 @@
     margin:36px auto 0;
     padding:0 24px;
   }
+  .acordeon.acordeon-col{
+    max-width:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+  }
+  .acordeon.acordeon-col details{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .acordeon.acordeon-col .acordeon-contenido{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .acordeon.acordeon-col .reflexion-bloque{
+    margin-top:auto;
+    padding-top:10px;
+  }
+  .entrega-nota{
+    font-size:12.5px;
+    color:var(--naranja-oscuro);
+    background:#fff8ec;
+    border-left:3px solid var(--naranja);
+    padding:8px 12px;
+    border-radius:0 6px 6px 0;
+    margin:0 0 14px;
+    line-height:1.5;
+  }
+
+  /* ---------- Formulario de reflexión (dentro del acordeón) ---------- */
+  .reflexion-instruccion{
+    font-size:12px;
+    color:var(--gris-nota);
+    font-style:italic;
+    margin:10px 0 10px;
+  }
+  .reflexion-item{ margin-bottom:14px; }
+  .reflexion-pregunta{
+    display:block;
+    font-size:13px;
+    margin-bottom:5px;
+    line-height:1.45;
+  }
+  .reflexion-textarea{
+    width:100%;
+    min-height:80px;
+    border:1px solid var(--linea);
+    border-radius:8px;
+    padding:8px 10px;
+    font-family:'Public Sans',sans-serif;
+    font-size:13px;
+    color:var(--tinta);
+    resize:vertical;
+    box-sizing:border-box;
+  }
+  .reflexion-textarea:focus-visible{ outline:2px solid var(--azul); outline-offset:1px; }
+  .reflexion-contador{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--gris-nota);
+    margin-top:3px;
+    text-align:right;
+  }
+  .reflexion-contador.ok{ color:#1d7a4e; }
   .acordeon details{
     background:#fff;
     border:1px solid var(--linea);

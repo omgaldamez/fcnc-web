@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 3 · Operar con intención</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  .descarga-sesion{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:#fff;
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:6px;
+    padding:6px 12px;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:background .15s;
+  }
+  .descarga-sesion:hover{ background:rgba(255,255,255,.25); }
+
+  /* ---- Marcador de propuesta reemplazable (prototipo para revisión académica) ---- */
+  .propuesta-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    background:#fff2e6;
+    color:var(--naranja-oscuro);
+    border:1px dashed var(--naranja);
+    padding:2px 8px;
+    border-radius:5px;
+  }
+  .propuesta-nota{
+    font-size:11.5px;
+    color:var(--naranja-oscuro);
+    background:#fff8ec;
+    border-left:3px solid var(--naranja);
+    padding:6px 10px;
+    border-radius:0 6px 6px 0;
+    margin:8px 0 0;
+    line-height:1.45;
+  }
+
+  /* ---- Placeholder de Gamma ---- */
+  .gamma-placeholder{
+    margin:16px 0;
+    border:2px dashed var(--linea);
+    border-radius:var(--radio);
+    background:repeating-linear-gradient(45deg,#fbfbfc,#fbfbfc 12px,#f4f5f7 12px,#f4f5f7 24px);
+    padding:44px 28px;
+    text-align:center;
+  }
+  .gamma-placeholder .etiqueta{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--gris-nota);
+    background:#fff;
+    border:1px solid var(--linea);
+    border-radius:99px;
+    padding:4px 12px;
+    margin-bottom:14px;
+  }
+  .gamma-placeholder h3{ font-size:18px; margin-bottom:6px; }
+  .gamma-placeholder p{ font-size:13.5px; color:var(--gris-nota); max-width:560px; margin:0 auto 6px; }
+  .gamma-placeholder code{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    background:#fff;
+    border:1px solid var(--linea);
+    border-radius:5px;
+    padding:2px 6px;
+    color:var(--azul-oscuro);
+  }
+
+  /* ---- Contraste de orden de operaciones ---- */
+  .orden-comparacion{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:10px;
+  }
+  @media (max-width:820px){ .orden-comparacion{ grid-template-columns:1fr; } }
+  .orden-box{
+    border:1px solid var(--linea);
+    border-radius:8px;
+    padding:12px 14px;
+    background:#fff;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .orden-box.correcto{ border-color:var(--azul); box-shadow:0 0 0 2px rgba(43,87,154,.10); }
+  .orden-box .etiqueta-orden{ font-size:12.5px; color:var(--azul-oscuro); font-weight:600; margin-bottom:6px; }
+  .orden-box.correcto .etiqueta-orden{ color:var(--azul-oscuro); }
+  .orden-box.ingenuo .etiqueta-orden{ color:var(--gris-nota); }
+  .orden-box .expresion{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--tinta);
+    line-height:1.6;
+  }
+  .orden-box .expresion .paso{ display:block; }
+  .orden-box .resultado{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:20px;
+    margin-top:6px;
+  }
+  .orden-box.correcto .resultado{ color:var(--naranja-oscuro); }
+  .orden-box.ingenuo .resultado{ color:var(--gris-nota); }
+  .orden-veredicto{
+    font-size:13px;
+    color:var(--tinta);
+    background:var(--nota-fondo);
+    border-radius:8px;
+    padding:9px 12px;
+    margin-top:10px;
+    line-height:1.5;
+  }
+  .orden-veredicto strong{ color:var(--azul-oscuro); }
+
+  /* ---- Filas de costos directos ---- */
+  .costos-directos{ margin-top:8px; }
+  .costo-fila{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-bottom:7px;
+  }
+  .costo-fila .costo-nombre{ flex:1.3; }
+  .costo-fila .costo-valor{ flex:1; }
+  .costo-fila .costo-quitar{
+    flex:0 0 auto;
+    width:30px; height:30px;
+    border:1px solid var(--linea);
+    background:#fff;
+    color:var(--gris-nota);
+    border-radius:6px;
+    cursor:pointer;
+    font-size:13px;
+    line-height:1;
+  }
+  .costo-fila .costo-quitar:hover{ border-color:var(--naranja); color:var(--naranja-oscuro); }
+  .btn-agregar{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:#fff;
+    border:1px dashed var(--azul);
+    color:var(--azul-oscuro);
+    border-radius:7px;
+    padding:7px 12px;
+    font-size:13px;
+    font-family:'Public Sans',sans-serif;
+    cursor:pointer;
+    margin-top:2px;
+  }
+  .btn-agregar:hover{ background:#f2f6fc; }
+
+  /* ---- Mini calculadora de unidades/mes (andamiaje opcional) ---- */
+  .mini-calc-toggle{
+    font-size:12.5px;
+    color:var(--azul);
+    background:none;
+    border:none;
+    text-decoration:underline;
+    cursor:pointer;
+    padding:2px 0;
+    font-family:'Public Sans',sans-serif;
+  }
+  .mini-calc{
+    display:none;
+    margin-top:8px;
+    padding:11px 12px;
+    background:var(--nota-fondo);
+    border-radius:8px;
+  }
+  .mini-calc.visible{ display:block; }
+  .mini-calc .fila-mini{ display:flex; gap:8px; }
+  .mini-calc .fila-mini > div{ flex:1; }
+  .mini-calc label{ font-size:11.5px; color:var(--gris-nota); display:block; margin-bottom:2px; }
+  .mini-calc .usar-valor{
+    margin-top:8px;
+    background:var(--azul);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    padding:7px 12px;
+    font-size:12.5px;
+    cursor:pointer;
+  }
+  .mini-calc .usar-valor:hover{ background:var(--azul-oscuro); }
+  .mini-calc .resultado-mini{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--azul-oscuro);
+    margin-top:6px;
+  }
+
+  .fab-aviso{
+    position:fixed;
+    bottom:78px; right:22px;
+    background:#fff8ec;
+    border:1px solid var(--naranja);
+    border-radius:10px;
+    padding:9px 13px;
+    font-size:12px;
+    color:var(--naranja-oscuro);
+    max-width:270px;
+    line-height:1.45;
+    z-index:99;
+    box-shadow:0 4px 12px rgba(232,121,47,.18);
+  }
+  .fab-warn{ background:#c97d10 !important; box-shadow:0 6px 16px rgba(201,125,16,.4) !important; }
+  .fab-warn:hover{ background:#a8650c !important; transform:translateY(-1px); }
+  .fab-ok  { background:#1d7a4e !important; box-shadow:0 6px 16px rgba(29,122,78,.4) !important; }
+  .fab-ok:hover  { background:#155e3b !important; transform:translateY(-1px); }
+  .fab[data-tip]{ overflow:visible; }
+  .fab[data-tip]:hover::after{
+    content:attr(data-tip);
+    position:absolute;
+    bottom:calc(100% + 10px); right:0;
+    background:rgba(10,10,10,.9);
+    color:#fff;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.03em;
+    padding:7px 12px;
+    border-radius:7px;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:999;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="../index.html" class="nav-back">← Inicio</a>
+  <div class="eyebrow">Fundamentos Cuantitativos para Negocios Creativos · Semana 3</div>
+  <h1>Operar con intención</h1>
+  <div class="sub">El orden en que sumas, restas, multiplicas y divides no es una preferencia: es una gramática que hace que el costo de tu producto salga bien. Construyes tu calculadora de costo unitario.</div>
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:8px;">
+    <div class="alumno-field" style="margin-top:0;">
+      <label for="nombreAlumno">Tu nombre (para el reporte):</label>
+      <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso()">
+    </div>
+    <a href="https://drive.google.com/file/d/1G99vfAV7iClR7azEdz3MEyuFRDIcH7wl/view?usp=drive_link" target="_blank" rel="noopener" class="descarga-sesion">↓ Descargar sesión</a>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button id="tabBtnTeoria" class="active" onclick="cambiarTab('teoria')">Teoría</button>
+  <button id="tabBtnAuditoria" onclick="cambiarTab('auditoria')">Auditoría de un referente</button>
+  <button id="tabBtnFicha" onclick="cambiarTab('ficha')">Tu calculadora de costo unitario</button>
+  <button id="tabBtnRecursos" onclick="cambiarTab('recursos')">Recursos</button>
+</nav>
+
+<div class="progreso-bar">
+  <span id="progresoTexto">Progreso: 0/5 campos clave</span>
+  <div class="progreso-track"><div class="progreso-fill" id="progresoFill" style="width:0%"></div></div>
+</div>
+
+<main>
+
+  <!-- ===================== PESTAÑA 0: TEORÍA ===================== -->
+  <section id="panelTeoria" class="panel active" style="padding:0;">
+    <iframe src="https://gamma.app/embed/ivebow3beth1tx8"
+      style="display:block; width:100%; height:calc(100vh - 180px); min-height:420px; border:none;"
+      allow="fullscreen" title="Operar con intención"></iframe>
+  </section>
+
+  <!-- ===================== PESTAÑA 1: AUDITORÍA ===================== -->
+  <section id="panelAuditoria" class="panel">
+
+    <div class="propuesta-nota">
+      <span class="propuesta-tag">◇ Propuesta reemplazable</span>
+      &nbsp; Este referente (la taquería) se reutiliza de Semanas 1 y 2 por continuidad. El área académica puede sustituirlo por otro caso: solo cambian los datos y el precio de esta pestaña; la lógica de jerarquía de operaciones se mantiene intacta.
+    </div>
+
+    <div class="grid-two grid-two-parejo" style="margin-top:14px;">
+      <div class="card">
+        <h3>La misma cuenta, dos órdenes distintos</h3>
+        <p>Ya conoces esta taquería: en Semana 1 auditamos su volumen de ventas y en Semana 2, su proporción de clientes y tacos. Esta semana miramos algo distinto: cuánto le <strong>cuesta</strong> hacer un solo taco, y cómo una sola diferencia en el orden en que se calcula puede cambiar la respuesta.</p>
+        <p>El taco tiene dos tipos de costo. Los <strong>costos directos</strong> son los que entran en cada taco: la tortilla, la carne, los extras. Los <strong>costos fijos</strong> son los que la taquería paga cada mes exista o no exista un solo cliente: la renta, la luz, el gas. Para saber cuánto cuesta un taco, hay que repartir ese costo fijo entre todos los tacos del mes y sumarlo al costo directo.</p>
+        <p style="font-size:13px;">Este mismo tipo de error le pasa a restaurantes reales: cuando venden por Rappi, Uber Eats o DiDi Food, de cada $200 de un pedido reciben entre $130 y $142, porque el impuesto se calcula sobre la comisión de la plataforma, no sobre el total (Tracción Media, 2026).</p>
+        <div class="fuente">Fuente (rango de referencia): INEGI/DENUE y caso Los Cocuyos, ya citados en la auditoría de Semana 1. Los valores de abajo son ilustrativos dentro de ese rango, no la contabilidad de un negocio específico.</div>
+      </div>
+
+      <div class="card">
+        <span class="ejemplo-tag">De dato a decisión</span>
+        <h3 style="margin-top:6px;">Por qué el orden importa</h3>
+        <p>Repartir el costo fijo entre los tacos del mes es una <strong>división</strong>. Sumarle el costo directo es una <strong>suma</strong>. Si divides primero y sumas después, el resultado es uno. Si sumas primero y divides después, el resultado es otro, aunque uses exactamente los mismos tres números.</p>
+        <p>No es una elección de estilo: solo un orden reparte el costo fijo entre todos los tacos correctamente. El otro reparte una mezcla de costo directo y costo fijo entre los tacos, lo cual no corresponde a nada real. Mueve los deslizadores y observa cómo cambian ambos resultados, y qué tan distintos se mantienen entre sí.</p>
+      </div>
+    </div>
+
+    <div class="grid-two" style="margin-top:14px;">
+      <div class="card">
+        <h3>Tus supuestos de costo</h3>
+        <p style="font-size:12.5px;color:var(--gris-nota);margin-bottom:8px;">Costo directo por taco fijo en $7.50 (tortilla $1.50 + carne $5.00 + extras $1.00) y precio de venta fijo en $22, para aislar el efecto del orden de operaciones.</p>
+
+        <div class="slider-row">
+          <div class="valores">
+            <span>Costos fijos del mes</span>
+            <span class="num" id="audFijosValor">$60,000</span>
+          </div>
+          <input type="range" id="audFijosSlider" min="30000" max="100000" step="1000" value="60000" oninput="recalcularAuditoria()">
+          <div class="banda">Renta, luz, gas y demás costos que la taquería paga exista o no un cliente ese día.</div>
+        </div>
+
+        <div class="slider-row">
+          <div class="valores">
+            <span>Clientes por día</span>
+            <span class="num" id="audClientesValor">87</span>
+          </div>
+          <input type="range" id="audClientesSlider" min="30" max="200" step="1" value="87" oninput="recalcularAuditoria()">
+        </div>
+
+        <div class="slider-row">
+          <div class="valores">
+            <span>Tacos por cada cliente</span>
+            <span class="num" id="audTacosValor">3.5</span>
+          </div>
+          <input type="range" id="audTacosSlider" min="1" max="6" step="0.1" value="3.5" oninput="recalcularAuditoria()">
+          <div class="banda">Con 30 días abiertos al mes (fijo), esto produce las unidades por mes que reparten el costo fijo.</div>
+        </div>
+
+        <div class="ticket-wrap">
+          <div class="ticket ticket-editable">
+            <div class="titulo-ticket">Lo que produce esa proporción</div>
+            <div class="fila"><span>Unidades por mes</span><span class="num" id="audUnidadesMes">9,135</span></div>
+            <div class="fila total"><span>Costo unitario (orden correcto)</span><span class="num" id="audCostoUnitario">$14.07</span></div>
+            <div class="fila"><span>Ganancia por taco</span><span class="num" id="audGanancia">$7.93</span></div>
+            <div class="formula">unidades por mes = clientes por día × tacos por cada cliente × 30 días · ganancia por taco = precio − costo unitario</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grafica-columna">
+        <div class="card">
+          <h3 style="font-size:14px;margin-bottom:4px;">La misma cuenta, resuelta en dos órdenes</h3>
+          <p style="font-size:12px;color:var(--gris-nota);margin:0 0 4px;">Expresión: costo directo + costos fijos del mes ÷ unidades por mes.</p>
+          <div class="orden-comparacion">
+            <div class="orden-box correcto" id="ordenCorrecto">
+              <div class="etiqueta-orden">Orden correcto · dividir antes de sumar</div>
+              <div class="expresion">
+                <span class="paso" id="ordenCorrectoExpr">7.50 + (60,000 ÷ 9,135)</span>
+                <span class="paso" id="ordenCorrectoPaso">= 7.50 + 6.57</span>
+              </div>
+              <div class="resultado" id="ordenCorrectoValor">$14.07</div>
+            </div>
+            <div class="orden-box ingenuo" id="ordenIngenuo">
+              <div class="etiqueta-orden">Orden ingenuo · sumar antes de dividir</div>
+              <div class="expresion">
+                <span class="paso" id="ordenIngenuoExpr">(7.50 + 60,000) ÷ 9,135</span>
+                <span class="paso" id="ordenIngenuoPaso">= 60,007.50 ÷ 9,135</span>
+              </div>
+              <div class="resultado" id="ordenIngenuoValor">$6.57</div>
+            </div>
+          </div>
+          <div class="orden-veredicto" id="ordenVeredicto"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reflexion-card">
+      <h3>Conclusión</h3>
+      <label class="field-label">Con los valores que dejaste, ¿por cuántos pesos se equivocaría la taquería si usara el orden ingenuo para fijar su costo unitario? ¿Ese error la haría cobrar de más o de menos por cada taco, y qué le pasaría a su ganancia si no se da cuenta?
+        <span class="hint">No hay una única forma de explicarlo; lo que importa es que la respuesta use los dos resultados, no solo uno.</span>
+      </label>
+      <textarea id="conclusionAuditoria" oninput="actualizarProgreso()"></textarea>
+    </div>
+
+  </section>
+
+  <!-- ===================== PESTAÑA 2: TU CALCULADORA DE COSTO UNITARIO ===================== -->
+  <section id="panelFicha" class="panel">
+
+    <div class="card">
+      <h3>De tu tablero de Semana 2 a tu costo unitario</h3>
+      <p>En Semana 2 armaste tu tablero de supuestos y llegaste a tus unidades por mes: clientes por día × unidades por cada cliente × días abiertos al mes. Esta semana usas ese mismo número, pero para una pregunta distinta: no cuánto vendes, sino cuánto te cuesta hacer <em>una sola unidad</em>.</p>
+      <p>Un <strong>costo directo por unidad</strong> es lo que entra en cada unidad que produces: los materiales o ingredientes. Un <strong>costo fijo mensual</strong> es lo que pagas exista o no exista un cliente ese mes: renta, sueldos fijos, servicios. Repartes el costo fijo entre tus unidades del mes, se lo sumas al costo directo, y obtienes tu <strong>costo unitario</strong>. Tu modelo no reinicia esta semana: crece sobre el mismo tablero.</p>
+    </div>
+
+    <div class="grid-two" style="margin-top:14px;">
+      <div class="card">
+        <span class="ejemplo-tag">Ejemplo resuelto</span>
+        <span class="propuesta-tag" style="margin-left:6px;">◇ Propuesta reemplazable</span>
+        <h3 style="margin-top:8px;">Café Andante</h3>
+        <p>El mismo negocio de ejemplo de Semanas 1 y 2, ahora con su costo unitario:</p>
+        <div class="ticket-wrap">
+          <div class="ticket ticket-fijo">
+            <div class="titulo-ticket">Calculadora de Café Andante</div>
+            <div class="fila"><span>Costos directos por unidad</span><span class="num">$14.00</span></div>
+            <div class="fila"><span>Costos fijos del mes</span><span class="num">$18,000</span></div>
+            <div class="fila"><span>Unidades por mes</span><span class="num">780</span></div>
+            <div class="fila"><span>Costo fijo por unidad</span><span class="num">$23.08</span></div>
+            <div class="fila"><span>Costo unitario</span><span class="num">$37.08</span></div>
+            <div class="fila total"><span>Ganancia por unidad</span><span class="num">$2.92</span></div>
+          </div>
+        </div>
+        <p style="margin-top:8px;">Café Andante vende su café a <span class="num">$40</span>, un precio que suena cómodo. Pero sus 780 unidades al mes son pocas, así que sus $18,000 de costos fijos se reparten entre poca gente: $23.08 por cada café, solo en costo fijo. Por eso, aunque su precio es alto, su ganancia por unidad queda en apenas <span class="num">$2.92</span>. El mismo negocio que en Semana 2 identificó su volumen como su métrica más sensible, aquí se ve por qué: vender poco encarece cada unidad.</p>
+        <div class="fuente">Nota: negocio de ejemplo ficticio; sus números no requieren validación de fuente como la auditoría.</div>
+      </div>
+
+      <div class="card">
+        <h3>Tu calculadora</h3>
+
+        <label class="field-label">Precio por unidad
+          <span class="hint">El que definiste en tus fichas anteriores.</span>
+        </label>
+        <input type="number" id="fPrecio" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
+
+        <label class="field-label">Tus costos directos por unidad
+          <span class="hint">Cada material o ingrediente que entra en una sola unidad. Agrega una fila por cada uno.</span>
+        </label>
+        <div class="costos-directos" id="costosDirectosFilas"><!-- filas generadas + iniciales --></div>
+        <button type="button" class="btn-agregar" onclick="agregarFilaCosto()">+ Agregar costo directo</button>
+
+        <label class="field-label">Costos fijos del mes
+          <span class="hint">Renta, sueldos fijos, servicios: lo que pagas exista o no exista un cliente ese mes.</span>
+        </label>
+        <input type="number" id="fFijos" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
+
+        <label class="field-label">Unidades por mes
+          <span class="hint">Si ya la tienes de tu tablero de Semana 2, escríbela directo. Si no, calcúlala abajo.</span>
+        </label>
+        <input type="number" id="fUnidadesMes" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
+        <button type="button" class="mini-calc-toggle" onclick="toggleMiniCalc()" id="miniCalcToggleBtn">¿No tienes tus unidades por mes a la mano? Calcúlalas aquí</button>
+        <div class="mini-calc" id="miniCalc">
+          <div class="fila-mini">
+            <div>
+              <label>Clientes por día</label>
+              <input type="number" id="mClientes" min="0" step="1" oninput="recalcularMiniCalc()">
+            </div>
+            <div>
+              <label>Unidades por cada cliente</label>
+              <input type="number" id="mUnidadesCliente" min="0" step="0.1" oninput="recalcularMiniCalc()">
+            </div>
+            <div>
+              <label>Días abiertos al mes</label>
+              <input type="number" id="mDias" min="1" max="31" step="1" oninput="recalcularMiniCalc()">
+            </div>
+          </div>
+          <div class="resultado-mini" id="miniCalcResultado">Unidades por mes: N/D</div>
+          <button type="button" class="usar-valor" onclick="usarValorMiniCalc()">Usar este valor</button>
+        </div>
+
+        <div class="ticket-wrap">
+          <div class="ticket ticket-editable">
+            <div class="titulo-ticket">Tu calculadora de costo unitario</div>
+            <div class="fila"><span>Costos directos por unidad</span><span class="num" id="tDirectos">N/D</span></div>
+            <div class="fila"><span>Costo fijo por unidad</span><span class="num" id="tFijoUnidad">N/D</span></div>
+            <div class="fila"><span>Costo unitario</span><span class="num" id="tCostoUnitario">N/D</span></div>
+            <div class="fila total"><span>Ganancia por unidad</span><span class="num" id="tGananciaUnidad">N/D</span></div>
+            <div class="formula">costo unitario = costos directos por unidad + (costos fijos del mes ÷ unidades por mes) · ganancia por unidad = precio − costo unitario</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reflexion-card">
+      <h3>Lo que tu costo unitario te dice</h3>
+      <p style="font-size:13px;color:var(--gris-nota);margin-top:-2px;">Compara tu precio con tu costo unitario. ¿Tu ganancia por unidad te parece suficiente para tu negocio? Si es baja aunque tu precio no lo sea, ¿el problema está en tus costos directos, en tus costos fijos, o en tus unidades por mes?</p>
+      <textarea id="reflexionFicha" oninput="actualizarProgreso()"></textarea>
+    </div>
+
+  </section>
+
+  <!-- ===================== PESTAÑA: RECURSOS ===================== -->
+  <section id="panelRecursos" class="panel">
+    <p class="entrega-nota">Las preguntas de reflexión de abajo son parte de tu entrega de la semana, no solo repaso: desarrolla cada respuesta (evita frases sueltas) y sube tus respuestas a Brightspace, actividad <strong>S03 · Reflexión audio y video</strong>. El PDF que descargues ya viene nombrado como <strong>NombreApellido_ReflexionS03</strong>, tomando lo que escribiste en "Tu nombre" al inicio de la página: solo sube ese archivo tal cual.</p>
+    <div class="grid-two grid-two-parejo">
+
+      <!-- Video -->
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:210px; background:#0a0a1a;">
+          <iframe
+            src="https://drive.google.com/file/d/1QPo_se45EkXoP-dsJAAC_9PvTsXsJkWk/preview"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
+            allow="autoplay" allowfullscreen
+            title="Video de la sesión · Semana 3"></iframe>
+        </div>
+        <div style="padding:16px 20px 20px;">
+          <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--azul); margin:0 0 6px;">NotebookLM · Video</p>
+          <h3 style="margin:0 0 8px;">Video de la sesión</h3>
+          <p style="font-size:13px; color:#555; margin:0 0 14px;">Resumen visual generado con NotebookLM sobre los temas de esta semana.</p>
+          <a href="https://drive.google.com/file/d/1QPo_se45EkXoP-dsJAAC_9PvTsXsJkWk/view?usp=drive_link"
+             target="_blank" rel="noopener"
+             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--azul); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ↓ Descargar MP4
+          </a>
+        </div>
+      </div>
+
+      <!-- Audio -->
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:210px; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%); padding:20px; display:flex; align-items:center; justify-content:center; box-sizing:border-box;">
+          <iframe
+            src="https://drive.google.com/file/d/1pa6lHotvzylCFXusysf3er6G3Zyy_lvH/preview"
+            style="width:100%; height:100px; border:none; background:transparent;"
+            allow="autoplay"
+            title="Audio de la sesión · Semana 3"></iframe>
+        </div>
+        <div style="padding:16px 20px 20px;">
+          <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--naranja); margin:0 0 6px;">NotebookLM · Audio</p>
+          <h3 style="margin:0 0 8px;">Podcast de la sesión</h3>
+          <p style="font-size:13px; color:#555; margin:0 0 14px;">Episodio generado con NotebookLM: escucha los conceptos clave de esta semana en formato conversacional.</p>
+          <a href="https://drive.google.com/file/d/1pa6lHotvzylCFXusysf3er6G3Zyy_lvH/view?usp=sharing"
+             target="_blank" rel="noopener"
+             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--naranja); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ↓ Descargar M4A
+          </a>
+        </div>
+      </div>
+
+      <!-- Reflexión: video -->
+      <div class="acordeon acordeon-col">
+        <details open>
+          <summary>Reflexión y preguntas · Video: "Orden de Operaciones"</summary>
+          <div class="acordeon-contenido">
+            <p>El video usa la analogía de una receta (agregar el azúcar después de hornear el pastel en vez de antes) para mostrar que el orden en que se hacen las operaciones cambia el resultado, tanto en la cocina como en las finanzas de un negocio. Aplica esa idea al pedido de $200 de un restaurante que solo recibe entre $130 y $142 después de una cadena de operaciones que debe resolverse en un orden específico.</p>
+            <p>Explica que la notación (los paréntesis) no cambia la regla, sino que hace visible el flujo correcto del dinero, y compara el costo "ingenuo" de $6.57 contra el costo real de $14.07 para mostrar cómo un error de orden puede llevar a un dueño de negocio a creer que tiene más margen del que realmente tiene, poniendo en riesgo su liquidez.</p>
+            <div class="reflexion-bloque" data-bloque="Video · Orden de Operaciones">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">1. ¿En qué parte de tu contabilidad estás "agregando el azúcar después de hornear el pastel" al ignorar la jerarquía de tus operaciones? Da un ejemplo concreto, aunque sea hipotético.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">2. ¿El número que guía tus decisiones diarias es un dato real o es un espejismo matemático causado por un error de orden? Justifica tu respuesta con un cálculo.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">3. ¿Qué cambios inmediatos en tu tablero de supuestos realizarás para asegurar que tus costos fijos estén correctamente repartidos entre tus ventas mensuales? Describe el cambio paso a paso.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Reflexión: audio -->
+      <div class="acordeon acordeon-col">
+        <details open>
+          <summary>Reflexión y preguntas · Audio: "El error matemático que quiebra"</summary>
+          <div class="acordeon-contenido">
+            <p>Este audio sitúa la jerarquía de operaciones no como una regla escolar arbitraria, sino como una convención histórica que se fue consolidando desde el siglo XVII y se formalizó en el siglo XIX para estandarizar los libros de texto. A partir de ahí usa el caso de las comisiones de delivery en México (Rappi, Uber Eats, DiDi Food) para mostrar cómo un restaurante pierde margen cuando no calcula que el impuesto se aplica sobre la comisión de la plataforma y no sobre el total del pedido.</p>
+            <p>Analiza después la diferencia entre costos directos y costos fijos: sumar el costo fijo mensual ($60,000) directamente al costo de un taco ($7.50) antes de dividir entre el volumen de ventas es un error de orden que produce una cifra sin sentido operativo. Presenta el costo unitario real ($14.07) como la cifra que evita una falsa sensación de ganancia, frente al cálculo "ingenuo" que sobreestima la utilidad casi al doble.</p>
+            <div class="reflexion-bloque" data-bloque="Audio · El error matemático que quiebra">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">1. Si una calculadora nunca se equivoca, ¿por qué dos personas pueden pedirle la misma cuenta y obtener resultados distintos? Explica el error de orden con un ejemplo numérico propio.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">2. ¿Estás calculando tu ganancia restando solo la comisión de la plataforma, o estás considerando el orden real de las retenciones antes de llegar a tu número final? Desarrolla tu respuesta con las cifras de tu propio negocio o de un caso que conozcas.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+              <div class="reflexion-item">
+                <label class="reflexion-pregunta">3. ¿Tu análisis de costos mezcla el gasto de un solo taco con el costo fijo de todo el mes de forma "ingenua", o repartes primero la carga fija entre tus unidades vendidas? Explica cuál de los dos haces y qué cambiarías.</label>
+                <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
+                <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div id="fabAviso" class="fab-aviso" style="display:none;">⚠ Hay campos clave sin completar. El reporte se generará, pero es probable que no tenga todas las notas posibles para evaluación.</div>
+<button id="fabReporte" class="fab" onclick="generarPDF()" style="display:none;">📄 Generar reporte PDF</button>
+<div id="fabAvisoReflexion" class="fab-aviso" style="display:none;">⚠ Hay respuestas por debajo del mínimo de caracteres. El reporte se generará, pero es probable que no tenga todas las notas posibles para evaluación.</div>
+<button id="fabReflexion" class="fab" onclick="generarPDFReflexion()" style="display:none;">📄 Generar reporte de reflexión PDF</button>
+
+<div class="footer-nota">Fundamentos Cuantitativos para Negocios Creativos, CENTRO · Semana 3 de 15 · Prototipo para revisión académica</div>
+
+<script>
+const DIRECTO_TACO = 7.5;
+const PRECIO_TACO = 22;
+const DIAS_MES_AUD = 30;
+let contadorFilas = 0;
+
+const CODIGO_SESION = 'S03';
+
+function nombreArchivoAlumno(){
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  const sinAcentos = nombre.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const limpio = sinAcentos.replace(/[^a-zA-Z0-9]+/g, '');
+  return limpio || 'SinNombre';
+}
+
+function fmtMoney(n){
+  return '$' + n.toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtMoney0(n){
+  return '$' + Math.round(n).toLocaleString('es-MX');
+}
+
+function cambiarTab(tab){
+  document.getElementById('panelTeoria').classList.toggle('active', tab==='teoria');
+  document.getElementById('panelAuditoria').classList.toggle('active', tab==='auditoria');
+  document.getElementById('panelFicha').classList.toggle('active', tab==='ficha');
+  document.getElementById('panelRecursos').classList.toggle('active', tab==='recursos');
+  document.getElementById('tabBtnTeoria').classList.toggle('active', tab==='teoria');
+  document.getElementById('tabBtnAuditoria').classList.toggle('active', tab==='auditoria');
+  document.getElementById('tabBtnFicha').classList.toggle('active', tab==='ficha');
+  document.getElementById('tabBtnRecursos').classList.toggle('active', tab==='recursos');
+  actualizarProgreso();
+  actualizarProgresoReflexion();
+}
+
+/* ---------------- RECURSOS: formulario de reflexión ---------------- */
+function onReflexionInput(ta){
+  actualizarContadorReflexion(ta);
+  actualizarProgresoReflexion();
+}
+
+function actualizarContadorReflexion(ta){
+  const min = parseInt(ta.getAttribute('minlength'), 10) || 150;
+  const n = ta.value.trim().length;
+  const contador = ta.nextElementSibling;
+  contador.textContent = n + ' / ' + min + ' caracteres mínimo';
+  contador.classList.toggle('ok', n >= min);
+}
+
+function actualizarProgresoReflexion(){
+  const textareas = document.querySelectorAll('.reflexion-textarea');
+  if(textareas.length === 0) return;
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  let completos = 0;
+  textareas.forEach(ta => {
+    const min = parseInt(ta.getAttribute('minlength'), 10) || 150;
+    if(ta.value.trim().length >= min) completos++;
+  });
+  const enRecursos = document.getElementById('panelRecursos').classList.contains('active');
+  const fab = document.getElementById('fabReflexion');
+  const aviso = document.getElementById('fabAvisoReflexion');
+  const listoParaPDF = nombre !== '' && enRecursos;
+  aviso.style.display = 'none';
+  fab.style.display = listoParaPDF ? '' : 'none';
+  if(listoParaPDF){
+    if(completos === textareas.length){
+      fab.className = 'fab fab-ok';
+      fab.innerHTML = '✓ Generar reporte de reflexión PDF';
+      fab.removeAttribute('data-tip');
+    } else {
+      fab.className = 'fab fab-warn';
+      fab.innerHTML = '⚠ Generar reporte de reflexión PDF';
+      fab.setAttribute('data-tip', 'Hay respuestas por debajo del mínimo de caracteres: haz clic para continuar de todas formas');
+    }
+  }
+}
+
+function generarPDFReflexion(){
+  if(document.getElementById('fabReflexion').classList.contains('fab-warn')){
+    if(!confirm('⚠ Hay respuestas por debajo del mínimo de caracteres.\n\n¿Quieres generar el reporte de todas formas?\n\nSe incluirá todo lo que hayas llenado hasta ahora.')) return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const azul = [43, 87, 154];
+  const naranja = [232, 121, 47];
+  const gris = [107, 114, 128];
+  const nombreAlumno = document.getElementById('nombreAlumno').value.trim() || '(sin nombre)';
+  const marginX = 15;
+  const pageW = 210;
+  const usableW = pageW - marginX*2;
+  let y = 20;
+
+  doc.setFont(undefined, 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(...azul);
+  doc.text('Reflexión: audio y video', marginX, y);
+  y += 7;
+  doc.setFont(undefined, 'normal');
+  doc.setFontSize(9.5);
+  doc.setTextColor(...gris);
+  doc.text(document.title, marginX, y); y += 5;
+  doc.text('Alumno(a): ' + nombreAlumno, marginX, y); y += 5;
+  doc.text('Fecha: ' + new Date().toLocaleDateString('es-MX'), marginX, y); y += 9;
+
+  document.querySelectorAll('.reflexion-bloque').forEach(bloque => {
+    const nombreBloque = bloque.getAttribute('data-bloque');
+    if(y > 265){ doc.addPage(); y = 20; }
+    doc.setFont(undefined, 'bold');
+    doc.setFontSize(12.5);
+    doc.setTextColor(...naranja);
+    doc.text(nombreBloque, marginX, y);
+    y += 3;
+    doc.setDrawColor(...naranja);
+    doc.setLineWidth(0.5);
+    doc.line(marginX, y, pageW-marginX, y);
+    y += 7;
+
+    bloque.querySelectorAll('.reflexion-item').forEach(item => {
+      const pregunta = item.querySelector('.reflexion-pregunta').textContent.trim();
+      const respuesta = item.querySelector('.reflexion-textarea').value.trim() || '(sin responder)';
+
+      const preguntaLineas = doc.splitTextToSize(pregunta, usableW);
+      const respLineas = doc.splitTextToSize(respuesta, usableW);
+      if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + 10 > 280){ doc.addPage(); y = 20; }
+
+      doc.setFont(undefined, 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...azul);
+      doc.text(preguntaLineas, marginX, y);
+      y += preguntaLineas.length * 4.6 + 2;
+
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(30,36,48);
+      doc.text(respLineas, marginX, y);
+      y += respLineas.length * 4.6 + 7;
+    });
+    y += 3;
+  });
+
+  doc.save(nombreArchivoAlumno() + '_Reflexion' + CODIGO_SESION + '.pdf');
+}
+
+/* ---------------- AUDITORÍA: costo unitario y orden de operaciones ---------------- */
+function recalcularAuditoria(){
+  const fijos = parseFloat(document.getElementById('audFijosSlider').value);
+  const clientes = parseInt(document.getElementById('audClientesSlider').value, 10);
+  const tacosCliente = parseFloat(document.getElementById('audTacosSlider').value);
+
+  document.getElementById('audFijosValor').textContent = fmtMoney0(fijos);
+  document.getElementById('audClientesValor').textContent = clientes;
+  document.getElementById('audTacosValor').textContent = tacosCliente.toFixed(1);
+
+  const unidadesMes = clientes * tacosCliente * DIAS_MES_AUD;
+  const fijoPorUnidad = fijos / unidadesMes;
+  const costoUnitario = DIRECTO_TACO + fijoPorUnidad;
+  const ganancia = PRECIO_TACO - costoUnitario;
+
+  document.getElementById('audUnidadesMes').textContent = unidadesMes.toLocaleString('es-MX', {maximumFractionDigits:1});
+  document.getElementById('audCostoUnitario').textContent = fmtMoney(costoUnitario);
+  document.getElementById('audGanancia').textContent = fmtMoney(ganancia);
+
+  // Orden correcto: directo + (fijos / unidades)
+  const ordenCorrecto = costoUnitario;
+  // Orden ingenuo: (directo + fijos) / unidades
+  const ordenIngenuo = (DIRECTO_TACO + fijos) / unidadesMes;
+
+  const unidadesFmt = Math.round(unidadesMes).toLocaleString('es-MX');
+  const fijosFmt = fijos.toLocaleString('es-MX');
+
+  document.getElementById('ordenCorrectoExpr').textContent = `7.50 + (${fijosFmt} ÷ ${unidadesFmt})`;
+  document.getElementById('ordenCorrectoPaso').textContent = `= 7.50 + ${fijoPorUnidad.toFixed(2)}`;
+  document.getElementById('ordenCorrectoValor').textContent = fmtMoney(ordenCorrecto);
+
+  document.getElementById('ordenIngenuoExpr').textContent = `(7.50 + ${fijosFmt}) ÷ ${unidadesFmt}`;
+  document.getElementById('ordenIngenuoPaso').textContent = `= ${(DIRECTO_TACO+fijos).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})} ÷ ${unidadesFmt}`;
+  document.getElementById('ordenIngenuoValor').textContent = fmtMoney(ordenIngenuo);
+
+  const diferencia = Math.abs(ordenCorrecto - ordenIngenuo);
+  const vered = document.getElementById('ordenVeredicto');
+  vered.innerHTML = `El orden correcto (dividir primero) da un costo unitario de <strong>${fmtMoney(ordenCorrecto)}</strong>. El orden ingenuo (sumar primero) da <strong>${fmtMoney(ordenIngenuo)}</strong>: una diferencia de <span class="num">${fmtMoney(diferencia)}</span> por unidad. Solo el orden correcto reparte el costo fijo entre todas las unidades del mes; el otro mezcla el costo directo dentro de ese reparto, algo que no corresponde a nada real.`;
+
+  actualizarProgreso();
+}
+
+/* ---------------- FICHA: filas de costos directos ---------------- */
+function agregarFilaCosto(nombre, valor){
+  contadorFilas++;
+  const cont = document.getElementById('costosDirectosFilas');
+  const fila = document.createElement('div');
+  fila.className = 'costo-fila';
+  fila.innerHTML = `
+    <input type="text" class="costo-nombre" placeholder="Ej. harina" value="${nombre ? nombre.replace(/"/g,'&quot;') : ''}" oninput="recalcularFicha(); actualizarProgreso()">
+    <input type="number" class="costo-valor" min="0" step="0.1" placeholder="$" value="${valor !== undefined ? valor : ''}" oninput="recalcularFicha(); actualizarProgreso()">
+    <button type="button" class="costo-quitar" onclick="quitarFilaCosto(this)">✕</button>
+  `;
+  cont.appendChild(fila);
+}
+
+function quitarFilaCosto(btn){
+  const cont = document.getElementById('costosDirectosFilas');
+  if(cont.children.length > 1){
+    btn.closest('.costo-fila').remove();
+    recalcularFicha();
+    actualizarProgreso();
+  }
+}
+
+function sumaDirectos(){
+  let suma = 0;
+  let hayValor = false;
+  document.querySelectorAll('#costosDirectosFilas .costo-valor').forEach(inp=>{
+    const v = parseFloat(inp.value);
+    if(!isNaN(v)){ suma += v; hayValor = true; }
+  });
+  return { suma, hayValor };
+}
+
+/* ---------------- FICHA: mini calculadora de unidades/mes ---------------- */
+function toggleMiniCalc(){
+  document.getElementById('miniCalc').classList.toggle('visible');
+}
+
+function recalcularMiniCalc(){
+  const clientes = parseFloat(document.getElementById('mClientes').value);
+  const unidadesCliente = parseFloat(document.getElementById('mUnidadesCliente').value);
+  const dias = parseFloat(document.getElementById('mDias').value);
+  const res = document.getElementById('miniCalcResultado');
+  if(!isNaN(clientes) && !isNaN(unidadesCliente) && !isNaN(dias)){
+    const unidadesMes = clientes * unidadesCliente * dias;
+    res.textContent = `Unidades por mes: ${(Math.round(unidadesMes*10)/10).toLocaleString('es-MX')}`;
+  } else {
+    res.textContent = 'Unidades por mes: N/D';
+  }
+}
+
+function usarValorMiniCalc(){
+  const clientes = parseFloat(document.getElementById('mClientes').value);
+  const unidadesCliente = parseFloat(document.getElementById('mUnidadesCliente').value);
+  const dias = parseFloat(document.getElementById('mDias').value);
+  if(!isNaN(clientes) && !isNaN(unidadesCliente) && !isNaN(dias)){
+    const unidadesMes = clientes * unidadesCliente * dias;
+    document.getElementById('fUnidadesMes').value = Math.round(unidadesMes*10)/10;
+    recalcularFicha();
+    actualizarProgreso();
+  }
+}
+
+/* ---------------- FICHA: calculadora de costo unitario ---------------- */
+function recalcularFicha(){
+  const precio = parseFloat(document.getElementById('fPrecio').value);
+  const { suma: directos, hayValor: hayDirectos } = sumaDirectos();
+  const fijos = parseFloat(document.getElementById('fFijos').value);
+  const unidadesMes = parseFloat(document.getElementById('fUnidadesMes').value);
+
+  const hay = !isNaN(precio) && hayDirectos && !isNaN(fijos) && !isNaN(unidadesMes) && unidadesMes > 0;
+
+  if(hay){
+    const fijoPorUnidad = fijos / unidadesMes;
+    const costoUnitario = directos + fijoPorUnidad;
+    const gananciaUnidad = precio - costoUnitario;
+
+    document.getElementById('tDirectos').textContent = fmtMoney(directos);
+    document.getElementById('tFijoUnidad').textContent = fmtMoney(fijoPorUnidad);
+    document.getElementById('tCostoUnitario').textContent = fmtMoney(costoUnitario);
+    document.getElementById('tGananciaUnidad').textContent = fmtMoney(gananciaUnidad);
+  } else {
+    ['tDirectos','tFijoUnidad','tCostoUnitario','tGananciaUnidad'].forEach(id=>{
+      document.getElementById(id).textContent = 'N/D';
+    });
+  }
+}
+
+function actualizarProgreso(){
+  const { hayValor: hayDirectos } = sumaDirectos();
+  const camposClave = [
+    document.getElementById('fPrecio').value,
+    hayDirectos ? '1' : '',
+    document.getElementById('fFijos').value,
+    document.getElementById('fUnidadesMes').value,
+    document.getElementById('reflexionFicha').value.trim()
+  ];
+  const completos = camposClave.filter(v => v !== '' && v !== null && v !== undefined).length;
+  document.getElementById('progresoTexto').textContent = `Progreso: ${completos}/5 campos clave`;
+  document.getElementById('progresoFill').style.width = (completos/5*100) + '%';
+
+  const nombre = document.getElementById('nombreAlumno').value.trim();
+  const enFicha = document.getElementById('panelFicha').classList.contains('active');
+  const fab = document.getElementById('fabReporte');
+  const aviso = document.getElementById('fabAviso');
+
+  const todo = nombre !== '' && completos === 5;
+  const listoParaPDF = nombre !== '' && enFicha;
+  aviso.style.display = 'none';
+  fab.style.display = listoParaPDF ? '' : 'none';
+  if(listoParaPDF){
+    if(todo){
+      fab.className = 'fab fab-ok';
+      fab.innerHTML = '✓ Generar reporte PDF';
+      fab.removeAttribute('data-tip');
+    } else {
+      fab.className = 'fab fab-warn';
+      fab.innerHTML = '⚠ Generar PDF';
+      fab.setAttribute('data-tip', 'Hay campos clave sin completar: haz clic para continuar de todas formas');
+    }
+  }
+}
+
+/* ---------------- PDF: calculadora de costo unitario ---------------- */
+function generarPDF(){
+  if(document.getElementById('fabReporte').classList.contains('fab-warn')){
+    if(!confirm('⚠ Hay campos clave sin completar.\n\n¿Quieres generar el reporte de todas formas?\n\nSe incluirá todo lo que hayas llenado hasta ahora.')) return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const azul = [43, 87, 154];
+  const naranja = [232, 121, 47];
+  const gris = [107, 114, 128];
+  const linea = [201, 205, 211];
+  const fondoTicket = [250, 250, 250];
+
+  const nombreAlumno = document.getElementById('nombreAlumno').value.trim() || '(sin nombre)';
+  const marginX = 14;
+  const pageW = 210;
+  const usableW = pageW - marginX*2;
+
+  // Header
+  doc.setFillColor(...azul);
+  doc.rect(0,0,pageW,26,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(9.5);
+  doc.text('FUNDAMENTOS CUANTITATIVOS PARA NEGOCIOS CREATIVOS', marginX, 10);
+  doc.setFontSize(15);
+  doc.text('Semana 3: Operar con intención', marginX, 19);
+  doc.setFontSize(9);
+  doc.text(`Alumno(a): ${nombreAlumno}`, pageW-marginX, 10, {align:'right'});
+  doc.text(`Fecha: ${new Date().toLocaleDateString('es-MX')}`, pageW-marginX, 16, {align:'right'});
+
+  let y = 33;
+
+  function seccion(titulo){
+    doc.setTextColor(...azul);
+    doc.setFontSize(11.5);
+    doc.setFont(undefined,'bold');
+    doc.text(titulo, marginX, y);
+    doc.setFont(undefined,'normal');
+    doc.setDrawColor(...naranja);
+    doc.setLineWidth(0.8);
+    doc.line(marginX, y+2, pageW-marginX, y+2);
+    y += 8;
+  }
+
+  function ticketBox(x, boxY, w, h, titulo, filas, destacado){
+    doc.setDrawColor(...(destacado ? azul : linea));
+    doc.setLineWidth(destacado ? 0.7 : 0.4);
+    doc.setFillColor(...fondoTicket);
+    doc.roundedRect(x, boxY, w, h, 1.5, 1.5, 'FD');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...(destacado ? azul : gris));
+    doc.text(titulo.toUpperCase(), x + w/2, boxY + 5.5, {align:'center'});
+    let fy = boxY + 11;
+    filas.forEach(([label, valor, esTotal]) => {
+      doc.setFontSize(8);
+      doc.setTextColor(30,36,48);
+      doc.setFont(undefined, esTotal ? 'bold' : 'normal');
+      if(esTotal) doc.setTextColor(201,96,29);
+      doc.text(label, x+3, fy);
+      doc.text(String(valor), x+w-3, fy, {align:'right'});
+      fy += 5.8;
+    });
+    doc.setFont(undefined, 'normal');
+  }
+
+  // ---- Sección calculadora del alumno ----
+  seccion('TU CALCULADORA DE COSTO UNITARIO');
+
+  const precio = parseFloat(document.getElementById('fPrecio').value);
+  const { suma: directos, hayValor: hayDirectos } = sumaDirectos();
+  const fijos = parseFloat(document.getElementById('fFijos').value);
+  const unidadesMes = parseFloat(document.getElementById('fUnidadesMes').value);
+  const hay = !isNaN(precio) && hayDirectos && !isNaN(fijos) && !isNaN(unidadesMes) && unidadesMes>0;
+
+  const fijoPorUnidad = hay ? fijos/unidadesMes : 0;
+  const costoUnitario = hay ? directos+fijoPorUnidad : 0;
+  const gananciaUnidad = hay ? precio-costoUnitario : 0;
+
+  const boxW = (usableW - 8)/2;
+  ticketBox(marginX, y, boxW, 34, 'Tus supuestos', [
+    ['Precio/unidad', hay ? '$'+precio.toLocaleString('es-MX') : 'N/D'],
+    ['Directos/unidad', hay ? '$'+directos.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D'],
+    ['Fijos/mes', hay ? '$'+fijos.toLocaleString('es-MX') : 'N/D'],
+    ['Unidades/mes', hay ? unidadesMes.toLocaleString('es-MX') : 'N/D']
+  ], false);
+  ticketBox(marginX+boxW+8, y, boxW, 34, 'Tu costo unitario', [
+    ['Fijo por unidad', hay ? '$'+fijoPorUnidad.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D'],
+    ['Costo unitario', hay ? '$'+costoUnitario.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D'],
+    ['Ganancia/unidad', hay ? '$'+gananciaUnidad.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D', true]
+  ], true);
+  y += 34 + 8;
+
+  // ---- Detalle de costos directos ----
+  seccion('TUS COSTOS DIRECTOS POR UNIDAD');
+  doc.setFontSize(8.5);
+  doc.setTextColor(30,36,48);
+  const filasDirectos = [];
+  document.querySelectorAll('#costosDirectosFilas .costo-fila').forEach(fila=>{
+    const nombre = fila.querySelector('.costo-nombre').value.trim();
+    const valor = parseFloat(fila.querySelector('.costo-valor').value);
+    if(nombre !== '' || !isNaN(valor)){
+      filasDirectos.push([nombre || '(sin nombre)', isNaN(valor) ? 'N/D' : '$'+valor.toLocaleString('es-MX',{maximumFractionDigits:2})]);
+    }
+  });
+  if(filasDirectos.length === 0){
+    doc.text('(sin costos capturados)', marginX, y);
+    y += 6;
+  } else {
+    filasDirectos.forEach(([n,v])=>{
+      doc.text(n, marginX, y);
+      doc.text(v, pageW-marginX, y, {align:'right'});
+      y += 5.6;
+    });
+  }
+  y += 4;
+
+  // ---- Reflexión ----
+  doc.setTextColor(...azul);
+  doc.setFont(undefined,'bold');
+  doc.setFontSize(8.5);
+  doc.text('Lo que tu costo unitario te dice:', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  const reflexion = document.getElementById('reflexionFicha').value.trim() || '(sin completar)';
+  const reflexionLineas = doc.splitTextToSize(reflexion, usableW);
+  doc.text(reflexionLineas.slice(0,5), marginX, y+5);
+  y += 5 + (Math.min(reflexionLineas.length,5)*4.6) + 8;
+
+  // ---- Auditoría del referente ----
+  if(y > 240){ doc.addPage(); y = 20; }
+  seccion('AUDITORÍA DEL REFERENTE (PROPUESTA REEMPLAZABLE)');
+
+  const audFijos = parseFloat(document.getElementById('audFijosSlider').value);
+  const audClientes = parseInt(document.getElementById('audClientesSlider').value,10);
+  const audTacos = parseFloat(document.getElementById('audTacosSlider').value);
+  const audUnidadesMes = audClientes*audTacos*DIAS_MES_AUD;
+  const audCostoCorrecto = DIRECTO_TACO + (audFijos/audUnidadesMes);
+  const audCostoIngenuo = (DIRECTO_TACO+audFijos)/audUnidadesMes;
+
+  doc.setFontSize(8.5);
+  doc.setTextColor(30,36,48);
+  doc.text(`Supuestos: $${audFijos.toLocaleString('es-MX')} fijos/mes · ${audClientes} clientes/día · ${audTacos.toFixed(1)} tacos/cliente · directo $${DIRECTO_TACO.toFixed(2)}/taco.`, marginX, y);
+  y += 6;
+  doc.text(`Orden correcto: $${audCostoCorrecto.toFixed(2)}/taco`, marginX, y);
+  doc.text(`Orden ingenuo: $${audCostoIngenuo.toFixed(2)}/taco`, pageW-marginX, y, {align:'right'});
+  y += 6;
+  doc.setTextColor(...azul);
+  doc.setFont(undefined,'bold');
+  doc.text('Conclusión de la auditoría:', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  const concl = document.getElementById('conclusionAuditoria').value.trim() || '(sin completar)';
+  const conclLineas = doc.splitTextToSize(concl, usableW);
+  doc.text(conclLineas.slice(0,4), marginX, y+5);
+  y += 5 + (Math.min(conclLineas.length,4)*4.6) + 8;
+
+  // ---- Fuentes ----
+  if(y > 265){ doc.addPage(); y = 20; }
+  doc.setDrawColor(...linea);
+  doc.setLineWidth(0.3);
+  doc.line(marginX, y, pageW-marginX, y);
+  y += 5;
+  doc.setFontSize(7);
+  doc.setTextColor(...gris);
+  doc.setFont(undefined,'italic');
+  const fuentes = 'Referente ilustrativo dentro de rangos reportados en Semana 1 (INEGI/DENUE; caso Los Cocuyos). Prototipo para revisión académica: el referente, las partidas de costo directo, el monto de costos fijos y el negocio de ejemplo son propuestas reemplazables.';
+  doc.text(doc.splitTextToSize(fuentes, usableW), marginX, y);
+  doc.setFont(undefined,'normal');
+
+  doc.save(`fcnc-s3-costo-unitario-${nombreAlumno.replace(/\s+/g,'_')}.pdf`);
+}
+
+// Inicialización
+agregarFilaCosto();
+agregarFilaCosto();
+recalcularAuditoria();
+recalcularFicha();
+actualizarProgresoReflexion();
+
+window.addEventListener('beforeunload', function(e){
+  const campos = [
+    document.getElementById('nombreAlumno').value,
+    document.getElementById('fPrecio').value,
+    document.getElementById('fFijos').value,
+    document.getElementById('fUnidadesMes').value,
+    document.getElementById('reflexionFicha').value,
+    document.getElementById('conclusionAuditoria').value
+  ];
+  const camposReflexion = Array.from(document.querySelectorAll('.reflexion-textarea')).map(ta => ta.value);
+  if(campos.some(v => v && v.trim() !== '') || camposReflexion.some(v => v && v.trim() !== '')){
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red de términos · Fundamentos Cuantitativos para Negocios Creativos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  body{ padding-bottom:24px; }
+  .red-main{ max-width:1320px; margin:0 auto; padding:14px 20px 28px; }
+
+  /* Barra de control */
+  .red-controls{
+    display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center;
+    margin:12px 0 12px;
+  }
+  .ctrl-grupo{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .ctrl-label{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.05em;
+    text-transform:uppercase; color:var(--gris-nota);
+  }
+  .seg{
+    display:inline-flex; border:1px solid var(--linea); border-radius:8px; overflow:hidden; background:#fff;
+  }
+  .seg button{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.03em;
+    padding:6px 12px; border:none; background:#fff; color:var(--gris-nota); cursor:pointer;
+    transition:background .12s, color .12s;
+  }
+  .seg button + button{ border-left:1px solid var(--linea); }
+  .seg button.activo{ background:var(--azul); color:#fff; }
+  .seg.seg-naranja button.activo{ background:var(--naranja); }
+
+  .buscador-wrap{ margin-left:auto; }
+  .buscador-wrap input{
+    width:240px; max-width:44vw; border:1px solid var(--linea); border-radius:8px;
+    padding:8px 12px; font-family:'Public Sans',sans-serif; font-size:14px; color:var(--tinta); background:#fff;
+  }
+  .buscador-wrap input:focus-visible{ outline:3px solid var(--naranja); outline-offset:1px; }
+
+  /* Leyenda reutilizada */
+  .categoria-tag{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; padding:2px 7px; border-radius:5px; }
+  .categoria-tag.general{ background:var(--nota-fondo); color:var(--gris-nota); }
+  .categoria-tag.matematico{ background:rgba(43,87,154,.1); color:var(--azul-oscuro); }
+  .categoria-tag.negocio{ background:rgba(232,121,47,.12); color:var(--naranja-oscuro); }
+  .tag-sec{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.03em; padding:2px 7px; border-radius:5px; }
+  .tag-sec.fundamentos{ background:rgba(109,40,217,.10); color:#6d28d9; }
+  .tag-sec.proporcion-tasa{ background:rgba(15,118,110,.10); color:#0f766e; }
+  .tag-sec.palancas{ background:rgba(190,24,93,.10); color:#be185d; }
+  .tag-sec.costos{ background:rgba(21,128,61,.10); color:#15803d; }
+  .tag-sec.notacion{ background:rgba(67,56,202,.10); color:#4338ca; }
+  .leyenda{ display:flex; flex-wrap:wrap; gap:6px 14px; margin:0 0 12px; padding:9px 14px; background:var(--papel-carta); border:1px solid var(--linea); border-radius:8px; align-items:center; }
+  .leyenda-grupo{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .leyenda-titulo{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--gris-nota); margin-right:2px; }
+  .leyenda-sep{ width:1px; align-self:stretch; background:var(--linea); margin:0 2px; }
+  @media (max-width:600px){ .leyenda-sep{ display:none; } }
+  .leyenda .categoria-tag, .leyenda .tag-sec{ cursor:pointer; border:1px solid transparent; user-select:none; transition:opacity .12s ease, filter .12s ease; }
+  .leyenda .categoria-tag:hover, .leyenda .tag-sec:hover{ border-color:currentColor; }
+  .leyenda .categoria-tag:focus-visible, .leyenda .tag-sec:focus-visible{ outline:2px solid var(--azul); outline-offset:2px; }
+  .leyenda .categoria-tag.inactiva, .leyenda .tag-sec.inactiva{ opacity:.4; filter:grayscale(55%); }
+
+  .vista-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+    padding:5px 12px; border-radius:6px; border:1px solid var(--linea); background:#fff; color:var(--gris-nota);
+    cursor:pointer; text-decoration:none; display:inline-block; transition:background .12s, color .12s, border-color .12s;
+  }
+  .vista-btn:hover{ border-color:var(--azul); }
+
+  /* Panel del grafo (canvas grande) */
+  .grafo-panel{
+    position:relative;
+    background: radial-gradient(circle at 1px 1px, rgba(43,87,154,.055) 1px, transparent 0);
+    background-size:24px 24px; background-color:var(--papel-carta);
+    border:1px solid var(--linea); border-radius:var(--radio); overflow:hidden;
+    height:74vh; min-height:520px;
+  }
+  #grafo{ display:block; width:100%; height:100%; cursor:grab; }
+  #grafo:active{ cursor:grabbing; }
+
+  .grafo-hint{ position:absolute; left:12px; bottom:10px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--gris-nota); background:rgba(255,255,255,.85); border:1px solid var(--linea); border-radius:6px; padding:4px 8px; pointer-events:none; }
+  .panel-btn{
+    position:absolute; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
+    background:#fff; border:1px solid var(--linea); border-radius:6px; padding:5px 10px; color:var(--gris-nota); cursor:pointer; z-index:6;
+  }
+  .panel-btn:hover{ border-color:var(--azul); color:var(--azul-oscuro); }
+  .btn-reacomodar{ right:12px; top:12px; }
+  .btn-sidebar{ right:12px; top:44px; }
+
+  /* Aristas y nodos */
+  .link{ stroke:var(--linea); stroke-opacity:.9; }
+  .link.bipartita{ stroke-dasharray:3 3; stroke-opacity:.7; }
+  .node circle, .node rect{ cursor:pointer; transition:opacity .15s ease; }
+  .node circle{ stroke-width:2.5px; }
+  .node text.etq{
+    font-family:'Public Sans',sans-serif; font-size:11.5px; font-weight:600; fill:var(--tinta); pointer-events:none;
+    paint-order:stroke; stroke:rgba(255,255,255,.92); stroke-width:3.2px; stroke-linejoin:round;
+  }
+  .hub rect{ stroke:#fff; stroke-width:2px; }
+  .hub text.etq{ fill:#fff; stroke:none; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; }
+  .hull-shape{ fill-opacity:.10; stroke-width:2px; stroke-dasharray:2 5; pointer-events:none; }
+  .hull-label{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+    pointer-events:none; paint-order:stroke; stroke:rgba(255,255,255,.9); stroke-width:3.5px; stroke-linejoin:round;
+  }
+  .node.dim{ opacity:.13; }
+  .link.dim{ stroke-opacity:.08; }
+  .node.oculto, .link.oculto{ display:none; }
+  .node.selected circle{ stroke:var(--tinta) !important; stroke-width:4px; }
+
+  /* Tooltip */
+  .tooltip{
+    position:fixed; z-index:40; pointer-events:none; max-width:240px;
+    background:#fff; border:1px solid var(--linea); border-radius:8px; padding:8px 11px;
+    box-shadow:0 6px 18px rgba(0,0,0,.16); opacity:0; transition:opacity .1s ease;
+    font-family:'Public Sans',sans-serif;
+  }
+  .tooltip.visible{ opacity:1; }
+  .tooltip h4{ font-family:'Fraunces',serif; font-size:14px; color:var(--azul-oscuro); margin:0 0 4px; }
+  .tooltip .tt-meta{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--gris-nota); line-height:1.5; }
+
+  /* Sidebar sobrepuesto */
+  .overlay-sidebar{
+    position:absolute; top:12px; right:12px; bottom:12px; width:330px; max-width:calc(100% - 24px);
+    background:rgba(255,255,255,.97); backdrop-filter:blur(2px);
+    border:1px solid var(--linea); border-radius:var(--radio); box-shadow:0 10px 30px rgba(28,36,48,.14);
+    padding:16px 18px; overflow-y:auto; z-index:5;
+    transition:transform .22s ease, opacity .22s ease;
+  }
+  .overlay-sidebar.oculto{ transform:translateX(calc(100% + 20px)); opacity:0; pointer-events:none; }
+  .sidebar-cerrar{
+    position:absolute; top:10px; right:12px; border:none; background:none; color:var(--gris-nota);
+    font-size:20px; line-height:1; cursor:pointer; padding:2px 6px; border-radius:6px;
+  }
+  .sidebar-cerrar:hover{ background:var(--nota-fondo); color:var(--tinta); }
+  .sidebar-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--gris-nota); margin-bottom:6px; }
+  .overlay-sidebar h2{ font-family:'Fraunces',serif; font-size:20px; color:var(--azul-oscuro); margin:0 0 8px; line-height:1.15; padding-right:20px; }
+  .sidebar-tags{ display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+  .sidebar-def{ font-size:14px; line-height:1.55; margin:0 0 14px; }
+  .sidebar-meta{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--gris-nota); border-top:1px dashed var(--linea); padding-top:10px; margin-bottom:12px; }
+  .sidebar-sub{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--gris-nota); margin:0 0 7px; }
+  .rel-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .rel-chip{ font-family:'Public Sans',sans-serif; font-size:12.5px; background:var(--nota-fondo); color:var(--azul-oscuro); border:1px solid var(--linea); border-radius:99px; padding:4px 11px; cursor:pointer; transition:background .12s, border-color .12s; }
+  .rel-chip:hover{ background:#fff; border-color:var(--azul); }
+  .rel-chip .punto{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+
+  .fuentes-lista{ display:flex; flex-direction:column; gap:6px; }
+  .fuente-link{
+    display:flex; align-items:center; gap:9px; text-decoration:none;
+    border:1px solid var(--linea); border-radius:8px; padding:8px 11px; background:#fff;
+    transition:border-color .12s, background .12s;
+  }
+  .fuente-link:hover{ border-color:var(--azul); background:var(--papel-carta); }
+  .fuente-ic{ font-size:15px; width:20px; text-align:center; }
+  .fuente-tt{ font-family:'Public Sans',sans-serif; font-size:13px; color:var(--azul-oscuro); font-weight:600; }
+  .fuente-sub{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--gris-nota); text-transform:uppercase; letter-spacing:.04em; }
+
+  .sidebar-vacio{ color:var(--gris-nota); font-size:13.5px; line-height:1.55; }
+  .stat-fila{ display:flex; justify-content:space-between; font-size:13px; margin:2px 0; }
+  .stat-fila span:last-child{ font-family:'IBM Plex Mono',monospace; color:var(--azul-oscuro); }
+
+  @media (max-width:820px){
+    .grafo-panel{ height:66vh; }
+    .overlay-sidebar{ position:fixed; inset:auto 0 0 0; top:auto; width:100%; max-width:100%; height:56vh; border-radius:var(--radio) var(--radio) 0 0; }
+    .overlay-sidebar.oculto{ transform:translateY(100%); }
+    .buscador-wrap{ margin-left:0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="../index.html" class="nav-back">← Inicio</a>
+  <div class="eyebrow">Fundamentos Cuantitativos para Negocios Creativos</div>
+  <h1>Red de términos</h1>
+  <div class="sub">Dos lecturas del mismo glosario: las conexiones entre conceptos, o cómo se agrupan por su papel en el negocio. Haz clic en un nodo para ver definición y fuentes.</div>
+</header>
+
+<main class="red-main">
+  <div class="red-controls">
+    <div class="ctrl-grupo">
+      <span class="ctrl-label">Vista</span>
+      <a href="index.html" class="vista-btn">Lista</a>
+    </div>
+    <div class="ctrl-grupo">
+      <span class="ctrl-label">Modo</span>
+      <div class="seg" id="segModo">
+        <button class="activo" data-modo="definiciones" onclick="setModo('definiciones')">Definiciones</button>
+        <button data-modo="cualitativa" onclick="setModo('cualitativa')">Cualitativa</button>
+      </div>
+    </div>
+    <div class="ctrl-grupo" id="ctrlAgrupar">
+      <span class="ctrl-label">Agrupar por</span>
+      <div class="seg seg-naranja" id="segAgrupar">
+        <button class="activo" data-g="libre" onclick="setAgrupar('libre')">Libre</button>
+        <button data-g="tema" onclick="setAgrupar('tema')">Tema</button>
+        <button data-g="semana" onclick="setAgrupar('semana')">Semana</button>
+        <button data-g="unidad" onclick="setAgrupar('unidad')">Unidad</button>
+      </div>
+    </div>
+    <div class="ctrl-grupo" id="ctrlEje" style="display:none;">
+      <span class="ctrl-label">Agrupar por</span>
+      <div class="seg seg-naranja" id="segEje">
+        <button class="activo" data-e="funcion" onclick="setEje('funcion')">Función</button>
+        <button data-e="fase" onclick="setEje('fase')">Fase del arco</button>
+        <button data-e="naturaleza" onclick="setEje('naturaleza')">Naturaleza</button>
+      </div>
+    </div>
+    <div class="buscador-wrap">
+      <input type="text" id="buscador" placeholder="Buscar término..." oninput="buscar()" aria-label="Buscar un término en la red">
+    </div>
+  </div>
+
+  <div class="leyenda" id="leyenda">
+    <div class="leyenda-grupo">
+      <span class="leyenda-titulo">Color de nodo (clic para filtrar)</span>
+      <span class="categoria-tag general" role="button" tabindex="0" data-tipo="principal" data-valor="general" onclick="toggleFiltroTag(this,'principal','general')" onkeydown="onLeyendaKeydown(event,this,'principal','general')">General</span>
+      <span class="categoria-tag matematico" role="button" tabindex="0" data-tipo="principal" data-valor="matematico" onclick="toggleFiltroTag(this,'principal','matematico')" onkeydown="onLeyendaKeydown(event,this,'principal','matematico')">Matemático</span>
+      <span class="categoria-tag negocio" role="button" tabindex="0" data-tipo="principal" data-valor="negocio" onclick="toggleFiltroTag(this,'principal','negocio')" onkeydown="onLeyendaKeydown(event,this,'principal','negocio')">Negocio</span>
+    </div>
+    <div class="leyenda-sep"></div>
+    <div class="leyenda-grupo">
+      <span class="leyenda-titulo">Borde de nodo</span>
+      <span class="tag-sec fundamentos" role="button" tabindex="0" data-tipo="secundaria" data-valor="fundamentos" onclick="toggleFiltroTag(this,'secundaria','fundamentos')" onkeydown="onLeyendaKeydown(event,this,'secundaria','fundamentos')">Fundamentos</span>
+      <span class="tag-sec proporcion-tasa" role="button" tabindex="0" data-tipo="secundaria" data-valor="proporcion-tasa" onclick="toggleFiltroTag(this,'secundaria','proporcion-tasa')" onkeydown="onLeyendaKeydown(event,this,'secundaria','proporcion-tasa')">Proporción / tasa</span>
+      <span class="tag-sec palancas" role="button" tabindex="0" data-tipo="secundaria" data-valor="palancas" onclick="toggleFiltroTag(this,'secundaria','palancas')" onkeydown="onLeyendaKeydown(event,this,'secundaria','palancas')">Palancas</span>
+      <span class="tag-sec costos" role="button" tabindex="0" data-tipo="secundaria" data-valor="costos" onclick="toggleFiltroTag(this,'secundaria','costos')" onkeydown="onLeyendaKeydown(event,this,'secundaria','costos')">Costos</span>
+      <span class="tag-sec notacion" role="button" tabindex="0" data-tipo="secundaria" data-valor="notacion" onclick="toggleFiltroTag(this,'secundaria','notacion')" onkeydown="onLeyendaKeydown(event,this,'secundaria','notacion')">Notación</span>
+    </div>
+    <button class="vista-btn" id="btnLimpiarFiltro" onclick="limpiarFiltroTags()" style="margin-left:auto;">Mostrar todo</button>
+  </div>
+
+  <div class="grafo-panel">
+    <svg id="grafo" aria-label="Red de términos del glosario"></svg>
+    <button class="panel-btn btn-reacomodar" onclick="reacomodar()" title="Reacomodar el grafo">Reacomodar</button>
+    <button class="panel-btn btn-sidebar" onclick="toggleSidebar()" title="Mostrar u ocultar el panel">Panel</button>
+    <div class="grafo-hint" id="grafoHint">Arrastra un nodo · rueda para acercar · clic para el detalle</div>
+
+    <aside class="overlay-sidebar" id="sidebar">
+      <div class="cargando" style="text-align:center;color:var(--gris-nota);padding:40px 0;" id="cargando">Cargando la red…</div>
+    </aside>
+  </div>
+</main>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* ── Paleta (heredada del glosario) ── */
+var COLOR_PRINCIPAL = { general:'#6B7280', matematico:'#2B579A', negocio:'#E8792F' };
+var COLOR_SECUNDARIA = { 'fundamentos':'#6d28d9','proporcion-tasa':'#0f766e','palancas':'#be185d','costos':'#15803d','notacion':'#4338ca' };
+var ETIQUETAS_SEC = { 'fundamentos':'Fundamentos','proporcion-tasa':'Proporción / tasa','palancas':'Palancas','costos':'Costos','notacion':'Notación' };
+var ETIQUETAS_PRIN = { general:'General', matematico:'Matemático', negocio:'Negocio' };
+var TIPO_FUENTE = { deck:'▤', sesion:'⬇', video:'▷', audio:'♪', lectura:'▣', datos:'▦' };
+var HULL_PALETTE = ['#2B579A','#E8792F','#0f766e','#6d28d9','#15803d'];
+
+var terminos = [], fuentes = [];
+var fuentesPorSemana = {};
+var modo = 'definiciones', agrupar = 'libre', eje = 'funcion';
+var seleccionado = null;
+var porNombre = {};
+
+/* ── Derivaciones (comprensión del arco del curso, sin capturar dato nuevo) ── */
+function unidadDe(s){ s = +s; return s<=2?'U1 · Definir':s<=5?'U2 · Operar':s<=8?'U3 · Generalizar':s<=12?'U4 · Modelar':'U5 · Integrar'; }
+function faseDe(s){ s = +s; return s<=2?'Definir':s<=5?'Operar':s<=8?'Generalizar':s<=12?'Modelar':'Integrar'; }
+function naturalezaDe(p){ return p==='matematico'?'Matemático':p==='negocio'?'Negocio':'Puente'; }
+
+/* ── Parseo CSV (mismo parser que el glosario) ── */
+function parsearCSV(texto){
+  var lineas = texto.trim().split('\n');
+  var encabezados = lineas[0].split(',');
+  return lineas.slice(1).map(function(linea){
+    var cols = [], dentro = false, actual = '';
+    for(var i = 0; i < linea.length; i++){
+      var c = linea[i];
+      if(c === '"'){ dentro = !dentro; }
+      else if(c === ',' && !dentro){ cols.push(actual); actual = ''; }
+      else { actual += c; }
+    }
+    cols.push(actual);
+    var obj = {};
+    encabezados.forEach(function(h, i){ obj[h.trim()] = (cols[i] || '').trim(); });
+    return obj;
+  }).filter(function(r){ return r.termino || r.semana; });
+}
+function normalizar(t){ return (t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+function secDe(t){
+  return (t.categorias_secundarias || '').split(';').map(function(s){ return s.trim(); })
+    .filter(function(s){ return s && ETIQUETAS_SEC[s]; }).slice(0,3);
+}
+
+/* ── Filtro por leyenda ── */
+var filtroPrincipal = new Set(['general','matematico','negocio']);
+var filtroSecundaria = new Set(Object.keys(ETIQUETAS_SEC));
+function pasaFiltro(t){
+  var cat = t.categoria_principal || 'general';
+  if(!filtroPrincipal.has(cat)) return false;
+  var secs = secDe(t);
+  if(secs.length === 0) return true;
+  return secs.some(function(s){ return filtroSecundaria.has(s); });
+}
+function toggleFiltroTag(el, tipo, valor){
+  var set = tipo === 'principal' ? filtroPrincipal : filtroSecundaria;
+  if(set.has(valor)){ set.delete(valor); } else { set.add(valor); }
+  el.classList.toggle('inactiva', !set.has(valor));
+  aplicarFiltro();
+}
+function onLeyendaKeydown(e, el, tipo, valor){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleFiltroTag(el, tipo, valor); } }
+function limpiarFiltroTags(){
+  filtroPrincipal = new Set(['general','matematico','negocio']);
+  filtroSecundaria = new Set(Object.keys(ETIQUETAS_SEC));
+  document.querySelectorAll('#leyenda .categoria-tag, #leyenda .tag-sec').forEach(function(el){ el.classList.remove('inactiva'); });
+  aplicarFiltro();
+}
+
+/* ── Construcción de datos ── */
+function nodoTermino(t){
+  return { id:t.termino, tipo:'termino', dato:t, principal:t.categoria_principal||'general', sec:secDe(t) };
+}
+function ejeValor(t){
+  if(eje==='funcion') return t.funcion || 'Sin clasificar';
+  if(eje==='fase') return faseDe(t.semana);
+  return naturalezaDe(t.categoria_principal||'general');
+}
+
+/* Crea (o reutiliza) un nodo hub genérico dentro del mapa `hubs` */
+function obtenerHub(hubs, nodos, hubTipo, hubKey, hubValor){
+  var id = 'hub:'+hubTipo+':'+hubKey;
+  if(!hubs[id]){
+    hubs[id] = { id:id, tipo:'hub', hubTipo:hubTipo, hubKey:hubKey, hubValor:hubValor, cuenta:0 };
+    nodos.push(hubs[id]);
+  }
+  hubs[id].cuenta++;
+  return hubs[id];
+}
+
+/* Construye nodos + enlaces según el modo actual */
+function construir(){
+  var nodos = [], enlaces = [];
+  if(modo==='definiciones'){
+    nodos = terminos.map(nodoTermino);
+    var vistos = {};
+    var add = function(a,b){ if(a===b) return; var k=[a,b].sort().join('|'); if(vistos[k]) return; vistos[k]=1; enlaces.push({source:a,target:b}); };
+    terminos.forEach(function(t){
+      var rels = (t.terminos_relacionados||'').split(';').map(function(s){return s.trim();}).filter(Boolean);
+      if(rels.length){ rels.forEach(function(r){ if(porNombre[r]) add(t.termino, r); }); }
+      else { terminos.forEach(function(o){ if(o.termino!==t.termino && (o.categoria_principal||'general')===(t.categoria_principal||'general')) add(t.termino,o.termino); }); }
+    });
+    if(agrupar==='libre'){
+      // En la vista libre, la agrupación misma es parte del grafo: nodos de Sesión y de Tema.
+      var hubs = {};
+      terminos.forEach(function(t){
+        var hSem = obtenerHub(hubs, nodos, 'semana', t.semana, 'S'+t.semana);
+        enlaces.push({ source:t.termino, target:hSem.id, bipartita:true });
+        var catKey = t.categoria_principal || 'general';
+        var hTema = obtenerHub(hubs, nodos, 'tema', catKey, ETIQUETAS_PRIN[catKey]||catKey);
+        enlaces.push({ source:t.termino, target:hTema.id, bipartita:true });
+      });
+    }
+  } else {
+    nodos = terminos.map(nodoTermino);
+    var hubsC = {};
+    terminos.forEach(function(t){
+      var v = ejeValor(t);
+      var h = obtenerHub(hubsC, nodos, eje, v, v);
+      enlaces.push({ source:t.termino, target:h.id, bipartita:true });
+    });
+  }
+  var grado = {};
+  enlaces.forEach(function(e){ grado[e.source]=(grado[e.source]||0)+1; grado[e.target]=(grado[e.target]||0)+1; });
+  nodos.forEach(function(n){
+    if(n.tipo==='termino'){ n.grado = grado[n.id]||0; n.r = 13 + Math.min(n.grado,6)*1.6; }
+    else { n.r = 20 + Math.min(n.cuenta,8)*3; }
+  });
+  return { nodos:nodos, enlaces:enlaces };
+}
+
+/* Términos que pertenecen a un hub, sea de la red cualitativa o de los hubs de Sesión/Tema en Libre */
+function miembrosDeHub(d){
+  if(d.hubTipo==='semana') return terminos.filter(function(t){ return String(t.semana)===String(d.hubKey); });
+  if(d.hubTipo==='tema') return terminos.filter(function(t){ return (t.categoria_principal||'general')===d.hubKey; });
+  return terminos.filter(function(t){ return ejeValor(t)===d.hubKey; });
+}
+
+/* ── Agrupación visible (Tema/Semana/Unidad): clave + etiqueta + color del blob ── */
+var colorPorClave = {};
+function grupoInfo(n){
+  if(n.tipo!=='termino') return null;
+  var t = n.dato;
+  if(agrupar==='tema'){
+    var catKey = t.categoria_principal||'general';
+    return { key:catKey, label:ETIQUETAS_PRIN[catKey]||catKey, color:COLOR_PRINCIPAL[catKey]||'#6B7280' };
+  }
+  if(agrupar==='semana'){
+    var kSem = 'sem'+t.semana;
+    return { key:kSem, label:'Semana '+t.semana, color: colorPorClave[kSem] || '#2B579A' };
+  }
+  if(agrupar==='unidad'){
+    var u = unidadDe(t.semana);
+    return { key:u, label:u, color: colorPorClave[u] || '#2B579A' };
+  }
+  return null;
+}
+
+/* ── Estado D3 ── */
+var svg, gZoom, gHulls, gLinks, gNodes, gHullLabels, sim, ancho, alto, ady = {}, zoomBeh;
+var nodosCur = [], enlacesCur = [], nodeSel, linkSel;
+var ocultosSet = new Set();
+
+function medir(){ var panel = document.querySelector('.grafo-panel'); ancho = panel.clientWidth; alto = panel.clientHeight; }
+
+function initSVG(){
+  medir();
+  svg = d3.select('#grafo').attr('viewBox','0 0 '+ancho+' '+alto);
+  gZoom = svg.append('g');
+  gHulls = gZoom.append('g');
+  gLinks = gZoom.append('g');
+  gNodes = gZoom.append('g');
+  gHullLabels = gZoom.append('g');
+  zoomBeh = d3.zoom().scaleExtent([0.35,3]).on('zoom', function(ev){ gZoom.attr('transform', ev.transform); });
+  svg.call(zoomBeh).on('dblclick.zoom', null);
+  svg.on('click', function(){ deseleccionar(); });
+}
+
+/* ── Blob irregular alrededor de un cluster ── */
+function circlePath(cx,cy,r){
+  return 'M'+(cx-r)+','+cy+' a'+r+','+r+' 0 1,0 '+(2*r)+',0 a'+r+','+r+' 0 1,0 '+(-2*r)+',0';
+}
+function hullPath(pts){
+  if(!pts.length) return null;
+  if(pts.length===1){ return circlePath(pts[0][0], pts[0][1], 46); }
+  if(pts.length===2){
+    var a=pts[0], b=pts[1];
+    var dx=b[0]-a[0], dy=b[1]-a[1];
+    var len=Math.sqrt(dx*dx+dy*dy)||1;
+    var nx=-dy/len, ny=dx/len, r=40;
+    pts=[[a[0]+nx*r,a[1]+ny*r],[b[0]+nx*r,b[1]+ny*r],[b[0]-nx*r,b[1]-ny*r],[a[0]-nx*r,a[1]-ny*r]];
+  } else {
+    var hull = d3.polygonHull(pts);
+    if(!hull){ // puntos colineales: usar una cápsula sobre el eje principal
+      var xs=pts.map(function(p){return p[0];}), ys=pts.map(function(p){return p[1];});
+      return circlePath((Math.min.apply(null,xs)+Math.max.apply(null,xs))/2, (Math.min.apply(null,ys)+Math.max.apply(null,ys))/2, 60);
+    }
+    var centroid = d3.polygonCentroid(hull);
+    pts = hull.map(function(p){
+      var dx=p[0]-centroid[0], dy=p[1]-centroid[1];
+      var len=Math.sqrt(dx*dx+dy*dy)||1, pad=32;
+      return [p[0]+dx/len*pad, p[1]+dy/len*pad];
+    });
+  }
+  return d3.line().curve(d3.curveCardinalClosed.tension(0.55))(pts);
+}
+function actualizarHulls(){
+  if(!(modo==='definiciones' && agrupar!=='libre')){
+    if(gHulls) gHulls.selectAll('*').remove();
+    if(gHullLabels) gHullLabels.selectAll('*').remove();
+    return;
+  }
+  var porGrupo = {};
+  nodosCur.forEach(function(n){
+    if(n.tipo!=='termino' || ocultosSet.has(n.id)) return;
+    var gi = grupoInfo(n);
+    if(!gi) return;
+    (porGrupo[gi.key] = porGrupo[gi.key] || { info:gi, pts:[] }).pts.push([n.x,n.y]);
+  });
+  var entradas = Object.keys(porGrupo).map(function(k){ return porGrupo[k]; });
+
+  var sh = gHulls.selectAll('path.hull-shape').data(entradas, function(d){ return d.info.key; });
+  sh.exit().remove();
+  sh.enter().append('path').attr('class','hull-shape').merge(sh)
+    .attr('d', function(d){ return hullPath(d.pts); })
+    .attr('fill', function(d){ return d.info.color; })
+    .attr('stroke', function(d){ return d.info.color; });
+
+  var lb = gHullLabels.selectAll('text.hull-label').data(entradas, function(d){ return d.info.key; });
+  lb.exit().remove();
+  lb.enter().append('text').attr('class','hull-label').attr('text-anchor','middle').merge(lb)
+    .attr('fill', function(d){ return d.info.color; })
+    .attr('x', function(d){ var xs=d.pts.map(function(p){return p[0];}); return (Math.min.apply(null,xs)+Math.max.apply(null,xs))/2; })
+    .attr('y', function(d){ var ys=d.pts.map(function(p){return p[1];}); return Math.min.apply(null,ys) - 38; })
+    .text(function(d){ return d.info.label; });
+}
+
+function render(){
+  var g = construir();
+  nodosCur = g.nodos; enlacesCur = g.enlaces;
+
+  ady = {};
+  nodosCur.forEach(function(n){ ady[n.id] = new Set([n.id]); });
+  enlacesCur.forEach(function(e){ ady[e.source].add(e.target); ady[e.target].add(e.source); });
+
+  var targetX = {};
+  if(modo==='definiciones' && agrupar!=='libre'){
+    var claves = [];
+    nodosCur.forEach(function(n){ var gi=grupoInfo(n); if(gi && claves.indexOf(gi.key)<0) claves.push(gi.key); });
+    claves.sort(function(a,b){ return a.localeCompare(b,'es'); });
+    claves.forEach(function(k,i){
+      targetX[k] = (i+0.5)*(ancho/claves.length);
+      if(!colorPorClave[k]) colorPorClave[k] = HULL_PALETTE[i % HULL_PALETTE.length];
+    });
+  }
+
+  var lk = gLinks.selectAll('line').data(enlacesCur, function(d){ return (d.source.id||d.source)+'::'+(d.target.id||d.target); });
+  lk.exit().remove();
+  lk.enter().append('line')
+    .attr('class', function(d){ return 'link'+(d.bipartita?' bipartita':''); })
+    .attr('stroke-width', function(d){ return d.bipartita?1.3:1.6; });
+
+  var nd = gNodes.selectAll('g.node').data(nodosCur, function(d){ return d.id; });
+  nd.exit().remove();
+  var ndEnter = nd.enter().append('g')
+    .attr('class', function(d){ return 'node'+(d.tipo==='hub'?' hub':''); })
+    .call(d3.drag().on('start',dragStart).on('drag',dragged).on('end',dragEnd))
+    .on('click', function(ev,d){ ev.stopPropagation(); if(d.tipo==='termino') seleccionar(d.id); else seleccionarHub(d); })
+    .on('mouseover', function(ev,d){ resaltarVecinos(d.id); mostrarTooltip(ev,d); })
+    .on('mousemove', function(ev){ moverTooltip(ev); })
+    .on('mouseout', function(){ ocultarTooltip(); if(!seleccionado) quitarResaltado(); else resaltarVecinos(seleccionado); });
+
+  ndEnter.each(function(d){
+    var el = d3.select(this);
+    if(d.tipo==='hub'){
+      var w = Math.max(64, d.hubValor.length*8.4 + 22);
+      var fill = d.hubTipo==='tema' ? (COLOR_PRINCIPAL[d.hubKey]||'#1D3E73') : '#1D3E73';
+      el.append('rect').attr('x',-w/2).attr('y',-16).attr('width',w).attr('height',32).attr('rx',8).attr('fill',fill);
+      el.append('text').attr('class','etq').attr('text-anchor','middle').attr('dy',4).text(d.hubValor);
+    } else {
+      el.append('circle').attr('r',d.r)
+        .attr('fill', COLOR_PRINCIPAL[d.principal]||'#6B7280')
+        .attr('stroke', d.sec.length ? (COLOR_SECUNDARIA[d.sec[0]]||'#fff') : '#ffffff');
+      el.append('text').attr('class','etq').attr('text-anchor','middle').attr('dy',d.r+13).text(d.id);
+    }
+  });
+
+  if(sim) sim.stop();
+  sim = d3.forceSimulation(nodosCur)
+    .force('link', d3.forceLink(enlacesCur).id(function(d){return d.id;})
+        .distance(function(d){ return d.bipartita?70:95; })
+        .strength(function(d){ return d.bipartita?0.5:0.45; }))
+    .force('charge', d3.forceManyBody().strength(function(d){ return d.tipo==='hub'?-680:-320; }))
+    .force('collide', d3.forceCollide().radius(function(d){ return d.r+16; }))
+    .on('tick', tick);
+
+  if(modo==='definiciones' && agrupar!=='libre'){
+    sim.force('x', d3.forceX(function(n){ var gi=grupoInfo(n); return gi!=null?targetX[gi.key]:ancho/2; }).strength(0.28))
+       .force('y', d3.forceY(alto/2 + 8).strength(0.06));
+  } else {
+    sim.force('x', d3.forceX(ancho/2).strength(0.03))
+       .force('y', d3.forceY(alto/2).strength(0.04));
+  }
+  sim.alpha(0.95).restart();
+
+  nodeSel = gNodes.selectAll('g.node');
+  linkSel = gLinks.selectAll('line');
+
+  aplicarFiltro();
+  if(seleccionado && porNombre[seleccionado]) resaltarVecinos(seleccionado);
+}
+
+function tick(){
+  linkSel.attr('x1',function(d){return d.source.x;}).attr('y1',function(d){return d.source.y;})
+         .attr('x2',function(d){return d.target.x;}).attr('y2',function(d){return d.target.y;});
+  nodeSel.attr('transform',function(d){return 'translate('+d.x+','+d.y+')';});
+  actualizarHulls();
+}
+
+function dragStart(ev,d){ if(!ev.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }
+function dragged(ev,d){ d.fx=ev.x; d.fy=ev.y; }
+function dragEnd(ev,d){ if(!ev.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }
+function reacomodar(){ nodosCur.forEach(function(n){ n.fx=null; n.fy=null; }); sim.alpha(0.9).restart(); }
+
+/* ── Resaltado ── */
+function resaltarVecinos(id){
+  var vec = ady[id] || new Set([id]);
+  nodeSel.classed('dim', function(d){ return !vec.has(d.id); });
+  linkSel.classed('dim', function(d){ return !(d.source.id===id || d.target.id===id); });
+}
+function quitarResaltado(){ nodeSel.classed('dim', false); linkSel.classed('dim', false); }
+
+/* ── Tooltip ── */
+var tooltipEl = document.getElementById('tooltip');
+function mostrarTooltip(ev,d){
+  var html;
+  if(d.tipo==='hub'){
+    html = '<h4>'+d.hubValor+'</h4><div class="tt-meta">'+d.cuenta+' término'+(d.cuenta>1?'s':'')+' en este grupo</div>';
+  } else {
+    var t = d.dato;
+    html = '<h4>'+t.termino+'</h4><div class="tt-meta">'+
+      (ETIQUETAS_PRIN[d.principal]||d.principal)+' · '+(t.funcion||'')+'<br>Semana '+t.semana+' · '+faseDe(t.semana)+'</div>';
+  }
+  tooltipEl.innerHTML = html;
+  tooltipEl.classList.add('visible');
+  moverTooltip(ev);
+}
+function moverTooltip(ev){
+  var x = ev.clientX + 14, y = ev.clientY + 14;
+  var w = tooltipEl.offsetWidth, h = tooltipEl.offsetHeight;
+  if(x + w > window.innerWidth - 8) x = ev.clientX - w - 14;
+  if(y + h > window.innerHeight - 8) y = ev.clientY - h - 14;
+  tooltipEl.style.left = x+'px'; tooltipEl.style.top = y+'px';
+}
+function ocultarTooltip(){ tooltipEl.classList.remove('visible'); }
+
+/* ── Selección ── */
+function seleccionar(id){
+  seleccionado = id;
+  nodeSel.classed('selected', function(d){ return d.id===id; });
+  resaltarVecinos(id);
+  renderSidebar(id);
+  mostrarSidebar();
+}
+function etiquetaGrupoHub(hubTipo){
+  if(hubTipo==='semana') return 'Sesión';
+  if(hubTipo==='tema') return 'Tema';
+  return nombreEje();
+}
+function descripcionGrupoHub(hubTipo){
+  if(hubTipo==='semana') return 'comparten esta sesión del curso.';
+  if(hubTipo==='tema') return 'comparten este tema.';
+  return 'comparten este rol en el curso.';
+}
+function seleccionarHub(d){
+  seleccionado = null;
+  nodeSel.classed('selected', false);
+  resaltarVecinos(d.id);
+  var miembros = miembrosDeHub(d);
+  var chips = miembros.map(function(t){
+    var color = COLOR_PRINCIPAL[t.categoria_principal||'general'];
+    return '<button class="rel-chip" onclick="seleccionar(\''+t.termino.replace(/'/g,"\\'")+'\')"><span class="punto" style="background:'+color+'"></span>'+t.termino+'</button>';
+  }).join('');
+  document.getElementById('sidebar').innerHTML =
+    botonCerrar() +
+    '<div class="sidebar-eyebrow">Grupo · '+etiquetaGrupoHub(d.hubTipo)+'</div>'+
+    '<h2>'+d.hubValor+'</h2>'+
+    '<p class="sidebar-def">'+miembros.length+' término'+(miembros.length>1?'s':'')+' '+descripcionGrupoHub(d.hubTipo)+'</p>'+
+    '<div class="sidebar-sub">Términos del grupo</div><div class="rel-chips">'+chips+'</div>'+
+    (d.hubTipo==='semana' ? fuentesHTML(d.hubKey) : '');
+  mostrarSidebar();
+}
+function deseleccionar(){ seleccionado=null; if(nodeSel) nodeSel.classed('selected',false); quitarResaltado(); renderSidebarVacio(); }
+
+function nombreEje(){ return eje==='funcion'?'Función de negocio':eje==='fase'?'Fase del arco':'Naturaleza'; }
+function tagSecHTML(s){ return '<span class="tag-sec '+s+'">'+ETIQUETAS_SEC[s]+'</span>'; }
+function botonCerrar(){ return '<button class="sidebar-cerrar" onclick="deseleccionar()" title="Cerrar detalle">×</button>'; }
+
+function fuentesHTML(semana){
+  var fs = fuentesPorSemana[semana] || [];
+  if(!fs.length) return '<div class="sidebar-sub">Fuentes</div><p class="sidebar-vacio">Sin fuentes registradas para esta semana.</p>';
+  var items = fs.map(function(f){
+    var ic = TIPO_FUENTE[f.tipo] || '↗';
+    return '<a class="fuente-link" href="'+f.url+'" target="_blank" rel="noopener">'+
+      '<span class="fuente-ic">'+ic+'</span>'+
+      '<span><span class="fuente-tt">'+f.titulo+'</span><br><span class="fuente-sub">'+f.tipo+'</span></span></a>';
+  }).join('');
+  return '<div class="sidebar-sub">Fuentes de la semana '+semana+'</div><div class="fuentes-lista">'+items+'</div>';
+}
+
+function renderSidebar(id){
+  var t = porNombre[id];
+  if(!t) return;
+  var n = nodoTermino(t);
+  var secs = n.sec;
+  var vecinos = terminos.filter(function(o){
+    if(o.termino===id) return false;
+    var rels = (t.terminos_relacionados||'').split(';').map(function(s){return s.trim();});
+    var relsO = (o.terminos_relacionados||'').split(';').map(function(s){return s.trim();});
+    return rels.indexOf(o.termino)>=0 || relsO.indexOf(id)>=0;
+  }).map(function(o){ return o.termino; });
+
+  var chips = vecinos.map(function(v){
+    var vt = porNombre[v]; var color = vt?(COLOR_PRINCIPAL[vt.categoria_principal||'general']):'#6B7280';
+    return '<button class="rel-chip" onclick="seleccionar(\''+v.replace(/'/g,"\\'")+'\')"><span class="punto" style="background:'+color+'"></span>'+v+'</button>';
+  }).join('');
+
+  document.getElementById('sidebar').innerHTML =
+    botonCerrar() +
+    '<div class="sidebar-eyebrow">Término</div>'+
+    '<h2>'+t.termino+'</h2>'+
+    '<div class="sidebar-tags">'+
+      '<span class="categoria-tag '+n.principal+'">'+(ETIQUETAS_PRIN[n.principal]||n.principal)+'</span>'+
+      secs.map(tagSecHTML).join('')+
+    '</div>'+
+    '<p class="sidebar-def">'+t.definicion+'</p>'+
+    '<div class="sidebar-meta">'+
+      'Semana '+t.semana+' · '+t.semana_titulo+'<br>'+
+      unidadDe(t.semana)+' · Función: '+(t.funcion||'Sin clasificar')+
+    '</div>'+
+    (vecinos.length ? '<div class="sidebar-sub">Se relaciona con ('+vecinos.length+')</div><div class="rel-chips">'+chips+'</div>' : '')+
+    fuentesHTML(t.semana);
+}
+
+function renderSidebarVacio(){
+  var nTerm = terminos.length;
+  var nCon = modo==='definiciones' ? enlacesCur.length : 0;
+  var introDef = agrupar==='libre'
+    ? 'Cada término es un nodo circular; el <strong>color</strong> es su categoría y el <strong>borde</strong> su etiqueta secundaria. Las líneas finas unen términos relacionados; las líneas punteadas los unen con su nodo de <strong>Sesión</strong> (S1, S2…) y de <strong>Tema</strong>, que también son nodos clickeables.'
+    : 'Los términos se agrupan por <strong>'+ (agrupar==='tema'?'tema':agrupar==='semana'?'semana':'unidad') +'</strong>: cada mancha de color señala un cluster, con su nombre arriba.';
+  var intro = modo==='definiciones' ? introDef
+    : 'Cada término se enlaza al grupo (<strong>'+nombreEje()+'</strong>) al que pertenece. Los nodos oscuros son los grupos; a su alrededor se juntan los términos que comparten ese rol. Cambia el eje para releer el glosario por función, fase del arco o naturaleza.';
+  document.getElementById('sidebar').innerHTML =
+    '<div class="sidebar-eyebrow">'+(modo==='definiciones'?'Red de definiciones':'Red cualitativa · '+nombreEje())+'</div>'+
+    '<p class="sidebar-vacio">'+intro+'</p>'+
+    '<div class="sidebar-meta" style="margin-top:12px;">'+
+      '<div class="stat-fila"><span>Términos</span><span>'+nTerm+'</span></div>'+
+      (modo==='definiciones'?'<div class="stat-fila"><span>Conexiones</span><span>'+nCon+'</span></div>':'')+
+    '</div>'+
+    '<p class="sidebar-vacio" style="margin-top:12px;">Haz clic en cualquier nodo para ver definición, relaciones y fuentes de su semana.</p>';
+}
+
+/* ── Sidebar mostrar/ocultar ── */
+function mostrarSidebar(){ document.getElementById('sidebar').classList.remove('oculto'); }
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('oculto'); }
+
+/* ── Filtro aplicado ── */
+function aplicarFiltro(){
+  if(!nodeSel) return;
+  var vis = {};
+  nodosCur.forEach(function(n){ vis[n.id] = (n.tipo==='hub') ? true : pasaFiltro(n.dato); });
+  // un hub (de Sesión/Tema en Libre, o de Función/Fase/Naturaleza en Cualitativa) solo es visible
+  // si al menos uno de sus términos miembros pasa el filtro de la leyenda
+  var hayHubs = nodosCur.some(function(n){ return n.tipo==='hub'; });
+  if(hayHubs){
+    var hubTiene = {};
+    enlacesCur.forEach(function(e){
+      var termId = (typeof e.source==='object'?e.source.id:e.source);
+      var hubId  = (typeof e.target==='object'?e.target.id:e.target);
+      if(vis[termId]) hubTiene[hubId] = true;
+    });
+    nodosCur.forEach(function(n){ if(n.tipo==='hub') vis[n.id] = !!hubTiene[n.id]; });
+  }
+  ocultosSet = new Set(nodosCur.filter(function(n){ return !vis[n.id]; }).map(function(n){ return n.id; }));
+  nodeSel.classed('oculto', function(d){ return !vis[d.id]; });
+  linkSel.classed('oculto', function(d){ return !(vis[d.source.id] && vis[d.target.id]); });
+  if(seleccionado && !vis[seleccionado]) deseleccionar();
+}
+
+/* ── Buscador ── */
+function buscar(){
+  var q = normalizar(document.getElementById('buscador').value.trim());
+  if(!q){ if(!seleccionado) quitarResaltado(); return; }
+  nodeSel.classed('dim', function(d){ return d.tipo==='hub' || !normalizar(d.id).includes(q); });
+  linkSel.classed('dim', true);
+}
+document.getElementById('buscador').addEventListener('change', function(){
+  var q = normalizar(this.value.trim()); if(!q) return;
+  var hit = terminos.find(function(t){ return normalizar(t.termino).includes(q); });
+  if(hit) seleccionar(hit.termino);
+});
+
+/* ── Controles ── */
+function setModo(m){
+  modo = m;
+  document.querySelectorAll('#segModo button').forEach(function(b){ b.classList.toggle('activo', b.dataset.modo===m); });
+  document.getElementById('ctrlAgrupar').style.display = (m==='definiciones')?'':'none';
+  document.getElementById('ctrlEje').style.display = (m==='cualitativa')?'':'none';
+  seleccionado = null;
+  render();
+  renderSidebarVacio();
+}
+function setAgrupar(g){
+  agrupar = g;
+  document.querySelectorAll('#segAgrupar button').forEach(function(b){ b.classList.toggle('activo', b.dataset.g===g); });
+  render();
+}
+function setEje(e){
+  eje = e;
+  document.querySelectorAll('#segEje button').forEach(function(b){ b.classList.toggle('activo', b.dataset.e===e); });
+  render();
+  if(!seleccionado) renderSidebarVacio();
+}
+
+/* ── Carga ── */
+Promise.all([ fetch('terminos.csv').then(function(r){return r.text();}), fetch('fuentes.csv').then(function(r){return r.text();}) ])
+  .then(function(res){
+    terminos = parsearCSV(res[0]);
+    fuentes = parsearCSV(res[1]);
+    terminos.forEach(function(t){ porNombre[t.termino] = t; });
+    fuentes.forEach(function(f){ (fuentesPorSemana[f.semana] = fuentesPorSemana[f.semana] || []).push(f); });
+    initSVG();
+    render();
+    renderSidebarVacio();
+  })
+  .catch(function(){
+    document.getElementById('sidebar').innerHTML =
+      '<p class="sidebar-vacio">No se pudo cargar la red. Abre la página desde un servidor local (no con doble clic sobre el archivo).</p>';
+  });
+
+window.addEventListener('resize', function(){
+  if(!sim) return;
+  medir();
+  svg.attr('viewBox','0 0 '+ancho+' '+alto);
+  sim.alpha(0.3).restart();
+});
+</script>
+
+</body>
+</html>
