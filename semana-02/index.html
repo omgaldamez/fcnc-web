@@ -118,6 +118,8 @@
     line-height:1.5;
   }
   .palanca-veredicto strong{ color:var(--azul-oscuro); }
+  .palanca-aparte-wrap{ margin-top:12px; padding-top:12px; border-top:1px dashed var(--linea); }
+  .palanca-aparte-nota{ font-size:12px; color:var(--gris-nota); margin-top:8px; line-height:1.5; }
 
   /* ---- Tira semanal: primeras sumas (ancla de Sheets) ---- */
   .semana-strip{ margin-top:12px; }
@@ -261,9 +263,9 @@
   <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:8px;">
     <div class="alumno-field" style="margin-top:0;">
       <label for="nombreAlumno">Tu nombre (para el reporte):</label>
-      <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso()">
+      <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso(); actualizarProgresoReflexion()">
     </div>
-    <a href="https://drive.google.com/file/d/1YfP0-dX-pcLYVSiKEIMe8WhbVMKfsqvB/view?usp=drive_link" target="_blank" rel="noopener" class="descarga-sesion">↓ Descargar sesión</a>
+    <a id="descargaSesion" href="#" style="display:none;" target="_blank" rel="noopener" class="descarga-sesion">↓ Descargar sesión</a>
   </div>
 </header>
 
@@ -283,7 +285,7 @@
 
   <!-- ===================== PESTAÑA 0: TEORÍA ===================== -->
   <section id="panelTeoria" class="panel active" style="padding:0;">
-    <iframe src="https://gamma.app/embed/dfiaxb1z4wk0ncj"
+    <iframe id="gammaFrame" src="about:blank"
       style="display:block; width:100%; height:calc(100vh - 180px); min-height:420px; border:none;"
       allow="fullscreen" title="De los números a la estrategia"></iframe>
   </section>
@@ -308,17 +310,18 @@
       <div class="card">
         <span class="ejemplo-tag">De dato a decisión</span>
         <h3 style="margin-top:6px;">La pregunta que importa</h3>
-        <p>Imagina que quieres que la taquería venda más. Tienes dos caminos posibles, y solo energía para empujar uno bien:</p>
+        <p>Imagina que quieres que la taquería venda más. Tienes tres caminos posibles, y solo energía para empujar uno bien:</p>
         <p><strong>Camino A:</strong> atraer <strong>un cliente más al día</strong> (más publicidad, mejor ubicación en la banqueta).</p>
         <p><strong>Camino B:</strong> lograr que <strong>cada cliente lleve un poco más</strong> (una orden extra, agrandar el pedido).</p>
+        <p><strong>Camino C:</strong> abrir <strong>un día más al mes</strong> (trabajar un domingo que antes se cerraba, por ejemplo).</p>
         <p>El dato crudo no decide por ti. La proporción, sí: mueve los deslizadores y observa cuál camino agrega más pesos al mes.</p>
       </div>
     </div>
 
     <div class="grid-two" style="margin-top:14px;">
       <div class="card">
-        <h3>Tus dos supuestos de proporción</h3>
-        <p style="font-size:12.5px;color:var(--gris-nota);margin-bottom:8px;">Precio del taco fijo en $22 y mes de 30 días, para aislar el efecto de la proporción.</p>
+        <h3>Tus tres supuestos de proporción</h3>
+        <p style="font-size:12.5px;color:var(--gris-nota);margin-bottom:8px;">Precio del taco fijo en $22, para aislar el efecto de la proporción.</p>
 
         <div class="slider-row">
           <div class="valores">
@@ -338,13 +341,22 @@
           <div class="banda">"Por cada cliente": cuántos tacos se lleva en promedio una persona que entra.</div>
         </div>
 
+        <div class="slider-row">
+          <div class="valores">
+            <span>Días abiertos al mes</span>
+            <span class="num" id="audDiasValor">30</span>
+          </div>
+          <input type="range" id="audDiasSlider" min="24" max="30" step="1" value="30" oninput="recalcularAuditoria()">
+          <div class="banda">El Camino C mueve este número: cuánto rinde abrir un día más de los que ya están puestos aquí.</div>
+        </div>
+
         <div class="ticket-wrap">
           <div class="ticket ticket-editable">
             <div class="titulo-ticket">Lo que produce esa proporción</div>
             <div class="fila"><span>Tacos por día</span><span class="num" id="audTacosDia">304.5</span></div>
             <div class="fila"><span>Ingreso por día</span><span class="num" id="audIngresoDia">$6,699.00</span></div>
             <div class="fila total"><span>Ingreso por mes</span><span class="num" id="audIngresoMes">$200,970.00</span></div>
-            <div class="formula">tacos por día = clientes por día × tacos por cada cliente · ingreso = tacos × $22 · mes = ingreso por día × 30</div>
+            <div class="formula">tacos por día = clientes por día × tacos por cada cliente · ingreso = tacos × $22 · mes = ingreso por día × días abiertos al mes</div>
           </div>
         </div>
       </div>
@@ -367,6 +379,16 @@
             </div>
           </div>
           <div class="palanca-veredicto" id="palancaVeredicto"></div>
+
+          <div class="palanca-aparte-wrap">
+            <div class="palanca" id="palancaC">
+              <div class="mov">Camino C · +1 día abierto al mes</div>
+              <div class="mov-nota">El ingreso de un día completo, con su propio costo</div>
+              <div class="gan" id="palancaCValor">+$6,699</div>
+              <div class="gan-sub">más al mes</div>
+            </div>
+            <p class="palanca-aparte-nota">El Camino C no entra en el veredicto de arriba: no compite por ser "la métrica que importa" entre A y B, compite contra algo distinto, cuántos días quedan disponibles. El mes solo tiene entre 28 y 31 días: ese es su techo.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -506,10 +528,10 @@
     <div class="grid-two grid-two-parejo">
 
       <!-- Video -->
-      <div class="card" style="padding:0; overflow:hidden;">
-        <div style="position:relative; height:210px; background:#0a0a1a;">
-          <iframe
-            src="https://drive.google.com/file/d/1JqbK1XJar9bSsd_RMwkrCA7GPV6MeBDx/preview"
+      <div class="card" id="cardVideo" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:340px; background:#0a0a1a;">
+          <iframe id="videoFrame"
+            src="about:blank"
             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
             allow="autoplay" allowfullscreen
             title="Video de la sesión · Semana 2"></iframe>
@@ -518,9 +540,9 @@
           <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--azul); margin:0 0 6px;">NotebookLM · Video</p>
           <h3 style="margin:0 0 8px;">Video de la sesión</h3>
           <p style="font-size:13px; color:#555; margin:0 0 14px;">Resumen visual generado con NotebookLM sobre los temas de esta semana.</p>
-          <a href="https://drive.google.com/file/d/1JqbK1XJar9bSsd_RMwkrCA7GPV6MeBDx/view?usp=drive_link"
+          <a id="videoDescarga" href="#"
              target="_blank" rel="noopener"
-             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--azul); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             style="display:none; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--azul); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
              onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
             ↓ Descargar MP4
           </a>
@@ -528,11 +550,11 @@
       </div>
 
       <!-- Audio -->
-      <div class="card" style="padding:0; overflow:hidden;">
-        <div style="position:relative; height:210px; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%); padding:20px; display:flex; align-items:center; justify-content:center; box-sizing:border-box;">
-          <iframe
-            src="https://drive.google.com/file/d/1FcbnbUQ_cAbC-g4dY9kc9_Wj-Uli66bQ/preview"
-            style="width:100%; height:100px; border:none; background:transparent;"
+      <div class="card" id="cardAudio" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:340px; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%); padding:20px; box-sizing:border-box;">
+          <iframe id="audioFrame"
+            src="about:blank"
+            style="display:block; width:100%; height:100%; border:none; background:transparent;"
             allow="autoplay"
             title="Audio de la sesión · Semana 2"></iframe>
         </div>
@@ -540,9 +562,9 @@
           <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--naranja); margin:0 0 6px;">NotebookLM · Audio</p>
           <h3 style="margin:0 0 8px;">Podcast de la sesión</h3>
           <p style="font-size:13px; color:#555; margin:0 0 14px;">Episodio generado con NotebookLM: escucha los conceptos clave de esta semana en formato conversacional.</p>
-          <a href="https://drive.google.com/file/d/1FcbnbUQ_cAbC-g4dY9kc9_Wj-Uli66bQ/view?usp=drive_link"
+          <a id="audioDescarga" href="#"
              target="_blank" rel="noopener"
-             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--naranja); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             style="display:none; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--naranja); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
              onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
             ↓ Descargar M4A
           </a>
@@ -611,7 +633,6 @@
 
 <script>
 const PRECIO_TACO = 22;
-const DIAS_MES_AUD = 30;
 const CODIGO_SESION = 'S02';
 
 function nombreArchivoAlumno(){
@@ -725,11 +746,16 @@ function generarPDFReflexion(){
 
     bloque.querySelectorAll('.reflexion-item').forEach(item => {
       const pregunta = item.querySelector('.reflexion-pregunta').textContent.trim();
-      const respuesta = item.querySelector('.reflexion-textarea').value.trim() || '(sin responder)';
+      const textareaItem = item.querySelector('.reflexion-textarea');
+      const valorReal = textareaItem.value.trim();
+      const minCaracteres = parseInt(textareaItem.getAttribute('minlength'), 10) || 150;
+      const bajoMinimo = valorReal.length < minCaracteres;
+      const respuesta = valorReal || '(sin responder)';
 
       const preguntaLineas = doc.splitTextToSize(pregunta, usableW);
       const respLineas = doc.splitTextToSize(respuesta, usableW);
-      if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + 10 > 280){ doc.addPage(); y = 20; }
+      const alturaAviso = bajoMinimo ? 6 : 0;
+      if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + alturaAviso + 10 > 280){ doc.addPage(); y = 20; }
 
       doc.setFont(undefined, 'bold');
       doc.setFontSize(10);
@@ -741,7 +767,17 @@ function generarPDFReflexion(){
       doc.setFontSize(9.5);
       doc.setTextColor(30,36,48);
       doc.text(respLineas, marginX, y);
-      y += respLineas.length * 4.6 + 7;
+      y += respLineas.length * 4.6 + 2;
+
+      if(bajoMinimo){
+        doc.setFont(undefined, 'italic');
+        doc.setFontSize(8.5);
+        doc.setTextColor(...naranja);
+        doc.text('⚠ No alcanzó el mínimo de ' + minCaracteres + ' caracteres (' + valorReal.length + '/' + minCaracteres + ').', marginX, y);
+        doc.setFont(undefined, 'normal');
+        y += 5;
+      }
+      y += 5;
     });
     y += 3;
   });
@@ -753,25 +789,30 @@ function generarPDFReflexion(){
 function recalcularAuditoria(){
   const clientes = parseInt(document.getElementById('audClientesSlider').value, 10);
   const tacosCliente = parseFloat(document.getElementById('audTacosSlider').value);
+  const diasAbiertos = parseInt(document.getElementById('audDiasSlider').value, 10);
 
   document.getElementById('audClientesValor').textContent = clientes;
   document.getElementById('audTacosValor').textContent = tacosCliente.toFixed(1);
+  document.getElementById('audDiasValor').textContent = diasAbiertos;
 
   const tacosDia = clientes * tacosCliente;
   const ingresoDia = tacosDia * PRECIO_TACO;
-  const ingresoMes = ingresoDia * DIAS_MES_AUD;
+  const ingresoMes = ingresoDia * diasAbiertos;
 
   document.getElementById('audTacosDia').textContent = tacosDia.toFixed(1);
   document.getElementById('audIngresoDia').textContent = fmtMoney(ingresoDia);
   document.getElementById('audIngresoMes').textContent = fmtMoney(ingresoMes);
 
-  // Palanca A: +1 cliente/día  ->  gana precio * tacosCliente * días al mes
-  const ganA = PRECIO_TACO * tacosCliente * DIAS_MES_AUD;
-  // Palanca B: +0.1 tacos/cliente -> gana precio * clientes * 0.1 * días al mes
-  const ganB = PRECIO_TACO * clientes * 0.1 * DIAS_MES_AUD;
+  // Palanca A: +1 cliente/día  ->  gana precio * tacosCliente * días abiertos
+  const ganA = PRECIO_TACO * tacosCliente * diasAbiertos;
+  // Palanca B: +0.1 tacos/cliente -> gana precio * clientes * 0.1 * días abiertos
+  const ganB = PRECIO_TACO * clientes * 0.1 * diasAbiertos;
+  // Palanca C: +1 día abierto -> gana el ingreso de un día típico (no se multiplica por días abiertos)
+  const ganC = ingresoDia;
 
   document.getElementById('palancaAValor').textContent = '+' + fmtMoney0(ganA);
   document.getElementById('palancaBValor').textContent = '+' + fmtMoney0(ganB);
+  document.getElementById('palancaCValor').textContent = '+' + fmtMoney0(ganC);
 
   const pA = document.getElementById('palancaA');
   const pB = document.getElementById('palancaB');
@@ -1043,15 +1084,19 @@ function generarPDF(){
 
   const audClientes = parseInt(document.getElementById('audClientesSlider').value,10);
   const audTacos = parseFloat(document.getElementById('audTacosSlider').value);
-  const audGanA = PRECIO_TACO*audTacos*DIAS_MES_AUD;
-  const audGanB = PRECIO_TACO*audClientes*0.1*DIAS_MES_AUD;
+  const audDias = parseInt(document.getElementById('audDiasSlider').value,10);
+  const audGanA = PRECIO_TACO*audTacos*audDias;
+  const audGanB = PRECIO_TACO*audClientes*0.1*audDias;
+  const audGanC = PRECIO_TACO*audClientes*audTacos;
 
   doc.setFontSize(8.5);
   doc.setTextColor(30,36,48);
-  doc.text(`Supuestos: ${audClientes} clientes/día · ${audTacos.toFixed(1)} tacos por cliente · taco a $${PRECIO_TACO}.`, marginX, y);
+  doc.text(`Supuestos: ${audClientes} clientes/día · ${audTacos.toFixed(1)} tacos por cliente · taco a $${PRECIO_TACO} · ${audDias} días abiertos/mes.`, marginX, y);
   y += 6;
   doc.text(`Camino A (+1 cliente/día): +$${Math.round(audGanA).toLocaleString('es-MX')}/mes`, marginX, y);
   doc.text(`Camino B (+0.1 tacos/cliente): +$${Math.round(audGanB).toLocaleString('es-MX')}/mes`, pageW-marginX, y, {align:'right'});
+  y += 6;
+  doc.text(`Camino C (+1 día abierto/mes): +$${Math.round(audGanC).toLocaleString('es-MX')}/mes (se evalúa aparte, no compite con A/B)`, marginX, y);
   y += 6;
   doc.setTextColor(...azul);
   doc.setFont(undefined,'bold');
@@ -1099,6 +1144,12 @@ window.addEventListener('beforeunload', function(e){
     e.returnValue = '';
   }
 });
+</script>
+
+<!-- Controlador de visibilidad: lee ../sesiones.csv y decide qué pestañas se muestran. -->
+<script src="../assets/sesiones.js"></script>
+<script>
+  FCNC.aplicarSesion(2);
 </script>
 
 </body>

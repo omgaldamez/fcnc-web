@@ -132,6 +132,27 @@
   }
   .orden-veredicto strong{ color:var(--azul-oscuro); }
 
+  /* ---- Gráfica: costo fijo vs. costo variable ---- */
+  .costos-chart{ width:100%; height:auto; margin-top:4px; }
+  .costos-eje{ stroke:var(--linea); stroke-width:1; }
+  .costos-linea-fijo{ stroke:var(--azul); stroke-width:2.5; fill:none; }
+  .costos-linea-variable{ stroke:var(--naranja); stroke-width:2.5; fill:none; }
+  .costos-linea-total{ stroke:var(--tinta); stroke-width:1.75; stroke-dasharray:5,3; fill:none; opacity:.7; }
+  .costos-guia{ stroke:var(--gris-nota); stroke-width:1; stroke-dasharray:3,3; }
+  .costos-punto{ fill:var(--naranja-oscuro); }
+  .costos-punto-total{ fill:var(--tinta); opacity:.8; }
+  .costos-etiqueta{ font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .costos-etiqueta-fijo{ fill:var(--azul); }
+  .costos-etiqueta-variable{ fill:var(--naranja-oscuro); }
+  .costos-etiqueta-total{ fill:var(--tinta); opacity:.8; }
+  .costos-eje-texto{ font-family:'Public Sans',sans-serif; font-size:10.5px; fill:var(--gris-nota); }
+  .costos-leyenda{ display:flex; gap:16px; margin-top:6px; font-size:12px; color:var(--gris-nota); flex-wrap:wrap; }
+  .costos-punto-leyenda{ display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:5px; vertical-align:middle; }
+  .costos-punto-leyenda-fijo{ background:var(--azul); }
+  .costos-punto-leyenda-variable{ background:var(--naranja); }
+  .costos-punto-leyenda-total{ background:var(--tinta); opacity:.7; }
+  .costos-vacio{ font-size:13px; color:var(--gris-nota); background:var(--nota-fondo); border-radius:8px; padding:14px 16px; margin:0; }
+
   /* ---- Filas de costos directos ---- */
   .costos-directos{ margin-top:8px; }
   .costo-fila{
@@ -256,9 +277,9 @@
   <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:8px;">
     <div class="alumno-field" style="margin-top:0;">
       <label for="nombreAlumno">Tu nombre (para el reporte):</label>
-      <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso()">
+      <input type="text" id="nombreAlumno" placeholder="Escribe tu nombre" oninput="actualizarProgreso(); actualizarProgresoReflexion()">
     </div>
-    <a href="https://drive.google.com/file/d/1G99vfAV7iClR7azEdz3MEyuFRDIcH7wl/view?usp=drive_link" target="_blank" rel="noopener" class="descarga-sesion">↓ Descargar sesión</a>
+    <a id="descargaSesion" href="#" style="display:none;" target="_blank" rel="noopener" class="descarga-sesion">↓ Descargar sesión</a>
   </div>
 </header>
 
@@ -278,7 +299,7 @@
 
   <!-- ===================== PESTAÑA 0: TEORÍA ===================== -->
   <section id="panelTeoria" class="panel active" style="padding:0;">
-    <iframe src="https://gamma.app/embed/ivebow3beth1tx8"
+    <iframe id="gammaFrame" src="about:blank"
       style="display:block; width:100%; height:calc(100vh - 180px); min-height:420px; border:none;"
       allow="fullscreen" title="Operar con intención"></iframe>
   </section>
@@ -343,9 +364,10 @@
           <div class="ticket ticket-editable">
             <div class="titulo-ticket">Lo que produce esa proporción</div>
             <div class="fila"><span>Unidades por mes</span><span class="num" id="audUnidadesMes">9,135</span></div>
+            <div class="fila"><span>Costo total del mes (fijo + variable)</span><span class="num" id="audCostoTotalMes">$128,512.50</span></div>
             <div class="fila total"><span>Costo unitario (orden correcto)</span><span class="num" id="audCostoUnitario">$14.07</span></div>
             <div class="fila"><span>Ganancia por taco</span><span class="num" id="audGanancia">$7.93</span></div>
-            <div class="formula">unidades por mes = clientes por día × tacos por cada cliente × 30 días · ganancia por taco = precio − costo unitario</div>
+            <div class="formula">unidades por mes = clientes por día × tacos por cada cliente × 30 días · ganancia por taco = precio − costo unitario · costo total = costo fijo + (costo directo × unidades)</div>
           </div>
         </div>
       </div>
@@ -373,6 +395,31 @@
             </div>
           </div>
           <div class="orden-veredicto" id="ordenVeredicto"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:14px;margin-bottom:4px;">Cómo se ven estos costos, uno junto al otro</h3>
+          <p style="font-size:12px;color:var(--gris-nota);margin:0 0 6px;">Costo fijo del mes (línea plana), costo variable total (pegada a las unidades vendidas) y costo total, la suma de las dos.</p>
+          <svg viewBox="0 0 400 170" class="costos-chart" role="img" aria-label="Comparación entre costo fijo, costo variable y costo total según las unidades vendidas ese mes">
+            <line x1="46" y1="12" x2="46" y2="140" class="costos-eje"></line>
+            <line x1="46" y1="140" x2="388" y2="140" class="costos-eje"></line>
+            <line id="lineaTotal" x1="46" y1="60" x2="300" y2="10" class="costos-linea-total"></line>
+            <line id="lineaFijo" x1="46" y1="70" x2="388" y2="70" class="costos-linea-fijo"></line>
+            <line id="lineaVariable" x1="46" y1="140" x2="300" y2="45" class="costos-linea-variable"></line>
+            <line id="guiaActual" x1="255" y1="140" x2="255" y2="30" class="costos-guia"></line>
+            <circle id="puntoActual" cx="255" cy="88" r="3.5" class="costos-punto"></circle>
+            <circle id="puntoTotalActual" cx="255" cy="42" r="3.5" class="costos-punto-total"></circle>
+            <text id="etiquetaFijo" x="388" y="73" text-anchor="end" class="costos-etiqueta costos-etiqueta-fijo">$60,000</text>
+            <text id="etiquetaTotal" x="255" y="30" text-anchor="middle" class="costos-etiqueta costos-etiqueta-total">$128,513</text>
+            <text id="etiquetaVariable" x="255" y="80" text-anchor="middle" class="costos-etiqueta costos-etiqueta-variable">$68,513</text>
+            <text x="46" y="156" class="costos-eje-texto">0 tacos</text>
+            <text id="etiquetaEjeX" x="255" y="156" class="costos-eje-texto" text-anchor="middle">9,135 tacos</text>
+          </svg>
+          <div class="costos-leyenda">
+            <span><i class="costos-punto-leyenda costos-punto-leyenda-fijo"></i> Costo fijo del mes</span>
+            <span><i class="costos-punto-leyenda costos-punto-leyenda-variable"></i> Costo variable total</span>
+            <span><i class="costos-punto-leyenda costos-punto-leyenda-total"></i> Costo total (fijo + variable)</span>
+          </div>
         </div>
       </div>
     </div>
@@ -473,6 +520,32 @@
       </div>
     </div>
 
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:4px;">Cómo se ven tus costos, uno junto al otro</h3>
+      <p style="font-size:12px;color:var(--gris-nota);margin:0 0 6px;">Costo fijo (línea plana), costo variable total (pegada a tus unidades) y costo total, con tus propios números de arriba.</p>
+      <p class="costos-vacio" id="graficaFichaVacia">Completa tus costos directos, tus costos fijos y tus unidades por mes arriba para ver esta gráfica.</p>
+      <svg id="svgGraficaFicha" viewBox="0 0 400 170" class="costos-chart" style="display:none;" role="img" aria-label="Comparación entre costo fijo, costo variable y costo total de tu negocio, según tus unidades por mes">
+        <line x1="46" y1="12" x2="46" y2="140" class="costos-eje"></line>
+        <line x1="46" y1="140" x2="388" y2="140" class="costos-eje"></line>
+        <line id="fLineaTotal" x1="46" y1="60" x2="300" y2="10" class="costos-linea-total"></line>
+        <line id="fLineaFijo" x1="46" y1="70" x2="388" y2="70" class="costos-linea-fijo"></line>
+        <line id="fLineaVariable" x1="46" y1="140" x2="300" y2="45" class="costos-linea-variable"></line>
+        <line id="fGuiaActual" x1="255" y1="140" x2="255" y2="30" class="costos-guia"></line>
+        <circle id="fPuntoActual" cx="255" cy="88" r="3.5" class="costos-punto"></circle>
+        <circle id="fPuntoTotalActual" cx="255" cy="42" r="3.5" class="costos-punto-total"></circle>
+        <text id="fEtiquetaFijo" x="388" y="73" text-anchor="end" class="costos-etiqueta costos-etiqueta-fijo">$0</text>
+        <text id="fEtiquetaTotal" x="255" y="30" text-anchor="middle" class="costos-etiqueta costos-etiqueta-total">$0</text>
+        <text id="fEtiquetaVariable" x="255" y="80" text-anchor="middle" class="costos-etiqueta costos-etiqueta-variable">$0</text>
+        <text x="46" y="156" class="costos-eje-texto">0 unidades</text>
+        <text id="fEtiquetaEjeX" x="255" y="156" class="costos-eje-texto" text-anchor="middle">0 unidades</text>
+      </svg>
+      <div class="costos-leyenda" id="leyendaGraficaFicha" style="display:none;">
+        <span><i class="costos-punto-leyenda costos-punto-leyenda-fijo"></i> Costo fijo del mes</span>
+        <span><i class="costos-punto-leyenda costos-punto-leyenda-variable"></i> Costo variable total</span>
+        <span><i class="costos-punto-leyenda costos-punto-leyenda-total"></i> Costo total (fijo + variable)</span>
+      </div>
+    </div>
+
     <div class="card reflexion-card">
       <h3>Lo que tu costo unitario te dice</h3>
       <p style="font-size:13px;color:var(--gris-nota);margin-top:-2px;">Compara tu precio con tu costo unitario. ¿Tu ganancia por unidad te parece suficiente para tu negocio? Si es baja aunque tu precio no lo sea, ¿el problema está en tus costos directos, en tus costos fijos, o en tus unidades por mes?</p>
@@ -487,10 +560,10 @@
     <div class="grid-two grid-two-parejo">
 
       <!-- Video -->
-      <div class="card" style="padding:0; overflow:hidden;">
-        <div style="position:relative; height:210px; background:#0a0a1a;">
-          <iframe
-            src="https://drive.google.com/file/d/1QPo_se45EkXoP-dsJAAC_9PvTsXsJkWk/preview"
+      <div class="card" id="cardVideo" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:340px; background:#0a0a1a;">
+          <iframe id="videoFrame"
+            src="about:blank"
             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
             allow="autoplay" allowfullscreen
             title="Video de la sesión · Semana 3"></iframe>
@@ -499,9 +572,9 @@
           <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--azul); margin:0 0 6px;">NotebookLM · Video</p>
           <h3 style="margin:0 0 8px;">Video de la sesión</h3>
           <p style="font-size:13px; color:#555; margin:0 0 14px;">Resumen visual generado con NotebookLM sobre los temas de esta semana.</p>
-          <a href="https://drive.google.com/file/d/1QPo_se45EkXoP-dsJAAC_9PvTsXsJkWk/view?usp=drive_link"
+          <a id="videoDescarga" href="#"
              target="_blank" rel="noopener"
-             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--azul); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             style="display:none; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--azul); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
              onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
             ↓ Descargar MP4
           </a>
@@ -509,11 +582,11 @@
       </div>
 
       <!-- Audio -->
-      <div class="card" style="padding:0; overflow:hidden;">
-        <div style="position:relative; height:210px; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%); padding:20px; display:flex; align-items:center; justify-content:center; box-sizing:border-box;">
-          <iframe
-            src="https://drive.google.com/file/d/1pa6lHotvzylCFXusysf3er6G3Zyy_lvH/preview"
-            style="width:100%; height:100px; border:none; background:transparent;"
+      <div class="card" id="cardAudio" style="padding:0; overflow:hidden;">
+        <div style="position:relative; height:340px; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%); padding:20px; box-sizing:border-box;">
+          <iframe id="audioFrame"
+            src="about:blank"
+            style="display:block; width:100%; height:100%; border:none; background:transparent;"
             allow="autoplay"
             title="Audio de la sesión · Semana 3"></iframe>
         </div>
@@ -521,9 +594,9 @@
           <p style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--naranja); margin:0 0 6px;">NotebookLM · Audio</p>
           <h3 style="margin:0 0 8px;">Podcast de la sesión</h3>
           <p style="font-size:13px; color:#555; margin:0 0 14px;">Episodio generado con NotebookLM: escucha los conceptos clave de esta semana en formato conversacional.</p>
-          <a href="https://drive.google.com/file/d/1pa6lHotvzylCFXusysf3er6G3Zyy_lvH/view?usp=sharing"
+          <a id="audioDescarga" href="#"
              target="_blank" rel="noopener"
-             style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--naranja); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
+             style="display:none; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--naranja); border-radius:6px; padding:7px 14px; text-decoration:none; transition:opacity .15s;"
              onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
             ↓ Descargar M4A
           </a>
@@ -719,11 +792,16 @@ function generarPDFReflexion(){
 
     bloque.querySelectorAll('.reflexion-item').forEach(item => {
       const pregunta = item.querySelector('.reflexion-pregunta').textContent.trim();
-      const respuesta = item.querySelector('.reflexion-textarea').value.trim() || '(sin responder)';
+      const textareaItem = item.querySelector('.reflexion-textarea');
+      const valorReal = textareaItem.value.trim();
+      const minCaracteres = parseInt(textareaItem.getAttribute('minlength'), 10) || 150;
+      const bajoMinimo = valorReal.length < minCaracteres;
+      const respuesta = valorReal || '(sin responder)';
 
       const preguntaLineas = doc.splitTextToSize(pregunta, usableW);
       const respLineas = doc.splitTextToSize(respuesta, usableW);
-      if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + 10 > 280){ doc.addPage(); y = 20; }
+      const alturaAviso = bajoMinimo ? 6 : 0;
+      if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + alturaAviso + 10 > 280){ doc.addPage(); y = 20; }
 
       doc.setFont(undefined, 'bold');
       doc.setFontSize(10);
@@ -735,7 +813,17 @@ function generarPDFReflexion(){
       doc.setFontSize(9.5);
       doc.setTextColor(30,36,48);
       doc.text(respLineas, marginX, y);
-      y += respLineas.length * 4.6 + 7;
+      y += respLineas.length * 4.6 + 2;
+
+      if(bajoMinimo){
+        doc.setFont(undefined, 'italic');
+        doc.setFontSize(8.5);
+        doc.setTextColor(...naranja);
+        doc.text('⚠ No alcanzó el mínimo de ' + minCaracteres + ' caracteres (' + valorReal.length + '/' + minCaracteres + ').', marginX, y);
+        doc.setFont(undefined, 'normal');
+        y += 5;
+      }
+      y += 5;
     });
     y += 3;
   });
@@ -759,6 +847,7 @@ function recalcularAuditoria(){
   const ganancia = PRECIO_TACO - costoUnitario;
 
   document.getElementById('audUnidadesMes').textContent = unidadesMes.toLocaleString('es-MX', {maximumFractionDigits:1});
+  document.getElementById('audCostoTotalMes').textContent = fmtMoney(fijos + DIRECTO_TACO * unidadesMes);
   document.getElementById('audCostoUnitario').textContent = fmtMoney(costoUnitario);
   document.getElementById('audGanancia').textContent = fmtMoney(ganancia);
 
@@ -782,7 +871,83 @@ function recalcularAuditoria(){
   const vered = document.getElementById('ordenVeredicto');
   vered.innerHTML = `El orden correcto (dividir primero) da un costo unitario de <strong>${fmtMoney(ordenCorrecto)}</strong>. El orden ingenuo (sumar primero) da <strong>${fmtMoney(ordenIngenuo)}</strong>: una diferencia de <span class="num">${fmtMoney(diferencia)}</span> por unidad. Solo el orden correcto reparte el costo fijo entre todas las unidades del mes; el otro mezcla el costo directo dentro de ese reparto, algo que no corresponde a nada real.`;
 
+  actualizarGraficaCostos(fijos, unidadesMes);
   actualizarProgreso();
+}
+
+// Gráfica: costo fijo (línea plana), costo variable (pegada a las unidades vendidas) y costo total (su suma)
+function actualizarGraficaCostos(fijos, unidadesMes){
+  const variableTotal = DIRECTO_TACO * unidadesMes;
+  const totalActual = fijos + variableTotal;
+
+  // Área de dibujo dentro del viewBox 400x170. La etiqueta de la derecha vive en x=388 (dentro del viewBox).
+  const left = 46, right = 388, top = 12, bottom = 140;
+  const plotW = right - left, plotH = bottom - top;
+
+  // 35% de margen a la derecha del dato actual: deja espacio entre el punto y las etiquetas del borde.
+  const xMax = unidadesMes * 1.35;
+  const variableEnXMax = DIRECTO_TACO * xMax;
+  const totalEnXMax = fijos + variableEnXMax;
+  const yMax = Math.max(fijos, totalEnXMax) * 1.1;
+
+  const xToPx = (v) => left + (v / xMax) * plotW;
+  const yToPx = (v) => bottom - (v / yMax) * plotH;
+
+  // Línea de costo fijo: plana en todo el ancho graficado
+  const yFijoPx = yToPx(fijos);
+  const lineaFijo = document.getElementById('lineaFijo');
+  lineaFijo.setAttribute('x1', left);
+  lineaFijo.setAttribute('x2', right);
+  lineaFijo.setAttribute('y1', yFijoPx);
+  lineaFijo.setAttribute('y2', yFijoPx);
+
+  // Línea de costo variable: de (0,0) a (xMax, costo variable en xMax), pegada a las ventas
+  const lineaVariable = document.getElementById('lineaVariable');
+  lineaVariable.setAttribute('x1', xToPx(0));
+  lineaVariable.setAttribute('y1', yToPx(0));
+  lineaVariable.setAttribute('x2', xToPx(xMax));
+  lineaVariable.setAttribute('y2', yToPx(variableEnXMax));
+
+  // Línea de costo total: arranca donde arranca el fijo (en $fijos, con 0 unidades) y sube con la misma pendiente que el variable
+  const lineaTotal = document.getElementById('lineaTotal');
+  lineaTotal.setAttribute('x1', xToPx(0));
+  lineaTotal.setAttribute('y1', yToPx(fijos));
+  lineaTotal.setAttribute('x2', xToPx(xMax));
+  lineaTotal.setAttribute('y2', yToPx(totalEnXMax));
+
+  // Punto, guía y etiquetas en la cifra actual de la auditoría (unidadesMes)
+  const xActualPx = xToPx(unidadesMes);
+  const yVariablePx = yToPx(variableTotal);
+  const yTotalPx = yToPx(totalActual);
+
+  // La guía vertical llega hasta la línea más alta en ese punto (el costo total)
+  document.getElementById('guiaActual').setAttribute('x1', xActualPx);
+  document.getElementById('guiaActual').setAttribute('x2', xActualPx);
+  document.getElementById('guiaActual').setAttribute('y2', yTotalPx);
+
+  document.getElementById('puntoActual').setAttribute('cx', xActualPx);
+  document.getElementById('puntoActual').setAttribute('cy', yVariablePx);
+  document.getElementById('puntoTotalActual').setAttribute('cx', xActualPx);
+  document.getElementById('puntoTotalActual').setAttribute('cy', yTotalPx);
+
+  document.getElementById('etiquetaFijo').setAttribute('y', yFijoPx + 3);
+  document.getElementById('etiquetaFijo').textContent = fmtMoney0(fijos);
+
+  // Si el costo variable y el costo total quedan muy cerca en el eje vertical (mucho volumen, poco fijo),
+  // separamos un poco más la etiqueta del total para que no se encimen.
+  const separacion = yVariablePx - yTotalPx;
+  const extraSeparacion = separacion < 14 ? (14 - separacion) : 0;
+
+  document.getElementById('etiquetaVariable').setAttribute('x', xActualPx);
+  document.getElementById('etiquetaVariable').setAttribute('y', yVariablePx - 8);
+  document.getElementById('etiquetaVariable').textContent = fmtMoney0(variableTotal);
+
+  document.getElementById('etiquetaTotal').setAttribute('x', xActualPx);
+  document.getElementById('etiquetaTotal').setAttribute('y', yTotalPx - 8 - extraSeparacion);
+  document.getElementById('etiquetaTotal').textContent = fmtMoney0(totalActual);
+
+  document.getElementById('etiquetaEjeX').setAttribute('x', xActualPx);
+  document.getElementById('etiquetaEjeX').textContent = `${Math.round(unidadesMes).toLocaleString('es-MX')} tacos`;
 }
 
 /* ---------------- FICHA: filas de costos directos ---------------- */
@@ -856,6 +1021,8 @@ function recalcularFicha(){
   const unidadesMes = parseFloat(document.getElementById('fUnidadesMes').value);
 
   const hay = !isNaN(precio) && hayDirectos && !isNaN(fijos) && !isNaN(unidadesMes) && unidadesMes > 0;
+  // La gráfica no necesita el precio, solo costos y unidades: se muestra en cuanto esos tres estén completos.
+  const hayCostos = hayDirectos && !isNaN(fijos) && !isNaN(unidadesMes) && unidadesMes > 0;
 
   if(hay){
     const fijoPorUnidad = fijos / unidadesMes;
@@ -871,6 +1038,79 @@ function recalcularFicha(){
       document.getElementById(id).textContent = 'N/D';
     });
   }
+
+  document.getElementById('graficaFichaVacia').style.display = hayCostos ? 'none' : 'block';
+  document.getElementById('svgGraficaFicha').style.display = hayCostos ? 'block' : 'none';
+  document.getElementById('leyendaGraficaFicha').style.display = hayCostos ? 'flex' : 'none';
+  if(hayCostos){
+    actualizarGraficaFicha(fijos, unidadesMes, directos);
+  }
+}
+
+// Gráfica de la Ficha: misma lógica que la de la Auditoría, pero con los costos directos del alumno (no el $7.50 de la taquería)
+function actualizarGraficaFicha(fijos, unidadesMes, directosPorUnidad){
+  const variableTotal = directosPorUnidad * unidadesMes;
+  const totalActual = fijos + variableTotal;
+
+  const left = 46, right = 388, top = 12, bottom = 140;
+  const plotW = right - left, plotH = bottom - top;
+
+  const xMax = unidadesMes * 1.35;
+  const variableEnXMax = directosPorUnidad * xMax;
+  const totalEnXMax = fijos + variableEnXMax;
+  const yMax = Math.max(fijos, totalEnXMax, 1) * 1.1;
+
+  const xToPx = (v) => left + (v / xMax) * plotW;
+  const yToPx = (v) => bottom - (v / yMax) * plotH;
+
+  const yFijoPx = yToPx(fijos);
+  const fLineaFijo = document.getElementById('fLineaFijo');
+  fLineaFijo.setAttribute('x1', left);
+  fLineaFijo.setAttribute('x2', right);
+  fLineaFijo.setAttribute('y1', yFijoPx);
+  fLineaFijo.setAttribute('y2', yFijoPx);
+
+  const fLineaVariable = document.getElementById('fLineaVariable');
+  fLineaVariable.setAttribute('x1', xToPx(0));
+  fLineaVariable.setAttribute('y1', yToPx(0));
+  fLineaVariable.setAttribute('x2', xToPx(xMax));
+  fLineaVariable.setAttribute('y2', yToPx(variableEnXMax));
+
+  const fLineaTotal = document.getElementById('fLineaTotal');
+  fLineaTotal.setAttribute('x1', xToPx(0));
+  fLineaTotal.setAttribute('y1', yToPx(fijos));
+  fLineaTotal.setAttribute('x2', xToPx(xMax));
+  fLineaTotal.setAttribute('y2', yToPx(totalEnXMax));
+
+  const xActualPx = xToPx(unidadesMes);
+  const yVariablePx = yToPx(variableTotal);
+  const yTotalPx = yToPx(totalActual);
+
+  document.getElementById('fGuiaActual').setAttribute('x1', xActualPx);
+  document.getElementById('fGuiaActual').setAttribute('x2', xActualPx);
+  document.getElementById('fGuiaActual').setAttribute('y2', yTotalPx);
+
+  document.getElementById('fPuntoActual').setAttribute('cx', xActualPx);
+  document.getElementById('fPuntoActual').setAttribute('cy', yVariablePx);
+  document.getElementById('fPuntoTotalActual').setAttribute('cx', xActualPx);
+  document.getElementById('fPuntoTotalActual').setAttribute('cy', yTotalPx);
+
+  document.getElementById('fEtiquetaFijo').setAttribute('y', yFijoPx + 3);
+  document.getElementById('fEtiquetaFijo').textContent = fmtMoney0(fijos);
+
+  const separacion = yVariablePx - yTotalPx;
+  const extraSeparacion = separacion < 14 ? (14 - separacion) : 0;
+
+  document.getElementById('fEtiquetaVariable').setAttribute('x', xActualPx);
+  document.getElementById('fEtiquetaVariable').setAttribute('y', yVariablePx - 8);
+  document.getElementById('fEtiquetaVariable').textContent = fmtMoney0(variableTotal);
+
+  document.getElementById('fEtiquetaTotal').setAttribute('x', xActualPx);
+  document.getElementById('fEtiquetaTotal').setAttribute('y', yTotalPx - 8 - extraSeparacion);
+  document.getElementById('fEtiquetaTotal').textContent = fmtMoney0(totalActual);
+
+  document.getElementById('fEtiquetaEjeX').setAttribute('x', xActualPx);
+  document.getElementById('fEtiquetaEjeX').textContent = `${Math.round(unidadesMes).toLocaleString('es-MX')} unidades`;
 }
 
 function actualizarProgreso(){
@@ -1054,6 +1294,9 @@ function generarPDF(){
   doc.text(`Orden correcto: $${audCostoCorrecto.toFixed(2)}/taco`, marginX, y);
   doc.text(`Orden ingenuo: $${audCostoIngenuo.toFixed(2)}/taco`, pageW-marginX, y, {align:'right'});
   y += 6;
+  const audCostoTotalMes = audFijos + DIRECTO_TACO*audUnidadesMes;
+  doc.text(`Costo total del mes (fijo + variable): $${audCostoTotalMes.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})}`, marginX, y);
+  y += 6;
   doc.setTextColor(...azul);
   doc.setFont(undefined,'bold');
   doc.text('Conclusión de la auditoría:', marginX, y);
@@ -1102,6 +1345,12 @@ window.addEventListener('beforeunload', function(e){
     e.returnValue = '';
   }
 });
+</script>
+
+<!-- Controlador de visibilidad: lee ../sesiones.csv y decide qué pestañas se muestran. -->
+<script src="../assets/sesiones.js"></script>
+<script>
+  FCNC.aplicarSesion(3);
 </script>
 
 </body>

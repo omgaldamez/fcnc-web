@@ -209,6 +209,7 @@
   <div class="sin-resultados" id="sinResultados">No hay ningún término que coincida con tu búsqueda.</div>
 </main>
 
+<script src="../assets/sesiones.js"></script>
 <script>
 var terminos = [];
 var vistaActual = 'semana';
@@ -247,9 +248,16 @@ var ETIQUETAS_SEC = {
   'notacion': 'Notación'
 };
 
-/* ── Filtro por etiquetas (leyenda clickeable) ── */
-var filtroPrincipal = new Set(['general', 'matematico', 'negocio']);
-var filtroSecundaria = new Set(Object.keys(ETIQUETAS_SEC));
+/* ── Filtro por etiquetas (leyenda clickeable) ──
+   Estado inicial: todo seleccionado (sin filtro activo). El primer clic sobre
+   una etiqueta aísla esa selección (deja solo esa); los clics siguientes van
+   agregando otras etiquetas al conjunto. Quitar la última etiqueta seleccionada
+   regresa al estado inicial (todo seleccionado), nunca deja la lista vacía. */
+var CATEGORIAS_PRINCIPALES = ['general', 'matematico', 'negocio'];
+var CATEGORIAS_SECUNDARIAS = Object.keys(ETIQUETAS_SEC);
+
+var filtroPrincipal = new Set(CATEGORIAS_PRINCIPALES);
+var filtroSecundaria = new Set(CATEGORIAS_SECUNDARIAS);
 
 function terminosFiltrados(){
   return terminos.filter(function(t){
@@ -264,10 +272,37 @@ function terminosFiltrados(){
   });
 }
 
+function actualizarClasesLeyenda(){
+  document.querySelectorAll('#leyenda [data-tipo]').forEach(function(el){
+    var tipo = el.getAttribute('data-tipo');
+    var valor = el.getAttribute('data-valor');
+    var set = tipo === 'principal' ? filtroPrincipal : filtroSecundaria;
+    el.classList.toggle('inactiva', !set.has(valor));
+  });
+}
+
 function toggleFiltroTag(el, tipo, valor){
+  var todasOpciones = tipo === 'principal' ? CATEGORIAS_PRINCIPALES : CATEGORIAS_SECUNDARIAS;
   var set = tipo === 'principal' ? filtroPrincipal : filtroSecundaria;
-  if(set.has(valor)){ set.delete(valor); } else { set.add(valor); }
-  el.classList.toggle('inactiva', !set.has(valor));
+  var estabaTodoSeleccionado = set.size === todasOpciones.length;
+
+  if(estabaTodoSeleccionado){
+    // Aísla: deja seleccionada solo esta etiqueta.
+    set.clear();
+    set.add(valor);
+  } else if(set.has(valor)){
+    // Ya estaba seleccionada dentro de un subconjunto: la quita.
+    set.delete(valor);
+    if(set.size === 0){
+      // No quedó ninguna seleccionada: regresa a "todo seleccionado".
+      todasOpciones.forEach(function(v){ set.add(v); });
+    }
+  } else {
+    // Se agrega a la selección ya aislada.
+    set.add(valor);
+  }
+
+  actualizarClasesLeyenda();
   renderContenido(terminosFiltrados());
   filtrar();
 }
@@ -280,11 +315,9 @@ function onLeyendaKeydown(e, el, tipo, valor){
 }
 
 function limpiarFiltroTags(){
-  filtroPrincipal = new Set(['general', 'matematico', 'negocio']);
-  filtroSecundaria = new Set(Object.keys(ETIQUETAS_SEC));
-  document.querySelectorAll('#leyenda .categoria-tag, #leyenda .tag-sec').forEach(function(el){
-    el.classList.remove('inactiva');
-  });
+  filtroPrincipal = new Set(CATEGORIAS_PRINCIPALES);
+  filtroSecundaria = new Set(CATEGORIAS_SECUNDARIAS);
+  actualizarClasesLeyenda();
   renderContenido(terminosFiltrados());
   filtrar();
 }
@@ -387,11 +420,16 @@ function filtrar(){
   document.getElementById('sinResultados').style.display = algunResultado ? 'none' : 'block';
 }
 
-/* ── Carga del CSV ── */
-fetch('terminos.csv')
-  .then(function(r){ return r.text(); })
-  .then(function(texto){
-    terminos = parsearCSV(texto);
+/* ── Carga del CSV ──
+   Solo entran los términos de sesiones marcadas como visibles en sesiones.csv,
+   así el glosario avanza al mismo ritmo que el curso. */
+Promise.all([
+  fetch('terminos.csv').then(function(r){ return r.text(); }),
+  FCNC.visiblesGlosario()
+])
+  .then(function(res){
+    var texto = res[0], visibles = res[1];
+    terminos = parsearCSV(texto).filter(function(t){ return visibles.tiene(t.semana); });
 
     // Meta nota con semana máxima
     var maxSemana = terminos.reduce(function(m, t){ return Math.max(m, parseInt(t.semana)||0); }, 0);

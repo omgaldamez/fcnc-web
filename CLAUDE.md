@@ -22,8 +22,11 @@ No build step, no dependencies to install.
 
 ```
 fcnc-web/
-├── index.html           # Course landing page: lists all 15 weeks by unit
+├── index.html           # Course landing page: renders the 15-week list from sesiones.csv
+├── sesiones.csv         # Release controller: per-session visibility + per-tab visibility
+├── enlaces.csv          # All external links per session (Gamma, slides, NotebookLM video/audio)
 ├── assets/styles.css    # Shared design system (variables, layout, all components)
+├── assets/sesiones.js   # Shared controller that reads sesiones.csv (only shared .js file)
 ├── glosario/
 │   ├── index.html       # Cumulative glossary, renders terminos.csv client-side
 │   └── terminos.csv     # termino,definicion,semana,semana_titulo,categoria_principal,categorias_secundarias
@@ -59,12 +62,40 @@ The PDF generation (`Generar reporte PDF` / `Generar tablero PDF` button) uses j
 - **Components**: `.card`, `.ticket`, `.tab-*`, `.slider-*`, `.gauge-*`, `.bar-chart-*`, `.acordeon` (native `<details>`; `.acordeon-col` modifier removes the outer max-width/padding so it can sit inside a `.grid-two` cell), `.entrega-nota` (callout for a gradable deliverable/upload instruction)
 - **Style rule**: no em dashes inside running text anywhere in student-facing content or app copy (this file included). Use parentheses for an aside, a colon to introduce an explanation, or `·` (middle dot, already used as a label separator like "NotebookLM · Video") for title/header separators.
 
+## Release control (`sesiones.csv`)
+
+`sesiones.csv` is the single source of truth for what students can see. It is hand-edited by the instructor: no other file should be touched to open or close a session.
+
+One row per session, columns: `sesion,titulo,unidad,estado,etiqueta,teoria,auditoria,ficha,recursos,glosario`
+
+- `estado`: `disponible` (clickable), `proximamente` (visible in the list but greyed and not clickable), `oculta` (not rendered at all)
+- `etiqueta`: optional custom badge text; blank falls back to "Disponible" / "Próximamente"
+- `teoria` / `auditoria` / `ficha` / `recursos`: `1` shows that tab inside the week, `0` hides the tab button entirely. If the default active tab is off, the first enabled tab opens instead. If all four are off, the session renders as closed.
+- `glosario`: `1` lets that session's terms into `glosario/index.html` and `glosario/red.html`. Terms from sessions that are not `disponible` are filtered out regardless.
+
+`assets/sesiones.js` is the only shared `.js` file in the project and is a deliberate exception to the inline-JS convention below: it is cross-cutting and would otherwise be duplicated in 18+ files. It resolves `sesiones.csv` relative to its own `src`, so it works from the root, from `semana-XX/`, and from `glosario/`. It exposes `FCNC.pintarIndice(idContenedor)` (landing), `FCNC.aplicarSesion(n)` (week pages: access guard + tab visibility), and `FCNC.visiblesGlosario()` (glossary and network filter).
+
+Because the app now fetches CSVs on every page, opening `index.html` by double-clicking will not work: use a local HTTP server. This is a soft gate for course pacing, not access control: the CSV is public and a student who reads it can reach a closed page.
+
+## External links (`enlaces.csv`)
+
+No external media URL is hardcoded in a week's HTML. `enlaces.csv` holds one row per session, columns: `sesion,gamma_url,presentacion_url,video_url,video_modo,audio_url,audio_modo`
+
+- `gamma_url`: the Gamma deck. Either the normal `/docs/<id>` link or the `/embed/<id>` one: `assets/sesiones.js` normalizes it to `/embed/` before setting the iframe `src`. Blank hides the iframe and shows a "todavía no está publicada" note inside the Teoría panel.
+- `presentacion_url`: file behind the "↓ Descargar sesión" button in the header. Blank hides the button.
+- `video_url` / `audio_url`: the NotebookLM assets. Paste the Google Drive share link exactly as copied (`.../view?usp=...`); the code derives the `/preview` variant for the embedded player and a normalized `/view?usp=drive_link` for the download button. A non-Drive URL is used verbatim for both. Blank hides that whole card.
+- `video_modo` / `audio_modo`: `ambos` (default, blank behaves the same), `embed` (player only, no download button), `descarga` (download button only, no player).
+
+`FCNC.aplicarSesion(n)` calls `FCNC.aplicarEnlaces(n)` internally, so week pages need no extra call. The wiring depends on these ids existing in each week's HTML, which is why `semana-01/` is the template to copy: `descargaSesion`, `gammaFrame`, `cardVideo` / `videoFrame` / `videoDescarga`, `cardAudio` / `audioFrame` / `audioDescarga`. The frames ship with `src="about:blank"` and the download links with `href="#"` plus `display:none`, and JS fills and reveals them.
+
 ## Adding New Weeks
 
 1. Copy `semana-01/` to `semana-XX/`
 2. Update the case study data, sliders, and calculations for the new week's topic
-3. Update root `index.html` to change the week's status from `Próximamente` to `Disponible` and add the link
-4. All Spanish content; currency formatting uses `es-MX` locale
+3. Keep the `<script src="../assets/sesiones.js"></script>` + `FCNC.aplicarSesion(XX)` block at the end of `<body>`, updating the number. Leave the media ids and their placeholder `about:blank` / `#` values untouched.
+4. Fill that session's row in `enlaces.csv` with the Gamma and Drive links
+5. Open the week by setting its row in `sesiones.csv` to `disponible`. Do NOT edit `index.html`: the landing list is generated from the CSV.
+6. All Spanish content; currency formatting uses `es-MX` locale
 
 ## Key Conventions
 

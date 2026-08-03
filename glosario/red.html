@@ -254,6 +254,7 @@
 
 <div class="tooltip" id="tooltip"></div>
 
+<script src="../assets/sesiones.js"></script>
 <script>
 /* ── Paleta (heredada del glosario) ── */
 var COLOR_PRINCIPAL = { general:'#6B7280', matematico:'#2B579A', negocio:'#E8792F' };
@@ -953,10 +954,16 @@ function setEje(e){
 
 /* ── Carga ── */
 var esMobilePrev = null;
-Promise.all([ fetch('terminos.csv').then(function(r){return r.text();}), fetch('fuentes.csv').then(function(r){return r.text();}) ])
+Promise.all([
+  fetch('terminos.csv').then(function(r){return r.text();}),
+  fetch('fuentes.csv').then(function(r){return r.text();}),
+  FCNC.visiblesGlosario()
+])
   .then(function(res){
-    terminos = parsearCSV(res[0]);
-    fuentes = parsearCSV(res[1]);
+    // La red solo dibuja sesiones visibles según sesiones.csv.
+    var visibles = res[2];
+    terminos = parsearCSV(res[0]).filter(function(t){ return visibles.tiene(t.semana); });
+    fuentes  = parsearCSV(res[1]).filter(function(f){ return visibles.tiene(f.semana); });
     terminos.forEach(function(t){ porNombre[t.termino] = t; });
     fuentes.forEach(function(f){ (fuentesPorSemana[f.semana] = fuentesPorSemana[f.semana] || []).push(f); });
     renderVista();

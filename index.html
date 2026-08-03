@@ -71,54 +71,20 @@
   <h1>Fundamentos Cuantitativos para Negocios Creativos</h1>
   <div class="sub">15 semanas · 5 unidades. Cada sesión combina teoría, auditoría de un referente real, y la ficha de tu propio micro-emprendimiento.</div>
   <a href="glosario/index.html" class="glosario-link">Glosario del curso →</a>
+  <a href="evaluacion.html" class="glosario-link">Evaluación del curso →</a>
 </header>
 
 <main class="landing-main">
 
-  <div class="unidad-label">Unidad 1 · Matemáticas como herramienta estratégica (sem. 1–2)</div>
-  <div class="lista-semanas">
-    <a href="semana-01/index.html" class="semana-item disponible">
-      <span class="num">Semana 1</span>
-      <span class="titulo">¿Por qué los números?</span>
-      <span class="estado listo">Disponible</span>
-    </a>
-    <a href="semana-02/index.html" class="semana-item disponible">
-      <span class="num">Semana 2</span>
-      <span class="titulo">De los números a la estrategia</span>
-      <span class="estado listo">Disponible</span>
-    </a>
-  </div>
-
-  <div class="unidad-label">Unidad 2 · Repaso de operaciones fundamentales (sem. 3–5)</div>
-  <div class="lista-semanas">
-    <a href="semana-03/index.html" class="semana-item disponible"><span class="num">Semana 3</span><span class="titulo">Operar con intención</span><span class="estado listo">Disponible</span></a>
-    <div class="semana-item pendiente"><span class="num">Semana 4</span><span class="titulo">Fracciones, decimales y porcentajes</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 5</span><span class="titulo">Potencias y órdenes de magnitud</span><span class="estado pendiente">Próximamente</span></div>
-  </div>
-
-  <div class="unidad-label">Unidad 3 · Álgebra aplicada a negocios (sem. 6–8)</div>
-  <div class="lista-semanas">
-    <div class="semana-item pendiente"><span class="num">Semana 6</span><span class="titulo">La variable y las ecuaciones</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 7</span><span class="titulo">Despejar fórmulas</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 8</span><span class="titulo">Funciones lineales y gráficas</span><span class="estado pendiente">Próximamente</span></div>
-  </div>
-
-  <div class="unidad-label">Unidad 4 · Pre-cálculo (sem. 9–12)</div>
-  <div class="lista-semanas">
-    <div class="semana-item pendiente"><span class="num">Semana 9</span><span class="titulo">Cuando el mundo se curva</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 10</span><span class="titulo">Lo exponencial</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 11</span><span class="titulo">Crecimiento compuesto y viralidad</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 12</span><span class="titulo">Incertidumbre y azar</span><span class="estado pendiente">Próximamente</span></div>
-  </div>
-
-  <div class="unidad-label">Unidad 5 · Herramientas digitales, ética y cierre (sem. 13–15)</div>
-  <div class="lista-semanas">
-    <div class="semana-item pendiente"><span class="num">Semana 13</span><span class="titulo">Integrar el modelo</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 14</span><span class="titulo">Ética del número</span><span class="estado pendiente">Próximamente</span></div>
-    <div class="semana-item pendiente"><span class="num">Semana 15</span><span class="titulo">Cierre y pitch</span><span class="estado pendiente">Próximamente</span></div>
-  </div>
+  <!-- La lista de sesiones se arma desde sesiones.csv, no se edita a mano. -->
+  <div id="listaSesiones"><p style="color:var(--gris-nota);padding:24px 0;">Cargando sesiones…</p></div>
 
 </main>
+
+<script src="assets/sesiones.js"></script>
+<script>
+  FCNC.pintarIndice('listaSesiones');
+</script>
 
 </body>
 </html>

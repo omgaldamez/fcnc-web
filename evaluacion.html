@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación · Fundamentos Cuantitativos para Negocios Creativos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .eval-main{ max-width:1080px; margin:0 auto; padding:24px 24px 60px; }
+  .eval-intro{ font-size:13.5px; color:var(--tinta); margin:0 0 16px; max-width:640px; }
+
+  .eval-barras{ display:flex; flex-direction:column; gap:14px; margin-top:14px; }
+  .eval-barra-fila{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:5px;
+  }
+  .eval-barra-label{ font-size:13px; line-height:1.4; }
+  .eval-barra-pct{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    font-weight:600;
+    color:var(--azul-oscuro);
+    white-space:nowrap;
+  }
+  .eval-barra-track{
+    height:9px;
+    background:var(--nota-fondo);
+    border-radius:99px;
+    overflow:hidden;
+  }
+  .eval-barra-fill{ height:100%; border-radius:99px; }
+
+  .eval-rubrica-lista{ margin-top:6px; }
+  .eval-rubrica-item{
+    padding:11px 0;
+    border-bottom:1px dashed var(--linea);
+  }
+  .eval-rubrica-item:last-child{ border-bottom:none; }
+  .eval-rubrica-nombre{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--azul-oscuro);
+    margin-bottom:3px;
+  }
+  .eval-rubrica-desc{ font-size:13px; color:var(--tinta); }
+
+  .eval-nota{
+    font-size:12.5px;
+    color:var(--gris-nota);
+    margin-top:14px;
+    padding-top:12px;
+    border-top:1px solid var(--linea);
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html" class="nav-back">← Inicio</a>
+  <div class="eyebrow">Fundamentos Cuantitativos para Negocios Creativos</div>
+  <h1>Evaluación</h1>
+  <div class="sub">Cómo se califica el curso: sin examen final, con cuatro criterios y una rúbrica que aplica a todo entregable.</div>
+</header>
+
+<main class="eval-main">
+  <div class="grid-two grid-two-parejo">
+
+    <div class="card">
+      <h3>Cuatro criterios, ningún examen</h3>
+      <p class="eval-intro">La evaluación se sostiene en actividad en clase, simulación digital, trabajo independiente y el portafolio integrador. Se privilegia la justificación de la decisión sobre el resultado numérico.</p>
+
+      <div class="eval-barras">
+        <div class="eval-barra-item">
+          <div class="eval-barra-fila">
+            <span class="eval-barra-label">Actividad en clase — resolución colaborativa, casos reales y dilemas éticos</span>
+            <span class="eval-barra-pct">30%</span>
+          </div>
+          <div class="eval-barra-track"><div class="eval-barra-fill" style="width:30%; background:var(--azul);"></div></div>
+        </div>
+
+        <div class="eval-barra-item">
+          <div class="eval-barra-fila">
+            <span class="eval-barra-label">Actividad en clase — simulación digital y modelación en hojas de cálculo</span>
+            <span class="eval-barra-pct">20%</span>
+          </div>
+          <div class="eval-barra-track"><div class="eval-barra-fill" style="width:20%; background:var(--azul-oscuro);"></div></div>
+        </div>
+
+        <div class="eval-barra-item">
+          <div class="eval-barra-fila">
+            <span class="eval-barra-label">Ejercicios y tareas independientes</span>
+            <span class="eval-barra-pct">20%</span>
+          </div>
+          <div class="eval-barra-track"><div class="eval-barra-fill" style="width:20%; background:var(--naranja);"></div></div>
+        </div>
+
+        <div class="eval-barra-item">
+          <div class="eval-barra-fila">
+            <span class="eval-barra-label">Portafolio digital (evidencias del aprendizaje)</span>
+            <span class="eval-barra-pct">30%</span>
+          </div>
+          <div class="eval-barra-track"><div class="eval-barra-fill" style="width:30%; background:var(--naranja-oscuro);"></div></div>
+        </div>
+      </div>
+
+      <div class="eval-nota">La rúbrica transversal aplica a todo entregable de cualquier semana. En caso de duda al calificar, pesa más la calidad de la decisión justificada que la exactitud del número.</div>
+    </div>
+
+    <div class="card">
+      <div class="ejemplo-tag">Rúbrica transversal</div>
+      <h3 style="margin-top:8px;">Cómo se ve un buen entregable</h3>
+
+      <div class="eval-rubrica-lista">
+        <div class="eval-rubrica-item">
+          <div class="eval-rubrica-nombre">Rigor cuantitativo</div>
+          <div class="eval-rubrica-desc">Los cálculos son correctos y los supuestos, explícitos.</div>
+        </div>
+        <div class="eval-rubrica-item">
+          <div class="eval-rubrica-nombre">Pensamiento de negocio</div>
+          <div class="eval-rubrica-desc">El número se traduce en una decisión defendible.</div>
+        </div>
+        <div class="eval-rubrica-item">
+          <div class="eval-rubrica-nombre">Comunicación honesta</div>
+          <div class="eval-rubrica-desc">Gráficas y cifras claras, sin manipulación.</div>
+        </div>
+        <div class="eval-rubrica-item">
+          <div class="eval-rubrica-nombre">Autonomía y curiosidad</div>
+          <div class="eval-rubrica-desc">Va más allá de lo pedido; explora.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
