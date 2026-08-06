@@ -13,7 +13,7 @@ Tema: *¿Por qué los números?* · Lente: **modelar**
 - [ ] Abrir la app de Semana 1 y comprobar que carga la pestaña **Teoría** (el Gamma va en iframe y necesita internet).
 - [ ] Comprobar que `sesiones.csv` tiene la fila 1 en `disponible` (ya lo está) y que las cuatro pestañas se ven.
 - [ ] Mover los dos sliders de la auditoría una vez, para verificar que el medidor y las barras responden en la máquina del salón.
-- [ ] Tener la plantilla de Google Sheets creada y con permiso "cualquiera con el enlace puede ver". Se comparte en modo copia (ver sección 6).
+- [ ] Subir `semana-01-plantilla-sheets.xlsx` a Drive y abrirlo con Google Sheets (Archivo → Abrir con → Hojas de cálculo de Google). Trae tres hojas: **Auditoría taquería**, **Ficha de tu negocio** y **Vocabulario**. Configurar el permiso "cualquiera con el enlace puede ver" y compartir en modo copia (ver sección 6).
 - [ ] Tener el enlace corto o el QR de la app listo para proyectar.
 - [ ] Audio del salón probado: el podcast de NotebookLM no se usa en clase, pero sí se muestra dónde está.
 - [ ] Definir antes de entrar: **política de uso de IA** y **política de retardos y entregas tardías** (ver sección 7, están marcadas como pendientes).
@@ -29,8 +29,10 @@ Tema: *¿Por qué los números?* · Lente: **modelar**
 | 27 a 42 | **Encuadre del curso** | De qué se trata, cómo se evalúa, reglas. Sección 7. |
 | 42 a 70 | **Teoría** | Gamma: el número como tecnología de decisión. Sección 5. |
 | 70 a 98 | **Auditoría en la app** | Taquería: piso, supuesto, techo. Sección 5. |
-| 98 a 112 | **Hoja de cálculo** | Demo de 8 min y 5 min para que cada quien copie la plantilla. Sección 6. |
-| 112 a 120 | **Cierre y tarea** | Qué se entrega, dónde, para cuándo. Sección 8. |
+| 98 a 128 | **Hoja de cálculo** | Pizarrón breve + construir el modelo en Sheets con fórmulas. Sección 6. |
+| 128 a 136 | **Cierre y tarea** | Qué se entrega, dónde, para cuándo. Sección 8. |
+
+**El bloque 6 creció de 14 a 30 minutos** frente a la primera versión de esta guía, porque ahora se construye en vivo el modelo de piso/supuesto/techo con fórmulas (antes solo se tocaba precio × unidades). Eso empuja la sesión a 136 minutos. Si necesitas volver a los 120, el recorte se hace en el encuadre (sección 7), que ya está escrito para comprimirse a 8 minutos; la auditoría y la hoja de cálculo no se tocan.
 
 **Colchón:** si el bloque de presentaciones se alarga (pasa seguido en la primera sesión), el recorte se hace en el encuadre, no en la auditoría. El encuadre se puede comprimir a 8 minutos apoyándote en que la rúbrica también está escrita en la app y en Brightspace.
 
@@ -95,6 +97,10 @@ Concepto central: **el número como tecnología de decisión**. Esta semana no s
 | **Modelo** | Una versión recortada de la realidad, hecha para decidir. |
 | **Supuesto** | Algo que estás dando por cierto sin haberlo confirmado. |
 | **Referente** | Un negocio real que te sirve de punto de comparación. |
+| **Piso** | El resultado más bajo que es razonable esperar, con el extremo conservador de lo que reportan negocios parecidos. |
+| **Techo** | El resultado más alto que es razonable esperar, con el extremo favorable de lo que reportan negocios parecidos. |
+
+Piso y techo se nombran aquí pero se anclan a números concretos hasta la auditoría (sección 5.2) y el pizarrón previo a Sheets (sección 6.1): no hace falta profundizar todavía.
 
 **Apertura con la lectura.** Introducción y capítulo 1 "Uno, dos, muchos" de Maccarrone: los Baniwa, en la cuenca del río Negro, cuentan con tres palabras (*Patsialu*, *Enaba*, *Srúpeli*: uno, dos, muchos). Pregunta de asombro para el grupo: **"¿qué decisiones no podrías tomar si solo tuvieras esas tres palabras?"** Deja que lleguen solos a que no podrías cobrar, ni comparar, ni planear.
 
@@ -128,34 +134,40 @@ Pregunta al grupo: *"¿cuál de los dos caminos es más fácil de conseguir en u
 
 ---
 
-## 6. Hoja de cálculo (14 min)
+## 6. Hoja de cálculo (30 min)
 
-Primer contacto del semestre. La meta de hoy es corta a propósito: **celdas, direcciones, y una fórmula que se recalcula sola.** Nada más. Nadie abre una hoja en blanco.
+Primer contacto del semestre. La meta de hoy sigue siendo corta a propósito: **celdas, direcciones, y una fórmula que se recalcula sola**, ahora aplicada al mismo modelo de piso/supuesto/techo que ya corrieron en la app. Nadie abre una hoja en blanco: la plantilla `semana-01-plantilla-sheets.xlsx` ya está armada, con fórmulas y comentarios en cada celda que las explica (pasa el cursor sobre el triángulo rojo de la esquina para leerlos).
 
-**Demo en proyector (8 min), en este orden:**
+La plantilla tiene tres hojas: **Auditoría taquería** (el modelo completo, con fórmulas), **Ficha de tu negocio** (el mismo patrón, con el ejemplo de Café Andante resuelto y una columna vacía para el alumno) y **Vocabulario** (los cinco términos de la sección 5.1, para proyectar si hace falta repasar).
 
-1. Qué es una celda y por qué tiene apellido: `B2` es la columna B, fila 2. Se lee en voz alta "be dos".
-2. Escribir un texto y escribir un número. Que vean que la hoja los alinea distinto sola. Ese es el primer indicio de que la hoja sabe qué tiene adentro.
-3. El signo `=` convierte una celda en un cálculo. Escribe `=40*30` y da enter.
-4. Ahora lo mismo, pero apuntando a celdas: `=B2*B3`. Aquí está el salto: la fórmula no guarda números, guarda **direcciones**.
-5. **El momento clave:** cambia el precio en `B2` de 40 a 45. Todo lo de abajo se actualiza solo. Dilo explícito: *"la hoja recalcula, tú no. Por eso vale la pena aprenderla."*
+### 6.1 Pizarrón, breve (6 a 8 min) · antes de abrir la computadora
 
-**La plantilla** (mismo modelo que la ficha de la app, para que haya continuidad):
+- Escribe en el pizarrón las cuatro operaciones básicas: `+`, `−`, `×`, `÷`. Pregunta al grupo: *"¿cuál de estas cuatro usamos hace un rato en la auditoría, sin llamarla por su nombre?"* Deja que lleguen a que repartieron el mes entre 30 días (÷) y que aplicaron una proporción al ingreso diario (×).
+- Introduce la idea de **variable**: una caja con nombre que puede cambiar de valor. Dibuja dos cajas en el pizarrón, "Ventas del mes" y "Ganancia por cada $100,000", con los números de la fila "Tu supuesto" de la auditoría ($200,000 y $15,000). Dilo explícito: *"estas dos cajas son las variables del modelo. Todo lo demás en la hoja se calcula a partir de ellas."*
+- Cierra el vocabulario de la sesión si algo quedó suelto: dato, métrica, supuesto, piso, techo, ahora los cinco anclados a números concretos de la taquería (tabla de la sección 5.1 o la hoja Vocabulario proyectada).
 
-| | A | B |
-|---|---|---|
-| **1** | MI NEGOCIO · SEMANA 1 | |
-| **2** | Precio por unidad | 40 |
-| **3** | Unidades vendidas por día | 30 |
-| **4** | Ingreso por día | `=B2*B3` |
-| **5** | Días del mes | 30 |
-| **6** | **Ingreso por mes** | `=B4*B5` |
+### 6.2 Construir la hoja "Auditoría taquería" (14 min) · proyector
 
-Las celdas `B4` y `B6` van ya escritas. El alumno solo cambia `B2`, `B3` y `B5`.
+Abre la hoja con las columnas de fórmula (D y E) ocultas o cubiertas, para que el grupo las vea aparecer:
 
-**Los 5 minutos de ellos:** abren el enlace, van a **Archivo → Hacer una copia**, y la nombran `NombreApellido_S01`. Eso es todo lo que tienen que lograr hoy. Recorre el salón y confirma que los doce tienen su copia guardada en su Drive. Quien no traiga laptop lo hace en el celular o al llegar a casa: no se detiene la clase por eso.
+1. **Ubicar los datos.** Señala `B7` y `C7` (fila "Piso"): ventas mensuales y ganancia por cada $100,000, en azul porque son las celdas que se pueden editar. Son los mismos dos números del ticket de la app.
+2. **Ingreso diario, en palabras primero.** Pregunta: *"si el mes completo vendió $100,000, y quiero saber cuánto entró en un solo día, ¿qué opero?"* Cuando alguien diga "lo divido entre 30", escribe en `D7`: `=B7/30`. Léela en voz alta: "be siete entre 30".
+3. **Ganancia diaria, en palabras primero.** Pregunta: *"si por cada $100,000 vendidos quedan $10,000 de ganancia, ¿qué parte de mi ingreso diario es eso?"* Guía a que $10,000 de cada $100,000 es una décima parte. Escribe en `E7`: `=D7*(C7/100000)`. Señala el paréntesis: *"lo de adentro se resuelve primero, y ese resultado multiplica al ingreso diario."* No hace falta nombrar "jerarquía de operaciones" todavía (eso es Semana 3); basta con que vean que el paréntesis ordena la cuenta.
+4. **Copiar hacia abajo.** Selecciona `D7:E7` y arrastra hasta la fila 9 (Techo). Antes de soltar, pregunta: *"¿qué esperan que salga en la fila del techo, comparado con la del piso?"*
+5. **Verificar contra la app.** Los tres resultados deben salir exactos: **$333.33** (piso, fila 7), **$1,000.00** (tu supuesto, fila 8), **$2,000.00** (techo, fila 9). Si no coinciden, algo en la fórmula copiada apunta a la fila equivocada.
+6. **Si sobra tiempo:** baja a la tabla "Comparación de palancas" (filas 14 a 16) y arma la columna F (diferencia), restando la ganancia diaria de cada camino contra la de tu supuesto: `=E15-E8` para el Camino A, `=E16-E8` para el Camino B. Resultado esperado: **+$250** vendiendo más, **+$333.33** ganando mejor por unidad. Reconecta con la pregunta de la sección 5.2: *"¿cuál de los dos caminos es más fácil de conseguir en una taquería real?"*, ahora con el número exacto en pantalla.
 
-**No enseñar hoy:** SUMA, formato de moneda, gráficas, referencias absolutas. Cada una tiene su semana asignada.
+### 6.3 Mostrar (no llenar) la hoja "Ficha de tu negocio" (4 a 5 min)
+
+- Cambia a la segunda hoja. Señala que es el mismo patrón que acaban de construir: precio por unidad × unidades vendidas al día = ingreso por día (`=B7*B8` en la columna de ejemplo), y ese ingreso por día × días del mes = ingreso por mes (`=B9*B10`).
+- La columna "Ejemplo · Café Andante" ya está resuelta: $40 de precio, 30 unidades al día, **$1,200 de ingreso diario**, **$36,000 de ingreso mensual**. Dilo en voz alta como referencia.
+- La columna "Tu negocio" está vacía a propósito (relleno amarillo marca dónde escriben). **No se llena en clase**: es la tarea de la semana, en espejo con la ficha de la app.
+
+### 6.4 Los 5 minutos de ellos
+
+Abren el enlace, van a **Archivo → Hacer una copia**, y la nombran `NombreApellido_S01`. Eso es todo lo que tienen que lograr hoy. Recorre el salón y confirma que los doce tienen su copia guardada en su Drive. Quien no traiga laptop lo hace en el celular o al llegar a casa: no se detiene la clase por eso.
+
+**No enseñar hoy:** SUMA, formato de moneda, gráficas, referencias absolutas. Vieron un paréntesis dentro de una fórmula (paso 3 de la sección 6.2); eso ya es un adelanto y no necesita más explicación hoy. Cada una de las demás tiene su semana asignada.
 
 ---
 
