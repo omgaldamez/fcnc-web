@@ -28,32 +28,6 @@
   }
   .descarga-sesion:hover{ background:rgba(255,255,255,.25); }
 
-  /* ---- Marcador de propuesta reemplazable (prototipo para revisión académica) ---- */
-  .propuesta-tag{
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:10.5px;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-    background:#fff2e6;
-    color:var(--naranja-oscuro);
-    border:1px dashed var(--naranja);
-    padding:2px 8px;
-    border-radius:5px;
-  }
-  .propuesta-nota{
-    font-size:11.5px;
-    color:var(--naranja-oscuro);
-    background:#fff8ec;
-    border-left:3px solid var(--naranja);
-    padding:6px 10px;
-    border-radius:0 6px 6px 0;
-    margin:8px 0 0;
-    line-height:1.45;
-  }
-
   /* ---- Placeholder de Gamma ---- */
   .gamma-placeholder{
     margin:16px 0;
@@ -344,11 +318,6 @@
   <!-- ===================== PESTAÑA 1: AUDITORÍA ===================== -->
   <section id="panelAuditoria" class="panel">
 
-    <div class="propuesta-nota">
-      <span class="propuesta-tag">◇ Propuesta reemplazable</span>
-      &nbsp; Este referente (la taquería) se reutiliza de Semana 1 por continuidad. El área académica puede sustituirlo por otro caso: solo cambian los datos y el precio de esta pestaña; la lógica de proporción y de comparación de palancas se mantiene intacta.
-    </div>
-
     <div class="grid-two grid-two-parejo" style="margin-top:14px;">
       <div class="card">
         <h3>El fenómeno, en números</h3>
@@ -474,7 +443,6 @@
     <div class="grid-two" style="margin-top:14px;">
       <div class="card">
         <span class="ejemplo-tag">Ejemplo resuelto</span>
-        <span class="propuesta-tag" style="margin-left:6px;">◇ Propuesta reemplazable</span>
         <h3 style="margin-top:8px;">Café Andante</h3>
         <p>El mismo negocio de ejemplo de Semana 1, ahora como tablero de supuestos:</p>
         <div class="ticket-wrap">
@@ -1181,7 +1149,7 @@ function generarPDF(){
   y += 5 + (Math.min(justLineas.length,5)*4.6) + 8;
 
   // ---- Auditoría del referente ----
-  seccion('AUDITORÍA DEL REFERENTE (PROPUESTA REEMPLAZABLE)');
+  seccion('AUDITORÍA DEL REFERENTE');
 
   const audClientes = parseInt(document.getElementById('audClientesSlider').value,10);
   const audTacos = parseFloat(document.getElementById('audTacosSlider').value);
@@ -1217,7 +1185,7 @@ function generarPDF(){
   doc.setFontSize(7);
   doc.setTextColor(...gris);
   doc.setFont(undefined,'italic');
-  const fuentes = 'Referente ilustrativo dentro de rangos reportados en Semana 1 (INEGI/DENUE; caso Los Cocuyos). Prototipo para revisión académica: el referente y los ejemplos numéricos son propuestas reemplazables.';
+  const fuentes = 'Referente ilustrativo dentro de rangos reportados en Semana 1 (INEGI/DENUE; caso Los Cocuyos).';
   doc.text(doc.splitTextToSize(fuentes, usableW), marginX, y);
   doc.setFont(undefined,'normal');
 
