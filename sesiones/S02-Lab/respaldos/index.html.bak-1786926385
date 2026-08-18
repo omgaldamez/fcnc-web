@@ -450,7 +450,7 @@
       <div class="grafica-columna">
         <div class="card">
           <h3 style="font-size:14px;margin-bottom:4px;">¿Qué palanca mueve más el ingreso mensual?</h3>
-          <p style="font-size:12px;color:var(--gris-nota);margin:0 0 4px;">El empujón más chico que cada camino puede dar en la práctica no rinde igual. Cuánto rinde depende de la base sobre la que cae.</p>
+          <p style="font-size:12px;color:var(--gris-nota);margin:0 0 4px;">La misma "cantidad de esfuerzo" en cada camino no rinde igual. Depende de la proporción actual.</p>
           <div class="palancas">
             <div class="palanca" id="palancaA">
               <div class="mov">Camino A · +1 cliente por día</div>
@@ -958,15 +958,6 @@ function recalcularAuditoria(){
   document.getElementById('palancaBValor').textContent = '+' + fmtMoney0(ganB);
   document.getElementById('palancaCValor').textContent = '+' + fmtMoney0(ganC);
 
-  // Con el mes lleno ya no queda dia que abrir: el Camino C se topa con su techo.
-  const pC = document.getElementById('palancaC');
-  const notaC = pC.querySelector('.mov-nota');
-  const mesLleno = diasAbiertos >= 31;
-  pC.style.opacity = mesLleno ? '0.55' : '';
-  notaC.textContent = mesLleno
-    ? 'Ya no quedan dias que abrir: aqui es donde el Camino C se topa con su techo'
-    : 'El ingreso de un dia completo, con su propio costo';
-
   document.getElementById('notaDecimalTacos').innerHTML = textoDecimal(tacosCliente, 'taco', 'tacos');
 
   const pA = document.getElementById('palancaA');
@@ -981,7 +972,7 @@ function recalcularAuditoria(){
   if(empate){
     vered.innerHTML = `Justo aquí <strong>los dos caminos empatan</strong>. Con más clientes que estos, empujar los tacos por cliente rinde más; con menos, conviene traer clientes nuevos.`;
   } else if(ganB > ganA){
-    vered.innerHTML = `Gana el <strong>Camino B</strong>: con esta proporción, esa décima cae sobre cada uno de los clientes que ya tienes, así que se multiplica por más gente que traer uno nuevo. Se invertiría por debajo de <span class="num">~${clientesCruce}</span> clientes/día.`;
+    vered.innerHTML = `Gana el <strong>Camino B</strong>: como ya tienes muchos clientes, que cada uno lleve un poco más rinde más que traer uno nuevo. Se invertiría por debajo de <span class="num">~${clientesCruce}</span> clientes/día.`;
   } else {
     vered.innerHTML = `Gana el <strong>Camino A</strong>: con relativamente pocos clientes, traer uno nuevo rinde más que subir el promedio por cliente. Se invertiría por arriba de <span class="num">~${clientesCruce}</span> clientes/día.`;
   }

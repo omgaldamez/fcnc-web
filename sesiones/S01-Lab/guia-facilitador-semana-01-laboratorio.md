@@ -11,7 +11,7 @@ Temas: **Auditoría de un referente** + **Ficha de tu negocio**, ambos construid
 
 ## 0. Antes de entrar al salón
 
-- [ ] Subir `semana-01-plantilla-sheets.xlsx` a Drive y abrirlo con Google Sheets. Tres hojas: **Auditoría taquería**, **Ficha de tu negocio**, **Vocabulario**. Permiso "cualquiera con el enlace puede ver", compartir en modo copia.
+- [ ] Subir `S01-Lab-clase.xlsx` a Drive y abrirlo con Google Sheets. Tres hojas: **Auditoría taquería**, **Ficha de tu negocio**, **Vocabulario**. Permiso "cualquiera con el enlace puede ver", compartir en modo copia.
 - [ ] Abrir la app de Semana 1 en las pestañas **Auditoría** y **Ficha de tu negocio**; mover los dos sliders una vez para confirmar que responden en la máquina del salón.
 - [ ] Tener a la mano la tabla de vocabulario de abajo (sección 1) por si hace falta repasar un término.
 - [ ] Recordar: el PDF que suben a Brightspace ya trae los dos campos que sirven de base para tu retro (el argumento de la auditoría y "métrica a rastrear y por qué" de la ficha). No hace falta pedir nada extra por escrito hoy.

@@ -13,7 +13,7 @@ Tema: *¿Por qué los números?* · Lente: **modelar**
 - [ ] Abrir la app de Semana 1 y comprobar que carga la pestaña **Teoría** (el Gamma va en iframe y necesita internet).
 - [ ] Comprobar que `sesiones.csv` tiene la fila 1 en `disponible` (ya lo está) y que las cuatro pestañas se ven.
 - [ ] Mover los dos sliders de la auditoría una vez, para verificar que el medidor y las barras responden en la máquina del salón.
-- [ ] Subir `semana-01-plantilla-sheets.xlsx` a Drive y abrirlo con Google Sheets (Archivo → Abrir con → Hojas de cálculo de Google). Trae tres hojas: **Auditoría taquería**, **Ficha de tu negocio** y **Vocabulario**. Configurar el permiso "cualquiera con el enlace puede ver" y compartir en modo copia (ver sección 6).
+- [ ] Subir `S01-Lab-clase.xlsx` a Drive y abrirlo con Google Sheets (Archivo → Abrir con → Hojas de cálculo de Google). Trae tres hojas: **Auditoría taquería**, **Ficha de tu negocio** y **Vocabulario**. Configurar el permiso "cualquiera con el enlace puede ver" y compartir en modo copia (ver sección 6).
 - [ ] Tener el enlace corto o el QR de la app listo para proyectar.
 - [ ] Audio del salón probado: el podcast de NotebookLM no se usa en clase, pero sí se muestra dónde está.
 - [ ] Definir antes de entrar: **política de uso de IA** y **política de retardos y entregas tardías** (ver sección 7, están marcadas como pendientes).
@@ -136,7 +136,7 @@ Pregunta al grupo: *"¿cuál de los dos caminos es más fácil de conseguir en u
 
 ## 6. Hoja de cálculo (30 min)
 
-Primer contacto del semestre. La meta de hoy sigue siendo corta a propósito: **celdas, direcciones, y una fórmula que se recalcula sola**, ahora aplicada al mismo modelo de piso/supuesto/techo que ya corrieron en la app. Nadie abre una hoja en blanco: la plantilla `semana-01-plantilla-sheets.xlsx` ya está armada, con fórmulas y comentarios en cada celda que las explica (pasa el cursor sobre el triángulo rojo de la esquina para leerlos).
+Primer contacto del semestre. La meta de hoy sigue siendo corta a propósito: **celdas, direcciones, y una fórmula que se recalcula sola**, ahora aplicada al mismo modelo de piso/supuesto/techo que ya corrieron en la app. Nadie abre una hoja en blanco: la plantilla `S01-Lab-clase.xlsx` ya está armada, con fórmulas y comentarios en cada celda que las explica (pasa el cursor sobre el triángulo rojo de la esquina para leerlos).
 
 La plantilla tiene tres hojas: **Auditoría taquería** (el modelo completo, con fórmulas), **Ficha de tu negocio** (el mismo patrón, con el ejemplo de Café Andante resuelto y una columna vacía para el alumno) y **Vocabulario** (los cinco términos de la sección 5.1, para proyectar si hace falta repasar).
 

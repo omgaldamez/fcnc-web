@@ -30,10 +30,15 @@ fcnc-web/
 ├── glosario/
 │   ├── index.html       # Cumulative glossary, renders terminos.csv client-side
 │   └── terminos.csv     # termino,definicion,semana,semana_titulo,categoria_principal,categorias_secundarias
-├── gamma-teoria-semana-XX.md   # Source content for each week's Gamma theory deck
-└── semana-XX/
-    └── index.html       # One self-contained module per week
+├── semana-XX/
+│   └── index.html       # One self-contained module per week
+└── sesiones/            # Teaching materials. NOT part of the deployed site: nothing here is linked from any page.
+    ├── _curso/          # Cross-session: bitacora, contexto, methodology, the cumulative student workbook
+    ├── S0X-Teoria/      # Per theory session: gamma-teoria-semana-XX.md, exported deck PDF, facilitator guide
+    └── S0X-Lab/         # Per lab session: facilitator guide, class record, spreadsheets, audits
 ```
+
+Sessions are named `S0X-Teoria` and `S0X-Lab` by syllabus week, not by calendar order. Editing anything under `sesiones/` never requires touching the site, and vice versa.
 
 Each `semana-XX/index.html` is a **fully self-contained module** that links back to the root. All weeks share `../assets/styles.css`. The only external dependency is jsPDF 2.5.1 (loaded via CDN in weeks that generate PDFs).
 

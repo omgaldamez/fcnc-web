@@ -17,7 +17,7 @@ Tema: *De los números a la estrategia* · Lente: **comparar**
 - [ ] Mover los tres deslizadores de la auditoría una vez, para verificar que las tarjetas de Camino A, B y C responden en la máquina del salón.
 - [ ] **Aplicar las tres correcciones al Gamma antes de proyectarlo.** Están listadas en `auditoria-contenido-semana-02.md`, sección 10. La más importante es la de la diapositiva "El tamaño de cada movimiento": sin ella, el argumento central de la sesión queda circular y un alumno que divida puede desarmarlo en el momento.
 - [ ] Confirmar que existe en Brightspace la actividad **S02 · Tablero de supuestos v1**. La app ya le dice al alumno que suba ahí; si no existe, lee una instrucción que no puede cumplir.
-- [ ] Subir `Clase1-Plantilla-Semana01-corregida.xlsx` a Drive, abrirlo con Google Sheets y compartirlo en modo copia. Es la versión corregida de la hoja que se armó en vivo la semana pasada. **Si no alcanza a quedar lista, la sesión corre igual:** la sección 3 se puede dar en el pizarrón con los seis números de la tabla, y la hoja se comparte después por Brightspace.
+- [ ] Subir `S01-Lab-resuelto.xlsx` a Drive, abrirlo con Google Sheets y compartirlo en modo copia. Es la versión corregida de la hoja que se armó en vivo la semana pasada. **Si no alcanza a quedar lista, la sesión corre igual:** la sección 3 se puede dar en el pizarrón con los seis números de la tabla, y la hoja se comparte después por Brightspace.
 - [ ] Tener a la mano los números de la sección 3, porque la devolución de la hoja abre la sesión y conviene no buscarlos en el momento.
 
 ---
