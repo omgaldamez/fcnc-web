@@ -42,6 +42,12 @@ Sessions are named `S0X-Teoria` and `S0X-Lab` by syllabus week, not by calendar 
 
 Each `semana-XX/index.html` is a **fully self-contained module** that links back to the root. All weeks share `../assets/styles.css`. The only external dependency is jsPDF 2.5.1 (loaded via CDN in weeks that generate PDFs).
 
+## Frontera del temario
+
+Ningún material puede usar una operación o un concepto que el temario aún no haya visto, sin importar el formato: presentación, app, hoja de cálculo o guía. Antes de entregar, revisar cada bloque contra la semana en que ese tema entra. Si un bloque necesita una herramienta futura, se reescribe con las que ya tienen o se pospone a la semana que corresponde. En caso de duda, se pospone.
+
+Reference: the percentage operator belongs to Week 4, algebra to Weeks 6-7. A block that needs either one before its week is out of bounds even if the arithmetic is correct. This rule started as an app-only convention (the Week 1 margin slider was redesigned from percent to pesos) and was extended to every format after a spreadsheet block in S02-Lab compared 1/87 against 0.1/3.5 as percentages and had to be cut mid-session.
+
 ## Week Module Structure
 
 Each week module follows a tabbed layout with four sections:

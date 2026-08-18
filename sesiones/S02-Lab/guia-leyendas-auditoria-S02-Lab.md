@@ -88,6 +88,8 @@ Los dos últimos son los que cierran el argumento: **no es "muchos clientes gana
 
 Las pongo aparte porque son decisiones tuyas, no lecturas.
 
+> **Estado al 18 de agosto de 2026.** Los puntos **a**, **b** y **c** se aplicaron a `semana-02/index.html` la noche del 17 de agosto, antes de la clase; hay un respaldo con marca de tiempo en `respaldos/`. El punto **d**, el aviso de fuera de rango, **no se aplicó**: sigue abierto y se decide en S03.
+
 **a) La nota de arriba de las palancas dice "la misma cantidad de esfuerzo".** El texto completo es *"La misma 'cantidad de esfuerzo' en cada camino no rinde igual. Depende de la proporción actual."* Esa frase es justo la que quedó desmontada: +1 cliente sobre 87 es 1.15%, +0.1 tacos sobre 3.5 es 2.86%, y la razón entre esos dos porcentajes es 2.4857, idéntica a la razón entre $5,742 y $2,310. No son la misma cantidad de esfuerzo. Alternativa: *"El empujón más chico que cada camino puede dar en la práctica no rinde igual. Cuánto rinde depende de la base sobre la que cae."*
 
 **b) El veredicto dice "como ya tienes muchos clientes".** Es cierto pero incompleto, y es la versión del argumento que la teoría ya corrigió. Alternativa: *"con esta proporción, esa décima cae sobre cada uno de los clientes que ya tienes"*.

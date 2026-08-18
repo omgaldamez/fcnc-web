@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El empate · S02-Lab</title>
+<style>
+  :root{
+    --azul:#2B579A; --azul-oscuro:#1D3E73;
+    --naranja:#E8792F; --naranja-oscuro:#C9601D;
+    --tinta:#1C2430; --papel:#F3F4F6; --carta:#FFFFFF;
+    --linea:#C9CDD3; --nota:#6B7280; --nota-fondo:#EDEEF1;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--papel); color:var(--tinta);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    font-size:17px; line-height:1.55;
+  }
+  .wrap{max-width:1000px; margin:0 auto; padding:32px 24px 80px}
+  header{border-bottom:3px solid var(--azul); padding-bottom:14px; margin-bottom:28px}
+  h1{font-size:34px; margin:0 0 4px; color:var(--azul); letter-spacing:-.01em}
+  .sub{color:var(--nota); font-size:15px}
+
+  section{background:var(--carta); border:1px solid var(--linea); border-radius:10px;
+          padding:26px 28px; margin-bottom:20px}
+  .paso{display:inline-block; font-size:12px; letter-spacing:.09em; text-transform:uppercase;
+        color:var(--nota); border:1px solid var(--linea); border-radius:20px;
+        padding:3px 11px; margin-bottom:12px}
+  h2{font-size:23px; margin:0 0 10px; letter-spacing:-.01em}
+  p{margin:0 0 12px}
+  p:last-child{margin-bottom:0}
+  .grande{font-size:21px; line-height:1.45}
+  .apagado{color:var(--nota); font-size:15px}
+
+  /* ---- caminos ---- */
+  .camino{border-top:1px solid var(--linea); padding-top:20px; margin-top:20px}
+  .camino:first-of-type{border-top:0; padding-top:0; margin-top:0}
+  .camino-tit{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:4px}
+  .chip{font-weight:700; font-size:15px; color:#fff; border-radius:6px; padding:2px 10px}
+  .chip.a{background:var(--azul)}
+  .chip.b{background:var(--naranja-oscuro)}
+  .camino-tit strong{font-size:19px}
+  .cuenta{font-size:15px; color:var(--nota); margin:2px 0 12px}
+  .cuenta b{color:var(--tinta)}
+
+  .personas{display:flex; flex-wrap:wrap; gap:3px; max-width:420px; margin-bottom:12px}
+  .p{width:9px; height:9px; border-radius:50%; background:#B9C2D1}
+  .p.uno{width:16px; height:16px; background:var(--azul); margin-bottom:-3px}
+  .p.todos{background:var(--naranja)}
+
+  .unidades{display:flex; align-items:flex-end; gap:2px; height:34px; margin:6px 0 8px}
+  .u{width:24px; height:30px; border-radius:4px; flex:none}
+  .u.a{background:var(--azul)}
+  .u.b{background:var(--naranja)}
+  .u.media{border-top-right-radius:0; border-bottom-right-radius:0}
+  .total{font-size:30px; font-weight:700; letter-spacing:-.02em; margin-top:2px}
+  .total.a{color:var(--azul)}
+  .total.b{color:var(--naranja-oscuro)}
+  .total span{font-size:16px; font-weight:400; color:var(--nota); letter-spacing:0}
+
+  .veredicto{background:var(--nota-fondo); border-left:4px solid var(--azul);
+             border-radius:0 8px 8px 0; padding:16px 20px; margin-top:22px; font-size:19px}
+
+  /* ---- reparto ---- */
+  .reparto{display:flex; gap:26px; align-items:center; flex-wrap:wrap; margin:18px 0}
+  .caja{text-align:center}
+  .caja .n{font-size:34px; font-weight:700; letter-spacing:-.02em; line-height:1.1}
+  .caja .et{font-size:13px; color:var(--nota); max-width:170px; margin:2px auto 0}
+  .op{font-size:26px; color:var(--nota); font-weight:300}
+  .caja.res .n{color:var(--naranja-oscuro)}
+
+  table{border-collapse:collapse; width:100%; margin-top:8px; font-size:15px}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--linea)}
+  th{background:var(--azul); color:#fff; font-size:13px; font-weight:600; border-bottom:0}
+  th:first-child{border-radius:6px 0 0 0} th:last-child{border-radius:0 6px 0 0}
+  td.num{font-variant-numeric:tabular-nums; white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+
+  .abierta{border-left:4px solid var(--naranja); background:#FDF4EC}
+  footer{color:var(--nota); font-size:13px; text-align:center; margin-top:26px}
+  @media print{ body{background:#fff} section{break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>El empate</h1>
+  <div class="sub">S02-Lab · Fundamentos Cuantitativos para Negocios Creativos · por qué el Camino B rinde más</div>
+</header>
+
+<section>
+  <div class="paso">La pregunta trampa</div>
+  <h2>El Camino B da casi cinco veces lo que el A.</h2>
+  <p class="grande">Traer un cliente más al día suma <b>$2,002</b> al mes. Que cada cliente lleve 0.2 unidades más suma <b>$9,952.80</b>.</p>
+  <p class="grande">¿Entonces subirle a cada cliente es mejor idea que traer clientes?</p>
+  <p class="apagado">Deja que contesten que sí antes de seguir.</p>
+</section>
+
+<section>
+  <div class="paso">La clave</div>
+  <h2>Los dos caminos hacen lo mismo: agregar unidades vendidas al día.</h2>
+  <p>La única pregunta que importa es <b>cuántas agrega cada uno</b>. Contémoslas.</p>
+
+  <div class="camino">
+    <div class="camino-tit"><span class="chip a">A</span><strong>Traer un cliente más al día</strong></div>
+    <div class="cuenta">Ese cliente se lleva lo que se lleva cualquiera: <b>3.5 unidades</b>.<br>
+      <b>1</b> persona × <b>3.5</b> unidades</div>
+    <div class="personas"><div class="p uno"></div></div>
+    <div class="unidades" id="uA"></div>
+    <div class="total a">+3.5 <span>unidades al día</span></div>
+  </div>
+
+  <div class="camino">
+    <div class="camino-tit"><span class="chip b">B</span><strong>Que cada cliente lleve 0.2 unidades más</strong></div>
+    <div class="cuenta">Esa fracción se cobra en cada uno de los clientes que ya entran: <b>87 personas</b>.<br>
+      <b>87</b> personas × <b>0.2</b> unidades</div>
+    <div class="personas" id="p87"></div>
+    <div class="unidades" id="uB"></div>
+    <div class="total b">+17.4 <span>unidades al día</span></div>
+  </div>
+
+  <div class="veredicto">
+    <b>17.4 contra 3.5.</b> El Camino B mueve casi cinco veces más mercancía, así que claro que deja casi cinco veces más dinero. No es una virtud de la palanca: es que <b>lo movimos cinco veces más fuerte</b>.
+  </div>
+</section>
+
+<section>
+  <div class="paso">El empate</div>
+  <h2>¿De cuánto tendría que ser para empatar?</h2>
+  <p class="grande">Si el cliente nuevo trae 3.5 unidades al día, la pregunta es: <b>esas 3.5 unidades, repartidas entre los 87 clientes que ya tienes, ¿a cuánto tocan cada uno?</b></p>
+
+  <div class="reparto">
+    <div class="caja"><div class="n" style="color:var(--azul)">3.5</div><div class="et">unidades que trae el cliente nuevo</div></div>
+    <div class="op">÷</div>
+    <div class="caja"><div class="n">87</div><div class="et">clientes que ya entran</div></div>
+    <div class="op">=</div>
+    <div class="caja res"><div class="n">0.04</div><div class="et">unidades más por cada cliente</div></div>
+  </div>
+
+  <p class="grande">Traer un cliente entero equivale a convencer a cada uno de los que ya vienen de llevarse <b>cuatro centésimas</b> más. El 0.2 que pusimos es cinco veces eso.</p>
+  <p><b>Compruébalo en la hoja:</b> escribe <b>0.04</b> en la celda verde de «unidades adicionales por cliente». Los dos caminos dan <b>$2,002.00</b>, exactamente lo mismo.</p>
+</section>
+
+<section>
+  <div class="paso">Lo que no cambia nada</div>
+  <h2>Ni el precio ni los días entran en esta comparación.</h2>
+  <p>Los dos caminos se multiplican por lo mismo, así que se cancelan solos.</p>
+  <table>
+    <thead><tr><th>&nbsp;</th><th>Unidades al día</th><th>× precio y días</th><th>Al mes</th></tr></thead>
+    <tbody>
+      <tr><td><b>Camino A</b></td><td class="num">3.5</td><td class="num">× $22 × 26</td><td class="num"><b>$2,002.00</b></td></tr>
+      <tr><td><b>Camino B</b></td><td class="num">17.4</td><td class="num">× $22 × 26</td><td class="num"><b>$9,952.80</b></td></tr>
+      <tr><td><b>Cuántas veces más</b></td><td class="num">4.97</td><td class="num">el mismo factor</td><td class="num"><b>4.97</b></td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:14px">La razón entre las unidades es idéntica a la razón entre los pesos. Lo único que decide el empate son las <b>dos proporciones del negocio</b>: cuánta gente entra y cuánto se lleva cada quien.</p>
+</section>
+
+<section class="abierta">
+  <div class="paso">La pregunta que ningún número contesta</div>
+  <h2 style="color:var(--naranja-oscuro)">¿Cuál de los dos movimientos puedes conseguir de verdad?</h2>
+  <p class="grande">Subir de 3.5 a 3.7 unidades por cliente puede ser más difícil que traer un cliente más al día. O al revés. Eso no lo dice la hoja: lo dice quien conoce el negocio.</p>
+  <p>La hoja te dice cuánto rinde cada camino. Elegir cuál empujar sigue siendo tuyo, y ahí es donde el número se vuelve una decisión.</p>
+</section>
+
+<footer>Números verificados contra <code>S02-Lab-resuelto.xlsx</code> · 87 clientes por día · 3.5 unidades por cliente · $22 por unidad · 26 días abiertos</footer>
+</div>
+
+<script>
+  const $ = s => document.querySelector(s);
+  // 87 clientes
+  const cont = $('#p87');
+  for (let i = 0; i < 87; i++) { const d = document.createElement('div'); d.className = 'p todos'; cont.appendChild(d); }
+  // barras de unidades: enteras + una parcial, misma escala en las dos
+  function unidades(sel, total, clase){
+    const box = $(sel), enteras = Math.floor(total), resto = total - enteras;
+    for (let i = 0; i < enteras; i++){ const u = document.createElement('div'); u.className = 'u ' + clase; box.appendChild(u); }
+    if (resto > 0.01){
+      const u = document.createElement('div');
+      u.className = 'u ' + clase + ' media';
+      u.style.width = (24 * resto).toFixed(1) + 'px';
+      box.appendChild(u);
+    }
+  }
+  unidades('#uA', 3.5, 'a');
+  unidades('#uB', 17.4, 'b');
+</script>
+</body>
+</html>

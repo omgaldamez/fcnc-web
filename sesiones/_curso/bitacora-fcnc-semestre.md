@@ -1,6 +1,6 @@
 # Bitácora del semestre · Fundamentos Cuantitativos para Negocios Creativos
 **CENTRO: Negocios e Industrias Creativas, Ciudad de México**
-*Documento vivo. Se reemplaza después de cada sesión con la versión que sale de esa conversación. Última actualización: cierre de Semana 2 (julio 2026).*
+*Documento vivo. Se reemplaza después de cada sesión con la versión que sale de esa conversación. Última actualización: cierre de S02-Lab (18 de agosto de 2026).*
 
 ---
 
@@ -66,6 +66,24 @@ Resumen de referencia para dar continuidad a las semanas siguientes. No duplica 
 
 ---
 
+## 3 bis. S02-Lab · qué pasó realmente en el laboratorio
+
+Impartido el 17 de agosto de 2026. **Salió más confuso de lo previsto** y conviene registrarlo tal cual, porque de ahí salieron las reglas nuevas de la sección 7.
+
+**Se construyeron dos de los cinco bloques planeados.** La cadena de "por cada" y las tres palancas. El bloque de tamaño del empujón y el de misma proporción **no se dieron**: resultaron demasiado complejos. El bloque del negocio propio **no se alcanzó**.
+
+**La pregunta que desarmó la sesión.** Los alumnos preguntaron repetidamente por qué el 3.5 (unidades por cliente) no aparecía en la fórmula del Camino B. La respuesta que faltaba: **cada fórmula trae todos los números del negocio menos el que está moviendo**, porque a ese lo reemplaza el movimiento. El 3.5 sí está en el Camino A y en el C. Del mismo origen salió la segunda duda, "¿por qué el Camino C es por día y los otros por mes?": los tres son por mes, y C coincide con el ingreso diario porque agregar un día al mes le suma justo lo que vende un día.
+
+**El bloque de porcentajes violaba una regla que no estaba escrita.** Comparaba 1/87 contra 0.1/3.5 como porcentajes, y el porcentaje es Semana 4. La regla existía pero vivía solo en esta bitácora y con alcance de app. Se subió a `CLAUDE.md` como **«Frontera del temario»**, ahora con alcance de todo formato. Se reemplazó por una comparación en unidades por día (3.5 contra 17.4) y un empate calculado como reparto: las 3.5 unidades del cliente nuevo, repartidas entre los 87 clientes que ya entran, son 0.04 por cada uno.
+
+**Omar generalizó el modelo en vivo**, agregando celdas para días adicionales y para la relación de unidad extra. Fue una mejora: es lo que permitió reescribir los tres caminos con la misma forma. También cambió el vocabulario de "tacos" a **unidades** y los días abiertos de la taquería de 30 a 26, y agregó un bloque de escenarios completos que no estaba planeado.
+
+**Nace el Panel**, primera pestaña del libro acumulativo. Acumula una sección por sesión con columnas *Qué · La taquería · Tu negocio · Dónde se vio*, la última con la celda exacta de donde sale cada número. Lo arma el equipo docente y el alumno solo lo lee. Sustituyó a «Cómo usar este libro». Ahí aparece el negocio del alumno sin obligar a scrollear, y ahí surgió el mejor hallazgo de la sesión: con los números de la taquería gana el Camino B y con los del negocio de ejemplo gana el Camino A, porque tiene pocos clientes y consumo alto. La métrica que importa depende de la proporción de cada negocio, no de una regla fija.
+
+**Reorganización del repo.** La raíz quedó solo con lo que se publica; todo el material de clase se movió a `sesiones/`, en `_curso/`, `S0X-Teoria/` y `S0X-Lab/`. Cada laboratorio guarda tres fotos de su hoja: `-clase` (con la pestaña vacía, la que se construye), `-en-vivo` (cómo salió, sin corregir) y `-resuelto` (la limpia que se devuelve después). Ver `sesiones/README.md`.
+
+---
+
 ## 4. División de trabajo confirmada
 
 - **Diseño y construcción de la app** (arquitectura, iteración visual, aprobación incremental): en este espacio de trabajo: antes el chat principal de claude.ai, ahora Cowork.
@@ -79,7 +97,7 @@ Resumen de referencia para dar continuidad a las semanas siguientes. No duplica 
 | Semana | Unidad | Estatus |
 |---|---|---|
 | 1 | U1 | **Cerrada.** Teoría, laboratorio, app, glosario y sitio desplegados. |
-| 2 | U1 | **App y teoría (Gamma) cerradas.** `semana-02/index.html` construido; `gamma-teoria-semana-02.md` cerrado con caso real, fuente del capítulo 1 y corrección del "0.1". Pendiente: generar el audio/video reales en NotebookLM (los prompts y la lista de fuentes ya están listos) y el glosario formal de los 5 términos nuevos. |
+| 2 | U1 | **Cerrada, con deuda.** Teoría y laboratorio impartidos; ver sección 3 bis. Pendiente: recorrer `S02-Lab-resuelto.xlsx`, pasar `gamma-S02-Lab-el-empate.md` por Gamma, y regenerar la guía del facilitador. ~~**App y teoría (Gamma) cerradas.** `semana-02/index.html` construido; `gamma-teoria-semana-02.md` cerrado con caso real, fuente del capítulo 1 y corrección del "0.1". Pendiente: generar el audio/video reales en NotebookLM (los prompts y la lista de fuentes ya están listos) y el glosario formal de los 5 términos nuevos.~~ |
 | 3 | U2 | **App ya construida** (`semana-03/index.html`, ejecución mecánica ya aprobada, con `formulario-revision-semana-03.md` pendiente de que el área académica lo llene). **Teoría (Gamma) en curso**: ver sección 3 de este documento y el resto de la sesión. |
 | 4–5 | U2 | Pendiente de diseño. |
 | 6–8 | U3 | Pendiente de diseño. |
@@ -89,6 +107,18 @@ Resumen de referencia para dar continuidad a las semanas siguientes. No duplica 
 ---
 
 ## 6. Pendientes abiertos
+
+**De S02-Lab (18 de agosto de 2026). Estos van primero:**
+
+1. **Recorrer `S02-Lab-resuelto.xlsx`.** Sin probar. Se incorpora a la auditoría de S03.
+2. **Pasar `gamma-S02-Lab-el-empate.md` por Gamma** y ver si pide ajustes al Markdown. Se incorpora a la auditoría de S03.
+3. **`guia-facilitador-S02-Lab.docx` quedó desactualizada.** Se escribió para la distribución anterior, la de cinco bloques con porcentajes. Regenerarla **solo** cuando el resuelto esté aprobado, sobre el layout final, para no rehacerla dos veces.
+4. **`Tu negocio`, celda C14:** «unidades por cliente» quedó como fórmula derivada (`=C8/C13`), lo que vuelve tautológico su bloque de comprobación contra S01. Aplazado por prematuro.
+5. **Subir «Frontera del temario» a las instrucciones del proyecto.** Ya está en `CLAUDE.md`; las instrucciones las edita Omar.
+6. **Vaciar `_to_delete/`** en la raíz del repo.
+
+**Anteriores, sin cambio:**
+
 
 1. **Guía del facilitador de Semana 1**: formato checklist acordado, todavía no generada.
 2. **Nombre definitivo del documento puente hacia Code**: confirmar si se llama "nota de despliegue" u otra cosa (ver sección 1).
@@ -114,6 +144,15 @@ Resumen de referencia para dar continuidad a las semanas siguientes. No duplica 
 - **(Nuevo, S2)** Toda comparación de palancas con incrementos fraccionarios explica por qué se usa esa fracción y, si es posible, se traduce a un conteo entero.
 - **(Nuevo, S2)** El patrón de audio/video/fuentes de NotebookLM se repite igual cada semana (ver sección 3); no hace falta pedir el ejemplo de nuevo.
 - **(Nuevo, S3)** Cuando el capítulo del libro de esa semana no esté disponible (ni físico ni digital) y no haya certeza de que vaya a estarlo, la lectura de apertura no se pospone ni se reconstruye por reseñas: se sustituye por una fuente real e investigada sobre el tema del capítulo (por ejemplo, en S3, la historia documentada de la jerarquía de operaciones en vez del capítulo «A mano y a máquina»), citada y verificada igual que cualquier otra fuente. Se quita toda referencia al libro/capítulo específico del Markdown de esa semana en vez de dejarla como pendiente indefinida.
+
+---
+
+- **(Nuevo, S02-Lab)** Ningún material usa una operación o concepto que el temario aún no haya visto, sin importar el formato: presentación, app, hoja de cálculo o guía. En caso de duda, se pospone. Escrita en `CLAUDE.md` como «Frontera del temario».
+- **(Nuevo, S02-Lab)** En el laboratorio la hoja **se construye desde cero en clase**; la versión limpia se entrega la clase siguiente. Nunca se reparte una plantilla ya armada.
+- **(Nuevo, S02-Lab)** Cuando una fórmula omite un número a propósito, la hoja lo dice en una columna propia en vez de esperar la pregunta.
+- **(Nuevo, S02-Lab)** Se dice **unidades**, no tacos. Aplica a material nuevo; la app y el Gamma de S02 se quedan como se dieron.
+- **(Nuevo, S02-Lab)** La hoja armada en vivo se guarda sin corregir como `S0X-Lab-en-vivo.xlsx`, porque la devolución de la sesión siguiente la necesita.
+- **(Nuevo, S02-Lab)** Una presentación se entrega siempre como `.md` para Gamma, nunca como HTML ni PPTX.
 
 ---
 
