@@ -4,12 +4,13 @@ Antes de proponer nada, lee en este orden: `handoff-S02-a-S03.md` primero, `bita
 
 **Lo que quiero de esta sesión es una auditoría, no producción todavía.**
 
-Arranca por los dos entregables de S02 que quedaron sin probar, porque son el primer punto de la revisión y no un paso previo:
+**Paso 0: tres cosas de S02 que quedaron abiertas.** Empieza por aquí. Son el primer punto de la revisión, no un trámite previo.
 
-1. `sesiones/S02-Lab/S02-Lab-resuelto.xlsx`. Lo voy a recorrer contigo. Quiero que valides la matemática por segundo método, que revises que la pestaña Panel lea bien de las demás, y que me digas si algún bloque sigue pidiendo un concepto que el temario no ha visto.
-2. `sesiones/S02-Lab/gamma-S02-Lab-el-empate.md`. Lo voy a pasar por Gamma y te comparto cómo queda. Es un mini deck sobre por qué un camino de crecimiento rinde más que otro.
+1. **La pestaña «Tu tablero de supuestos» de `semana-02/index.html`.** Es la parte del alumno en la app y quedó desalineada con lo que cambió después: ahora se dice «unidades» y no «tacos», los movimientos son variables en la hoja, y el argumento de las palancas se reformuló. Hay además campos que pueden quedar más claros. Antes de proponer cambios, relee lo que ya está observado sobre ese bloque en `sesiones/S02-Lab/auditoria-laboratorio-semana-02.md` y en `sesiones/S02-Teoria/auditoria-contenido-semana-02.md`. Relacionado: en el libro de cálculo, la pestaña `Tu negocio` tiene «unidades por cliente» como fórmula derivada, lo que vuelve tautológica su comprobación contra S01. Son el mismo concepto en dos lugares; conviene decidirlos juntos.
+2. **`sesiones/S02-Lab/S02-Lab-resuelto.xlsx`.** Lo voy a recorrer contigo. Valida la matemática por segundo método, revisa que la pestaña Panel lea bien de las demás, y dime si algún bloque sigue pidiendo un concepto que el temario no ha visto.
+3. **`sesiones/S02-Lab/gamma-S02-Lab-el-empate.md`.** Lo voy a pasar por Gamma y te comparto cómo queda. Es un mini deck sobre por qué un camino de crecimiento rinde más que otro.
 
-Con eso cerrado, seguimos con S03. Ten en cuenta estas decisiones, que ya están tomadas:
+Con el paso 0 cerrado, seguimos con S03. Ten en cuenta estas decisiones, que ya están tomadas:
 
 - **S03 abre aterrizando el xlsx** (el Panel, lo que quedó pendiente de S02 y el negocio del alumno) y **después** entra la teoría. Es al revés del orden habitual, y es a propósito.
 - **Las preguntas guía de los ejercicios de audio y video tienen que ser sobre el audio y el video.** Nada de pedirle al alumno que lo aplique a su negocio en ese bloque. Esto corrige lo que la auditoría de S02 había recomendado.

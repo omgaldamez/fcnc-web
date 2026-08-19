@@ -324,26 +324,6 @@
     pointer-events:none;
     z-index:999;
   }
-
-  /* --- Ejercicio guiado (S02-Lab) --- */
-  .paso{ border:1px solid var(--borde,#e2e5ea); border-left:3px solid var(--azul); border-radius:6px;
-         padding:12px 14px; margin-top:12px; background:#fcfcfd; }
-  .paso-cab{ font-size:14px; font-weight:600; color:var(--azul-oscuro); display:flex; align-items:center; gap:8px; }
-  .paso-num{ display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px;
-             border-radius:50%; background:var(--azul); color:#fff; font-size:12px; flex:0 0 auto; }
-  .paso-celda{ font-family:'IBM Plex Mono',monospace; background:#e8f0fb; color:var(--azul-oscuro);
-               padding:1px 6px; border-radius:4px; font-size:13px; }
-  .paso-desc{ font-size:12.5px; color:var(--gris-nota); margin:6px 0 0; }
-  .paso-campos{ display:flex; gap:12px; margin-top:10px; flex-wrap:wrap; }
-  .paso-campos > div{ flex:1 1 180px; }
-  .paso-campos .field-label{ margin-top:0; }
-  .paso-campos select, .paso-campos input{ width:100%; }
-  .paso-obs{ margin-top:10px; }
-  .tus-numeros{ width:100%; border-collapse:collapse; margin-top:10px; font-size:12.5px; }
-  .tus-numeros th{ background:var(--azul); color:#fff; font-weight:600; text-align:left; padding:6px 8px; font-size:11.5px; }
-  .tus-numeros td{ border-bottom:1px solid #eceef1; padding:6px 8px; }
-  .tus-numeros td.n{ font-family:'IBM Plex Mono',monospace; text-align:right; white-space:nowrap; }
-  .tus-numeros tr.destacado td{ font-weight:600; color:var(--azul-oscuro); background:#f4f8fd; }
 </style>
 </head>
 <body>
@@ -515,179 +495,137 @@
   <!-- ===================== PESTAÑA 2: TU TABLERO DE SUPUESTOS ===================== -->
   <section id="panelFicha" class="panel">
 
-    <p class="entrega-nota">Esta pestaña se trabaja con el libro de cálculo abierto al lado: primero escribes tus supuestos, luego mueves las palancas en la pestaña <strong>S02-Lab</strong> y anotas lo que ves, y al final escribes tu reflexión. Es el artefacto de portafolio de la semana: súbelo a Brightspace, actividad <strong>S02 · Tablero de supuestos v1</strong>. El PDF que descargues ya viene nombrado como <strong>NombreApellido_TableroS02</strong>, tomando lo que escribiste en "Tu nombre" al inicio de la página: solo sube ese archivo tal cual.</p>
+    <p class="entrega-nota">Tu tablero de supuestos v1 es el artefacto de portafolio de esta semana: súbelo a Brightspace, actividad <strong>S02 · Tablero de supuestos v1</strong>. El PDF que descargues ya viene nombrado como <strong>NombreApellido_TableroS02</strong>, tomando lo que escribiste en "Tu nombre" al inicio de la página: solo sube ese archivo tal cual.</p>
 
     <div class="card">
-      <h3>De dos números a cuatro</h3>
-      <p>Hasta la semana pasada tu negocio estaba descrito con dos números: precio por unidad y unidades por día. Ahí venían dos supuestos escondidos que dábamos por hechos: que cada cliente compra <em>una</em> unidad y que el mes tiene <em>30</em> días de venta. Los dos suelen ser falsos.</p>
-      <p>Un <strong>tablero de supuestos</strong> los saca a la luz para poder moverlos. Partimos "unidades por día" en su proporción real, clientes por día × unidades por cada cliente, y volvemos "días abiertos al mes" un supuesto que tú decides. Ninguno de los cuatro cambia tu negocio: cambian lo que <em>puedes ajustar</em> para decidir. Son los mismos cuatro del libro de cálculo, en el mismo orden y con las mismas palabras: lo que escribas aquí es lo que va en la columna verde del <strong>Panel</strong>.</p>
+      <h3>De tu ficha de Semana 1 a tu tablero de supuestos</h3>
+      <p>En Semana 1 tu negocio quedó descrito con dos números: precio por unidad y unidades por día. Ahí había dos supuestos escondidos que dábamos por hechos: que cada cliente compra <em>una</em> unidad y que el mes tiene <em>30</em> días de venta.</p>
+      <p>Un <strong>tablero de supuestos</strong> saca esos números a la luz para poder moverlos. Descomponemos "unidades por día" en su proporción real (clientes por día × unidades por cada cliente) y volvemos "días abiertos al mes" un supuesto que tú decides. Ninguno cambia tu negocio; cambian lo que <em>puedes ajustar</em> para decidir.</p>
     </div>
 
     <div class="grid-two" style="margin-top:14px;">
       <div class="card">
-        <span class="ejemplo-tag">El referente</span>
-        <h3 style="margin-top:8px;">El referente del Panel</h3>
-        <p>Es la columna de la izquierda del <strong>Panel</strong> del libro: los mismos cuatro supuestos que tú vas a escribir, en un negocio que ya existe. El libro arranca con una taquería como ejemplo, y tu tarea es sustituirla por un referente real de tu propio rubro, con su nombre y con la fuente de dónde sacaste sus números.</p>
-        <ul class="bib-lista">
-          <li>Arriba, la celda con el nombre del referente y la de su fuente.</li>
-          <li>En las celdas verdes de su columna, sus cuatro supuestos.</li>
-          <li>A la derecha, en el bloque de resultados, su ingreso del mes.</li>
-        </ul>
-        <p style="margin-top:8px;">En el Panel vas a ver la métrica que importa del referente y también la tuya, y no tienen por qué coincidir. Lo que decide cuál pesa más es la proporción entre cuánta gente entra y cuánto se lleva cada quien.</p>
-        <p style="margin-top:8px;">Tu negocio casi seguro está parado en otra proporción, y por eso puede darte la respuesta contraria. Eso no es un error de ninguno de los dos: es el punto de la semana.</p>
-        <div class="fuente">Cifras ilustrativas dentro de un rango real reportado (INEGI y DENUE; caso Los Cocuyos). Son las mismas del libro de cálculo.</div>
+        <span class="ejemplo-tag">Ejemplo resuelto</span>
+        <h3 style="margin-top:8px;">Café Andante</h3>
+        <p>El mismo negocio de ejemplo de Semana 1, ahora como tablero de supuestos:</p>
+        <div class="ticket-wrap">
+          <div class="ticket ticket-fijo">
+            <div class="titulo-ticket">Tablero de Café Andante</div>
+            <div class="fila"><span>Precio por unidad</span><span class="num">$40</span></div>
+            <div class="fila"><span>Clientes por día</span><span class="num">24</span></div>
+            <div class="fila"><span>Unidades por cada cliente</span><span class="num">1.25</span></div>
+            <div class="fila"><span>Días abiertos al mes</span><span class="num">26</span></div>
+            <div class="fila"><span>Unidades por día</span><span class="num">30</span></div>
+            <div class="fila total"><span>Ingreso por mes</span><span class="num">$31,200</span></div>
+          </div>
+        </div>
+        <p style="margin-top:8px;"><strong>Su métrica que importa:</strong> unidades por cada cliente. Con sus números, convencer a cada cliente de llevar un poco más (un pan con el café) rinde <span class="num">+$2,496</span> al mes, más que traer un cliente nuevo (<span class="num">+$1,300</span>). Por eso Café Andante decide empujar el "lleva algo más", no la publicidad.</p>
+        <div class="fuente">Nota: negocio de ejemplo ficticio; sus números no requieren validación de fuente como la auditoría.</div>
       </div>
 
       <div class="card">
         <h3>Tu tablero</h3>
-        <p class="hint" style="margin-top:-2px;">Aquí registras, tal como quedaron en tu Panel, los cuatro supuestos de tu negocio. No es un cálculo nuevo: es la memoria de lo que ya trabajaste en el xlsx, y de aquí sale la tabla de tu reporte.</p>
 
         <label class="field-label">Precio por unidad
-          <span class="hint">Cuánto cobras por una sola unidad de lo que vendes.</span>
+          <span class="hint">El que definiste en tu ficha de Semana 1.</span>
         </label>
         <input type="number" id="fPrecio" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
 
         <div style="display:flex; gap:10px;">
           <div style="flex:1;">
-            <label class="field-label">Clientes por día
-              <span class="hint">Cuántas personas distintas compran en un día.</span>
-            </label>
+            <label class="field-label">Clientes por día</label>
             <input type="number" id="fClientes" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
           </div>
           <div style="flex:1;">
-            <label class="field-label">Unidades por cada cliente
-              <span class="hint">Cuánto se lleva en promedio quien ya entró.</span>
-            </label>
+            <label class="field-label">Unidades por cada cliente</label>
             <input type="number" id="fUnidadesCliente" min="0" step="0.1" oninput="recalcularFicha(); actualizarProgreso()">
           </div>
         </div>
         <div class="nota-decimal" id="notaDecimalUnidades" style="display:none;"></div>
-        <p class="hint" style="margin-top:6px;">Multiplicados, estos dos te dan las unidades que salen en un día. Si ese número no se parece a lo que de verdad vendes, uno de los dos está mal puesto, y decir cuál es parte de tu justificación.</p>
+        <p class="hint" style="margin-top:6px;">Comprobación con tu ficha de Semana 1: multiplicados, estos dos deberían acercarse a las unidades por día que pusiste allá. Si no se parecen, uno de los dos supuestos hay que revisarlo (y decir cuál en tu justificación).</p>
 
         <label class="field-label">Días abiertos al mes
-          <span class="hint">Cuántos días al mes vende tu negocio de verdad, no cuántos tiene el mes. Arranca en 26, que es cerrar un día a la semana; muévelo a lo que sea cierto en tu caso.</span>
+          <span class="hint">Cuántos días al mes vende tu negocio de verdad. Si abres todos los días, 30; si descansas, menos.</span>
         </label>
-        <input type="number" id="fDias" min="1" max="31" step="1" value="26" oninput="recalcularFicha(); actualizarProgreso()">
+        <input type="number" id="fDias" min="1" max="31" step="1" value="30" oninput="recalcularFicha(); actualizarProgreso()">
 
         <div class="ticket-wrap">
           <div class="ticket ticket-editable">
-            <div class="titulo-ticket">Tu columna del Panel</div>
+            <div class="titulo-ticket">Tu tablero de supuestos v1</div>
             <div class="fila"><span>Unidades por día</span><span class="num" id="tUnidadesDia">N/D</span></div>
             <div class="fila"><span>Ingreso por día</span><span class="num" id="tIngresoDia">N/D</span></div>
+            <div class="fila"><span>Ingreso por semana <span id="tNotaSemana" style="color:var(--gris-nota);font-size:11px;"></span></span><span class="num" id="tIngresoSemana">N/D</span></div>
             <div class="fila total"><span>Ingreso por mes</span><span class="num" id="tIngresoMes">N/D</span></div>
-            <div class="formula">unidades por día = clientes × unidades por cada cliente · ingreso por día = precio × unidades por día · mes = ingreso por día × días abiertos al mes</div>
+            <div class="formula">unidades por día = clientes × unidades por cada cliente · ingreso por día = precio × unidades por día · semana = ingreso por día × días que abres en una semana · mes = ingreso por día × días abiertos al mes</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="card" style="margin-top:14px;">
-      <h3>Ejercicio guiado: mueve una palanca a la vez</h3>
-      <p style="font-size:13px;color:var(--gris-nota);margin-top:-2px;">Abre <strong>S02-Lab-resuelto.xlsx</strong> y ve a la pestaña <strong>S02-Lab</strong>. En cada paso cambias <strong>una sola celda verde</strong>, miras qué pasó y lo anotas aquí. Al terminar cada paso, regresa la celda a como estaba antes de seguir.</p>
-      <p class="hint"><strong>S02-Lab</strong> es tu terreno de experimentación: aquí mueves lo que quieras sobre el negocio base, sin tocar tus propios números. El mismo análisis, ya aplicado a tu negocio real y a tu referente, vive en el <strong>Panel</strong> — con un extra que aquí no hay: si el movimiento actual ya te alcanza para ganar, el Panel te lo dice directo («Ya ganas · bastaba con X») en vez de solo darte el mínimo.</p>
-      <p class="hint">Dónde mirar: los tres resultados están en el bloque 4, «Cuánto suma cada camino». El renglón de texto al final del bloque 5, la celda <span class="paso-celda">A42</span>, te dice cuál quedó primero y además calcula en vivo cuánto necesitaría cada camino para ganar: ahí vas a leer los números de los pasos 1 y 3. Las tres celdas verdes que vas a mover están en el bloque 2 y arrancan en 26, 0.2 y 1 — esos tres números sí son fijos: son el punto de partida del ejercicio, no algo que el archivo calcule. Entre ellas hay una celda gris, <span class="paso-celda">B16</span>, que se calcula sola: no se escribe encima.</p>
-
-      <div class="paso">
-        <div class="paso-cab"><span class="paso-num">1</span> Lee en <span class="paso-celda">A42</span> cuánto le bastaría al Camino B, y escribe ese número en <span class="paso-celda">B17</span></div>
-        <p class="paso-desc">Es la celda verde <em>«Unidades adicionales por cliente»</em>. Esta vez no te damos el número: <span class="paso-celda">A42</span> ya lo calculó solo, en vivo, junto con el mínimo de los otros dos caminos. Busca la cifra que acompaña al Camino B y escríbela aquí — es lo justo para que gane, ni un poco más.</p>
-        <div class="paso-campos">
-          <div>
-            <label class="field-label">¿Qué número leíste en A42 y escribiste en B17?</label>
-            <input type="number" id="p1Valor" min="0" step="0.01" placeholder="0.00" oninput="actualizarProgreso()">
-          </div>
-          <div>
-            <label class="field-label">¿Cuál camino quedó primero?</label>
-            <select id="p1Camino" onchange="actualizarProgreso()"><option value="">— elige —</option><option value="A">Camino A · más clientes</option><option value="B">Camino B · más unidades por cliente</option><option value="C">Camino C · más días abiertos</option></select>
-          </div>
-          <div>
-            <label class="field-label">¿Cuánto suma al mes ese camino?</label>
-            <input type="number" id="p1Monto" min="0" step="0.01" placeholder="$" oninput="actualizarProgreso()">
-          </div>
-        </div>
-      </div>
-
-      <div class="paso">
-        <div class="paso-cab"><span class="paso-num">2</span> Regresa <span class="paso-celda">B17</span> = <strong>0.2</strong> y escribe <span class="paso-celda">B15</span> = <strong>5</strong></div>
-        <p class="paso-desc">Es la celda verde <em>«Clientes nuevos esperados al mes»</em>. En vez de esperar 26 clientes nuevos en el mes, ahora esperas 5.</p>
-        <div class="paso-campos">
-          <div>
-            <label class="field-label">¿Cuál camino quedó primero?</label>
-            <select id="p2Camino" onchange="actualizarProgreso()"><option value="">— elige —</option><option value="A">Camino A · más clientes</option><option value="B">Camino B · más unidades por cliente</option><option value="C">Camino C · más días abiertos</option></select>
-          </div>
-          <div>
-            <label class="field-label">¿Cuánto suma al mes ese camino?</label>
-            <input type="number" id="p2Monto" min="0" step="0.01" placeholder="$" oninput="actualizarProgreso()">
-          </div>
-        </div>
-        <div class="paso-obs">
-          <label class="field-label">Bajaste el Camino A, que era el que iba ganando, y el que pasó al primer lugar no fue el B. ¿Por qué?
-            <span class="hint">Fíjate en cuánto cambió cada uno de los tres números entre el paso 1 y este.</span>
-          </label>
-          <textarea id="p2Obs" oninput="actualizarProgreso()"></textarea>
-        </div>
-      </div>
-
-      <div class="paso">
-        <div class="paso-cab"><span class="paso-num">3</span> Regresa <span class="paso-celda">B15</span> = <strong>26</strong>, lee en <span class="paso-celda">A42</span> cuánto le bastaría al Camino C, y escribe ese número en <span class="paso-celda">B18</span></div>
-        <p class="paso-desc">Es la celda verde <em>«Días adicionales al mes»</em>. Igual que en el paso 1: busca la cifra que <span class="paso-celda">A42</span> calcula para el Camino C y escríbela — es el mínimo de días que necesitas abrir de más para que gane.</p>
-        <div class="paso-campos">
-          <div>
-            <label class="field-label">¿Qué número leíste en A42 y escribiste en B18?</label>
-            <input type="number" id="p3Valor" min="0" step="1" placeholder="0" oninput="actualizarProgreso()">
-          </div>
-          <div>
-            <label class="field-label">¿Cuál camino quedó primero?</label>
-            <select id="p3Camino" onchange="actualizarProgreso()"><option value="">— elige —</option><option value="A">Camino A · más clientes</option><option value="B">Camino B · más unidades por cliente</option><option value="C">Camino C · más días abiertos</option></select>
-          </div>
-          <div>
-            <label class="field-label">¿Cuánto suma al mes ese camino?</label>
-            <input type="number" id="p3Monto" min="0" step="0.01" placeholder="$" oninput="actualizarProgreso()">
-          </div>
-        </div>
-      </div>
-
-      <p class="hint" style="margin-top:12px;">Cuando termines, regresa <span class="paso-celda">B18</span> a <strong>1</strong> para dejar la hoja como estaba.</p>
-      <p class="hint" style="margin-top:8px;">En el tablero hay un cuarto número que nunca movimos: el precio. Se quedó quieto a propósito, para poder ver el efecto de la proporción sin que otra cosa lo tapara. Regresa la semana que entra.</p>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h3>Lo mismo, con tus números</h3>
-      <p style="font-size:13px;color:var(--gris-nota);margin-top:-2px;">Esto sale de los cuatro supuestos que escribiste arriba, con los movimientos con los que arranca la hoja: tantos clientes nuevos al mes como días abres, 0.2 unidades por cliente y 1 día más — los mismos que fuiste moviendo en el ejercicio guiado, antes de que cada paso los llevara a su mínimo. El <strong>punto de quiebre</strong> de cada camino es qué tan grande tendría que ser su movimiento para quedar en primer lugar, dejando los otros dos como están.</p>
-      <table class="tus-numeros">
-        <thead><tr><th>Camino</th><th style="text-align:right;">Cuánto suma al mes</th><th style="text-align:right;">Su punto de quiebre</th></tr></thead>
-        <tbody>
-          <tr><td>A · tantos clientes nuevos al mes como días abres</td><td class="n" id="tuA">N/D</td><td class="n" id="tuQA">N/D</td></tr>
-          <tr><td>B · 0.2 unidades más por cliente</td><td class="n" id="tuB">N/D</td><td class="n" id="tuQB">N/D</td></tr>
-          <tr><td>C · abrir 1 día más al mes</td><td class="n" id="tuC">N/D</td><td class="n" id="tuQC">N/D</td></tr>
-          <tr class="destacado"><td>Tu métrica que importa</td><td class="n" colspan="2" id="tuMetrica" style="text-align:right;">N/D</td></tr>
-        </tbody>
-      </table>
-      <div class="metrica-veredicto" id="tuVeredicto">Completa tus cuatro supuestos para ver tus números.</div>
-
-      <div class="paso-obs">
-        <label class="field-label">¿Qué tan viable es llegar ahí? Si el mínimo del Camino A son N clientes nuevos al mes, ¿de dónde saldrían? Si es del Camino B, ¿qué te haría pensar que N de cada 10 clientes aceptarían llevarse más? Escribe qué tendría que pasar en tu negocio para lograrlo, o por qué no lo ves posible.</label>
-        <textarea id="tuViabilidad" oninput="actualizarProgreso()"></textarea>
+      <h3>Primeras sumas: tu semana, celda por celda</h3>
+      <p style="font-size:12.5px;color:var(--gris-nota);margin-top:-2px;">Así se ve una hoja de cálculo por dentro: cada día es una celda, y la celda de la derecha las <strong>suma</strong>. Esto es lo que reconstruirás en Google Sheets en clase. Los días que aparecen rayados son los que tu negocio no abre, según los días abiertos al mes que pusiste arriba.</p>
+      <div class="semana-strip">
+        <div class="celdas" id="semanaCeldas"><!-- generado por JS --></div>
+        <div class="pie" id="semanaPie">La celda azul es <span class="num">=SUMA(Lun:Dom)</span>. En Sheets será literalmente esa fórmula sobre las celdas de los días que sí abres.</div>
       </div>
     </div>
 
     <div class="card reflexion-card">
-      <h3>Tu reflexión</h3>
-      <p style="font-size:13px;color:var(--gris-nota);margin-top:-2px;">Esta parte no se califica por tener el número correcto: se califica por el argumento. Escribe lo que de verdad piensas de tu negocio o de tu idea, aunque no estés seguro.</p>
+      <h3>La métrica que importa</h3>
+      <p style="font-size:13px;color:var(--gris-nota);margin-top:-2px;">De todos tus supuestos, ¿cuál es la palanca que más mueve tu ingreso mensual? Al lado de cada una aparece cuánto ganarías al mes moviéndola su unidad más chica. Ojo: esas unidades no son del mismo tamaño entre sí, así que el número más grande no gana automáticamente. Elige una y justifica tu decisión.</p>
 
-      <label class="field-label">1. En el Panel, tu negocio y el referente no tienen por qué dar la misma respuesta. Si te dieron distinta, ¿por qué crees que fue? Y si te dieron la misma, ¿qué tendría que cambiar para que se separaran?
-        <span class="hint">No hay respuesta correcta: lo que se califica es el argumento.</span>
-      </label>
-      <textarea id="r1" oninput="actualizarProgreso()"></textarea>
+      <div id="metricaOpciones">
 
-      <label class="field-label" style="margin-top:12px;">2. En tu negocio o tu idea, ¿cuál de las tres palancas está más a tu alcance el mes que entra?
-        <span class="hint">Mira tus tres puntos de quiebre de la tabla de arriba y di qué tendrías que hacer, concretamente, para mover la que elijas.</span>
-      </label>
-      <textarea id="r2" oninput="actualizarProgreso()"></textarea>
+        <div class="metrica-grupo">
+          <div class="metrica-grupo-titulo">Palancas de proporción</div>
+          <p class="metrica-grupo-nota">Las dos viven dentro de la misma cadena de "por cada" y se pueden seguir empujando sin un tope cercano. Son las que compiten de verdad entre sí, igual que el Camino A y el Camino B de la auditoría.</p>
+          <div class="metrica-opciones">
+        <label class="metrica-op" data-metrica="clientes">
+          <input type="radio" name="metrica" value="clientes" onchange="seleccionarMetrica()">
+          <span class="texto">Clientes por día <span style="color:var(--gris-nota);">: traer 1 cliente más al día</span></span>
+          <span class="impacto" id="impClientes">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoClientes')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoClientes">Traer un cliente más al día es la unidad natural más chica de esta palanca: no hay "medio cliente". Su efecto se multiplica por lo que deja cada cliente en promedio (precio × unidades por cliente).</div>
+        </label>
+        <label class="metrica-op" data-metrica="unidades">
+          <input type="radio" name="metrica" value="unidades" onchange="seleccionarMetrica()">
+          <span class="texto">Unidades por cada cliente <span style="color:var(--gris-nota);">: +0.1 por cliente</span></span>
+          <span class="impacto" id="impUnidades">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoUnidades')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoUnidades">"0.1 por cliente" no se pide literal: describe que, en promedio, 1 de cada 10 clientes termina llevando una unidad extra. Diez clientes, una unidad de más entre todos.</div>
+        </label>
+          </div>
+          <div class="metrica-veredicto" id="metricaVeredicto"></div>
+        </div>
 
-      <label class="field-label" style="margin-top:12px;">3. ¿Qué tendría que pasar para que cambiaras de palanca?
-        <span class="hint">Un número que se moviera, algo que cambiara en tu negocio, o algo que descubrieras de tus clientes.</span>
+        <div class="metrica-grupo condicionada">
+          <div class="metrica-grupo-titulo">Palancas con condición</div>
+          <p class="metrica-grupo-nota">Estas dos también mueven el ingreso, a veces mucho, pero cada una trae una condición que el modelo no calcula: el precio supone que el cliente se queda aunque suba, y los días tienen un techo de 28 a 31 y traen su propio costo de operar. Si eliges una de estas, tu justificación tiene que hacerse cargo de esa condición.</p>
+          <div class="metrica-opciones">
+        <label class="metrica-op" data-metrica="precio">
+          <input type="radio" name="metrica" value="precio" onchange="seleccionarMetrica()">
+          <span class="texto">Precio por unidad <span style="color:var(--gris-nota);">: +$1 al precio</span></span>
+          <span class="impacto" id="impPrecio">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoPrecio')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoPrecio">Subir $1 el precio es el ajuste más chico y natural en pesos. Supone que el cliente sigue comprando al precio nuevo: no está modelado si a ese precio deja de venir.</div>
+        </label>
+        <label class="metrica-op" data-metrica="dias">
+          <input type="radio" name="metrica" value="dias" onchange="seleccionarMetrica()">
+          <span class="texto">Días abiertos al mes <span style="color:var(--gris-nota);">: abrir 1 día más</span></span>
+          <span class="impacto" id="impDias">N/D</span>
+          <button type="button" class="info-ico" onclick="event.preventDefault(); toggleInfoMetrica('infoDias')" aria-label="Qué significa esta palanca">ⓘ</button>
+          <div class="metrica-info" id="infoDias">Abrir 1 día más al mes (por ejemplo, de 30 a 31) es la unidad natural más chica de esta palanca. Supone que hay quién atienda ese día extra: el costo de abrir no está incluido aquí, solo el ingreso.</div>
+        </label>
+          </div>
+        </div>
+
+      </div>
+
+      <label class="field-label" style="margin-top:12px;">¿Por qué esa es la métrica que importa para tu negocio?
+        <span class="hint">La palanca más grande en pesos no siempre es la más fácil de mover en la vida real. Justifica tu elección con las dos cosas: cuánto mueve y qué tan realista es moverla.</span>
       </label>
-      <textarea id="r3" oninput="actualizarProgreso()"></textarea>
+      <textarea id="metricaJustif" oninput="actualizarProgreso()"></textarea>
     </div>
 
   </section>
@@ -1052,6 +990,18 @@ function recalcularAuditoria(){
 }
 
 /* ---------------- TABLERO DEL ALUMNO ---------------- */
+function seleccionarMetrica(){
+  document.querySelectorAll('#metricaOpciones .metrica-op').forEach(op=>{
+    const input = op.querySelector('input');
+    op.classList.toggle('seleccionada', input.checked);
+  });
+  actualizarProgreso();
+}
+
+function toggleInfoMetrica(id){
+  document.getElementById(id).classList.toggle('visible');
+}
+
 function recalcularFicha(){
   const precio = parseFloat(document.getElementById('fPrecio').value);
   const clientes = parseFloat(document.getElementById('fClientes').value);
@@ -1069,93 +1019,103 @@ function recalcularFicha(){
     notaU.style.display = 'none';
   }
 
+  const strip = document.getElementById('semanaCeldas');
+
   if(hay){
     const unidadesDia = clientes * unidadesCliente;
     const ingresoDia = precio * unidadesDia;
+    // La semana se deriva de los días abiertos al mes: un negocio que abre 26 días
+    // al mes no abre los 7 días de la semana, y semana × 4 debe acercarse al mes.
+    const diasSemana = Math.max(1, Math.min(7, Math.round(dias/30*7)));
+    const ingresoSemana = ingresoDia * diasSemana;
     const ingresoMes = ingresoDia * dias;
 
     document.getElementById('tUnidadesDia').textContent = (Math.round(unidadesDia*10)/10).toLocaleString('es-MX');
     document.getElementById('tIngresoDia').textContent = fmtMoney(ingresoDia);
+    document.getElementById('tIngresoSemana').textContent = fmtMoney(ingresoSemana);
     document.getElementById('tIngresoMes').textContent = fmtMoney(ingresoMes);
-    // Los tres caminos del alumno, con los mismos movimientos de la hoja
-    // (tantos clientes nuevos al mes como días abres / 0.2 unidades por cliente / 1 día)
-    const caminoA = precio * unidadesCliente * dias;   // +tantos clientes al mes como días abres
-    const caminoB = precio * clientes * 0.2 * dias;    // +0.2 unidades por cliente
-    const caminoC = precio * clientes * unidadesCliente; // +1 día abierto (= ingreso de un día)
+    document.getElementById('tNotaSemana').textContent =
+      diasSemana === 7 ? '(abres los 7 días)' : `(abres ${diasSemana} de 7 días)`;
 
-    // Punto de quiebre: qué tan grande tendría que ser su movimiento para quedar primero,
-    // dejando los otros dos como están. Es el mismo cálculo del Panel del xlsx.
-    const qA = Math.ceil(Math.max(caminoB, caminoC) / (precio * unidadesCliente));
-    const qB = Math.ceil(Math.max(caminoA, caminoC) / (precio * clientes * dias) * 100) / 100;
-    const qC = Math.ceil(Math.max(caminoA, caminoB) / (precio * clientes * unidadesCliente));
+    // Tira semanal (primeras sumas): días abiertos + días cerrados + celda suma
+    const dch = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+    let html = '';
+    dch.forEach((d,i)=>{
+      const abierto = i < diasSemana;
+      html += `<div class="celda${abierto ? '' : ' cerrada'}"><div class="dia">${d}</div><div class="val">${abierto ? fmtMoney0(ingresoDia) : 'cerrado'}</div></div>`;
+    });
+    html += `<div class="celda suma"><div class="dia">=SUMA</div><div class="val">${fmtMoney0(ingresoSemana)}</div></div>`;
+    strip.innerHTML = html;
+    document.getElementById('semanaPie').innerHTML =
+      `La celda azul es <span class="num">=SUMA(Lun:Dom)</span> sobre los ${diasSemana} día${diasSemana===1?'':'s'} que sí abres. En Sheets será literalmente esa fórmula. Comprobación: esta semana × 4.3 debe acercarse a tu ingreso del mes.`;
 
-    document.getElementById('tuA').textContent = '+' + fmtMoney0(caminoA);
-    document.getElementById('tuB').textContent = '+' + fmtMoney0(caminoB);
-    document.getElementById('tuC').textContent = '+' + fmtMoney0(caminoC);
-    document.getElementById('tuQA').textContent = qA.toLocaleString('es-MX') + (qA===1?' cliente al mes':' clientes al mes');
-    document.getElementById('tuQB').textContent = qB.toLocaleString('es-MX') + ' unidades';
-    document.getElementById('tuQC').textContent = qC.toLocaleString('es-MX') + (qC===1?' día':' días');
+    // Palancas del alumno (mismo criterio que la auditoría)
+    const impClientes = precio * unidadesCliente * dias;      // +1 cliente/día
+    const impUnidades = precio * clientes * 0.1 * dias;       // +0.1 unidades/cliente
+    const impPrecio   = unidadesDia * dias;                   // +$1 precio  (= clientes*unidadesCliente*dias)
+    const impDias     = ingresoDia;                           // +1 día abierto
 
-    // Ganador entre los tres caminos, con el mismo desempate que usa S02-Lab!A42 del xlsx: A, luego B, luego C.
-    let ganador;
-    if(caminoA >= caminoB && caminoA >= caminoC) ganador = 'A';
-    else if(caminoB >= caminoC) ganador = 'B';
-    else ganador = 'C';
+    document.getElementById('impClientes').textContent = '+' + fmtMoney0(impClientes) + '/mes';
+    document.getElementById('impUnidades').textContent = '+' + fmtMoney0(impUnidades) + '/mes';
+    document.getElementById('impPrecio').textContent   = '+' + fmtMoney0(impPrecio) + '/mes';
+    document.getElementById('impDias').textContent     = '+' + fmtMoney0(impDias) + '/mes';
 
-    const METRICA_LABEL = {A:'traer más clientes', B:'subirle a cada cliente', C:'abrir más días al mes'};
-    document.getElementById('tuMetrica').textContent = METRICA_LABEL[ganador];
-
-    const CAMINO_NOMBRE = {A:'Camino A', B:'Camino B', C:'Camino C'};
-    const CAMINO_MOV = {
-      A: q => `${q} ${q===1?'cliente nuevo':'clientes nuevos'} al mes`,
-      B: q => `${q} ${q===1?'unidad más':'unidades más'} por cliente`,
-      C: q => `${q} ${q===1?'día más':'días más'} al mes`
-    };
-    const Q = {A:qA, B:qB, C:qC};
-    const perdedores = ['A','B','C'].filter(c => c !== ganador);
-
-    let texto = `Con tus números, hoy gana el <strong>${CAMINO_NOMBRE[ganador]}</strong>. `;
-    texto += perdedores.map(c => `Para que el ${CAMINO_NOMBRE[c]} lo alcanzara, necesitarías ${CAMINO_MOV[c](Q[c])}.`).join(' ') + ' ';
-    texto += 'El Camino C tiene un tope: el mes no tiene más de 28 a 31 días, y ahí se acaba. ';
-    texto += 'Esos números son un mínimo, no una meta.';
-    document.getElementById('tuVeredicto').innerHTML = texto;
+    // Veredicto entre las dos palancas de proporción (mismo criterio que la auditoría).
+    // Cruce: precio×unidadesCliente×dias = precio×clientes×0.1×dias  ->  clientes = 10×unidadesCliente
+    const cruce = Math.round(10 * unidadesCliente);
+    const ver = document.getElementById('metricaVeredicto');
+    if(Math.abs(impClientes - impUnidades) < 1e-6){
+      ver.innerHTML = `Con tus números las dos <strong>empatan</strong>. Justo aquí, traer un cliente más y subir 0.1 el consumo rinden lo mismo.`;
+    } else if(impUnidades > impClientes){
+      ver.innerHTML = `Con tus números pesa más <strong>unidades por cada cliente</strong>: ya tienes suficientes clientes como para que subirle un poco a cada uno multiplique por todos. Se invertiría por debajo de <span class="num">~${cruce}</span> clientes por día.`;
+    } else {
+      ver.innerHTML = `Con tus números pesa más <strong>clientes por día</strong>: todavía tienes pocos clientes, así que traer uno nuevo rinde más que subirle el promedio a los que ya llegan. Se invertiría por arriba de <span class="num">~${cruce}</span> clientes por día.`;
+    }
   } else {
-    ['tUnidadesDia','tIngresoDia','tIngresoMes'].forEach(id=>{
+    ['tUnidadesDia','tIngresoDia','tIngresoSemana','tIngresoMes'].forEach(id=>{
       document.getElementById(id).textContent = 'N/D';
     });
-    ['tuA','tuB','tuC','tuQA','tuQB','tuQC','tuMetrica'].forEach(id=>{
+    strip.innerHTML = '<div class="celda" style="flex:1 0 100%;color:var(--gris-nota);">Completa precio, clientes, unidades por cliente y días para ver tu semana.</div>';
+    ['impClientes','impUnidades','impPrecio','impDias'].forEach(id=>{
       document.getElementById(id).textContent = 'N/D';
     });
-    document.getElementById('tuVeredicto').innerHTML = 'Completa tus cuatro supuestos para ver tus números.';
+    document.getElementById('tNotaSemana').textContent = '';
+    document.getElementById('metricaVeredicto').innerHTML = 'Completa tus supuestos para ver cuál de las dos palancas de proporción pesa más en tu negocio.';
+    document.getElementById('semanaPie').innerHTML = 'La celda azul es <span class="num">=SUMA(Lun:Dom)</span> sobre los días que sí abres. En Sheets será literalmente esa fórmula.';
   }
 }
 
+function metricaElegida(){
+  const el = document.querySelector('input[name="metrica"]:checked');
+  return el ? el.value : '';
+}
+
 function actualizarProgreso(){
-  const v = id => (document.getElementById(id).value || '').trim();
   const camposClave = [
-    v('fPrecio'), v('fClientes'), v('fUnidadesCliente'),
-    v('p1Valor'), v('p1Camino'), v('p2Camino'), v('p3Valor'), v('p3Camino'), v('p2Obs'),
-    v('tuViabilidad'),
-    v('r1'), v('r2'), v('r3')
+    document.getElementById('fPrecio').value,
+    document.getElementById('fClientes').value,
+    document.getElementById('fUnidadesCliente').value,
+    metricaElegida(),
+    document.getElementById('metricaJustif').value.trim(),
+    document.getElementById('conclusionAuditoria').value.trim()
   ];
-  const TOTAL = camposClave.length;
-  const completos = camposClave.filter(x => x !== '').length;
-  document.getElementById('progresoTexto').textContent = `Progreso: ${completos}/${TOTAL} campos clave`;
-  document.getElementById('progresoFill').style.width = (completos/TOTAL*100) + '%';
+  const completos = camposClave.filter(v => v !== '' && v !== null && v !== undefined).length;
+  document.getElementById('progresoTexto').textContent = `Progreso: ${completos}/6 campos clave`;
+  document.getElementById('progresoFill').style.width = (completos/6*100) + '%';
 
   const nombre = document.getElementById('nombreAlumno').value.trim();
   const enFicha = document.getElementById('panelFicha').classList.contains('active');
   const fab = document.getElementById('fabReporte');
   const aviso = document.getElementById('fabAviso');
 
-  const todo = nombre !== '' && completos === TOTAL;
+  const todo = nombre !== '' && completos === 6;
   const listoParaPDF = nombre !== '' && enFicha;
   aviso.style.display = 'none';
   fab.style.display = listoParaPDF ? '' : 'none';
   if(listoParaPDF){
     if(todo){
       fab.className = 'fab fab-ok';
-      fab.innerHTML = '✓ Generar reporte PDF';
+      fab.innerHTML = '✓ Generar tablero PDF';
       fab.removeAttribute('data-tip');
     } else {
       fab.className = 'fab fab-warn';
@@ -1242,6 +1202,7 @@ function generarPDF(){
   const unidadesDia = hay ? clientes*unidadesCliente : 0;
   const ingresoDia = hay ? precio*unidadesDia : 0;
   const ingresoMes = hay ? ingresoDia*dias : 0;
+  const diasSemana = hay ? Math.max(1, Math.min(7, Math.round(dias/30*7))) : 0;
 
   const boxW = (usableW - 8)/2;
   ticketBox(marginX, y, boxW, 40, 'Tus supuestos', [
@@ -1253,117 +1214,91 @@ function generarPDF(){
   ticketBox(marginX+boxW+8, y, boxW, 40, 'Lo que producen', [
     ['Unidades/día', hay ? (Math.round(unidadesDia*10)/10).toLocaleString('es-MX') : 'N/D'],
     ['Ingreso/día', hay ? '$'+ingresoDia.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D'],
+    ['Ingreso/semana ('+(hay ? diasSemana : 0)+' d)', hay ? '$'+(ingresoDia*diasSemana).toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D'],
     ['Ingreso/mes', hay ? '$'+ingresoMes.toLocaleString('es-MX',{maximumFractionDigits:2}) : 'N/D', true]
   ], true);
   y += 40 + 8;
 
-  function nuevaPaginaSi(necesito){
-    if(y + necesito > 272){ doc.addPage(); y = 20; }
-  }
-  function parrafo(titulo, texto, maxLineas){
-    nuevaPaginaSi(14 + (maxLineas||6)*4.6);
-    doc.setTextColor(...azul); doc.setFont(undefined,'bold'); doc.setFontSize(8.5);
-    doc.text(titulo, marginX, y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(30,36,48);
-    const ls = doc.splitTextToSize(texto || '(sin completar)', usableW);
-    doc.text(ls.slice(0, maxLineas||6), marginX, y+5);
-    y += 5 + (Math.min(ls.length, maxLineas||6)*4.6) + 6;
-  }
+  // ---- La métrica que importa ----
+  seccion('LA MÉTRICA QUE IMPORTA');
 
-  // ---- Ejercicio guiado sobre S02-Lab ----
-  nuevaPaginaSi(60);
-  seccion('EJERCICIO GUIADO  ·  pestaña S02-Lab del libro');
+  const impacto = {
+    clientes: hay ? precio*unidadesCliente*dias : 0,
+    unidades: hay ? precio*clientes*0.1*dias : 0,
+    precio:   hay ? unidadesDia*dias : 0,
+    dias:     hay ? ingresoDia : 0
+  };
+  const etiquetas = {
+    clientes: 'Clientes por día (+1/día)',
+    unidades: 'Unidades por cada cliente (+0.1)',
+    precio:   'Precio por unidad (+$1)',
+    dias:     'Días abiertos al mes (+1)'
+  };
+  const elegida = metricaElegida();
 
-  const NOMBRE_CAMINO = {A:'Camino A · más clientes', B:'Camino B · más unidades por cliente', C:'Camino C · más días abiertos', '':'(sin anotar)'};
-  const pasos = [
-    ['Paso 1 · B17 = mínimo de A42 (unidades adicionales por cliente)', 'p1Camino', 'p1Monto', 'p1Valor', 'B17'],
-    ['Paso 2 · B17 = 0.2 y B15 = 5 (clientes nuevos esperados al mes)', 'p2Camino', 'p2Monto', null, null],
-    ['Paso 3 · B15 = 26 y B18 = mínimo de A42 (días adicionales al mes)', 'p3Camino', 'p3Monto', 'p3Valor', 'B18']
-  ];
   doc.setFontSize(8.5);
-  pasos.forEach(([titulo, idC, idM, idV, celdaV])=>{
-    nuevaPaginaSi(idV ? 19 : 14);
-    const c = document.getElementById(idC).value;
-    const m = parseFloat(document.getElementById(idM).value);
-    doc.setFont(undefined,'bold'); doc.setTextColor(...azul);
-    doc.text(titulo, marginX, y);
-    y += 5;
-    if(idV){
-      const v = parseFloat(document.getElementById(idV).value);
-      doc.setFont(undefined,'normal'); doc.setTextColor(...gris);
-      doc.text(`A42 decía, y escribiste en ${celdaV}: ` + (isNaN(v) ? '(sin anotar)' : v.toLocaleString('es-MX', {maximumFractionDigits:2})), marginX+4, y);
-      y += 5;
-    }
-    doc.setFont(undefined,'normal'); doc.setTextColor(30,36,48);
-    doc.text('Quedó primero: ' + NOMBRE_CAMINO[c], marginX+4, y);
-    doc.setTextColor(...(isNaN(m) ? gris : [201,96,29]));
-    doc.text(isNaN(m) ? '(sin anotar)' : '+$'+m.toLocaleString('es-MX',{maximumFractionDigits:2})+'/mes', pageW-marginX, y, {align:'right'});
-    y += 7;
+  ['clientes','unidades','precio','dias'].forEach(k=>{
+    const es = (k===elegida);
+    doc.setFont(undefined, es ? 'bold' : 'normal');
+    doc.setTextColor(...(es ? azul : [30,36,48]));
+    doc.text((es ? '► ' : '   ') + etiquetas[k], marginX, y);
+    doc.setTextColor(...(es ? [201,96,29] : gris));
+    doc.text('+$'+Math.round(impacto[k]).toLocaleString('es-MX')+'/mes', pageW-marginX, y, {align:'right'});
+    y += 5.6;
   });
-  doc.setTextColor(30,36,48);
-  parrafo('Por qué al bajar el Camino A quedó primero el C y no el B:', document.getElementById('p2Obs').value.trim(), 6);
-
-  // ---- Los tres caminos del alumno ----
-  nuevaPaginaSi(50);
-  seccion('TUS TRES CAMINOS Y SUS PUNTOS DE QUIEBRE');
-
-  const caminoA = hay ? precio*unidadesCliente*dias : 0;
-  const caminoB = hay ? precio*clientes*0.2*dias : 0;
-  const caminoC = hay ? precio*clientes*unidadesCliente : 0;
-  const qA = hay ? Math.ceil(Math.max(caminoB,caminoC)/(precio*unidadesCliente)) : 0;
-  const qB = hay ? Math.ceil(Math.max(caminoA,caminoC)/(precio*clientes*dias)*100)/100 : 0;
-  const qC = hay ? Math.ceil(Math.max(caminoA,caminoB)/(precio*clientes*unidadesCliente)) : 0;
-
-  const filasCam = [
-    ['A · tantos clientes nuevos al mes como días abres', caminoA, hay ? qA+(qA===1?' cliente al mes':' clientes al mes') : 'N/D'],
-    ['B · 0.2 unidades más por cliente', caminoB, hay ? qB+' unidades' : 'N/D'],
-    ['C · abrir 1 día más al mes', caminoC, hay ? qC+(qC===1?' día':' días') : 'N/D']
-  ];
-  doc.setFontSize(7.5); doc.setTextColor(...gris);
-  doc.text('CAMINO', marginX, y);
-  doc.text('SUMA AL MES', marginX+108, y, {align:'right'});
-  doc.text('PUNTO DE QUIEBRE', pageW-marginX, y, {align:'right'});
-  y += 4;
-  doc.setDrawColor(...linea); doc.setLineWidth(0.3); doc.line(marginX, y, pageW-marginX, y); y += 5;
-  doc.setFontSize(8.5);
-  filasCam.forEach(([lbl, val, q])=>{
-    doc.setTextColor(30,36,48); doc.text(lbl, marginX, y);
-    doc.setTextColor(...(hay ? [201,96,29] : gris));
-    doc.text(hay ? '+$'+Math.round(val).toLocaleString('es-MX') : 'N/D', marginX+108, y, {align:'right'});
-    doc.setTextColor(...gris); doc.text(String(q), pageW-marginX, y, {align:'right'});
-    y += 6;
-  });
-  let ganador = 'A';
-  if(hay){
-    if(caminoA >= caminoB && caminoA >= caminoC) ganador = 'A';
-    else if(caminoB >= caminoC) ganador = 'B';
-    else ganador = 'C';
-  }
-  const METRICA_LABEL_PDF = {A:'traer más clientes', B:'subirle a cada cliente', C:'abrir más días al mes'};
-
-  y += 1;
-  doc.setTextColor(...azul); doc.setFont(undefined,'bold'); doc.setFontSize(9);
-  doc.text('Tu métrica que importa: ', marginX, y);
-  doc.setFont(undefined,'normal'); doc.setTextColor(30,36,48);
-  doc.text(hay ? METRICA_LABEL_PDF[ganador] : 'N/D', marginX+45, y);
-  y += 5;
-  doc.setFontSize(7.5); doc.setTextColor(...gris); doc.setFont(undefined,'italic');
-  doc.text(doc.splitTextToSize('El punto de quiebre es qué tan grande tendría que ser el movimiento de ese camino para quedar en primer lugar, dejando los otros dos como están. El Camino C tiene un tope: el mes no tiene más de 28 a 31 días.', usableW), marginX, y+4);
   doc.setFont(undefined,'normal');
-  y += 14;
+  y += 2;
 
-  nuevaPaginaSi(20);
-  parrafo('¿Qué tan viable es llegar al mínimo, y qué tendría que pasar en el negocio:', document.getElementById('tuViabilidad').value.trim(), 7);
+  doc.setTextColor(...azul);
+  doc.setFontSize(9);
+  doc.setFont(undefined,'bold');
+  doc.text('Métrica elegida: ', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  doc.text(elegida ? etiquetas[elegida] : '(sin elegir)', marginX+30, y);
+  y += 6;
 
-  // ---- Reflexión ----
-  nuevaPaginaSi(40);
-  seccion('TU REFLEXIÓN');
-  parrafo('1. Tu negocio y el referente en el Panel, ¿coincidieron o no, y por qué:', document.getElementById('r1').value.trim(), 7);
-  parrafo('2. Cuál de las tres palancas está más a tu alcance en tu negocio:', document.getElementById('r2').value.trim(), 7);
-  parrafo('3. Qué tendría que pasar para que cambiaras de palanca:', document.getElementById('r3').value.trim(), 7);
+  doc.setTextColor(...azul);
+  doc.setFont(undefined,'bold');
+  doc.setFontSize(8.5);
+  doc.text('Justificación:', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  const just = document.getElementById('metricaJustif').value.trim() || '(sin completar)';
+  const justLineas = doc.splitTextToSize(just, usableW);
+  doc.text(justLineas.slice(0,5), marginX, y+5);
+  y += 5 + (Math.min(justLineas.length,5)*4.6) + 8;
+
+  // ---- Auditoría del referente ----
+  seccion('AUDITORÍA DEL REFERENTE');
+
+  const audClientes = parseInt(document.getElementById('audClientesSlider').value,10);
+  const audTacos = parseFloat(document.getElementById('audTacosSlider').value);
+  const audDias = parseInt(document.getElementById('audDiasSlider').value,10);
+  const audGanA = PRECIO_TACO*audTacos*audDias;
+  const audGanB = PRECIO_TACO*audClientes*0.1*audDias;
+  const audGanC = PRECIO_TACO*audClientes*audTacos;
+
+  doc.setFontSize(8.5);
+  doc.setTextColor(30,36,48);
+  doc.text(`Supuestos: ${audClientes} clientes/día · ${audTacos.toFixed(1)} tacos por cliente · taco a $${PRECIO_TACO} · ${audDias} días abiertos/mes.`, marginX, y);
+  y += 6;
+  doc.text(`Camino A (+1 cliente/día): +$${Math.round(audGanA).toLocaleString('es-MX')}/mes`, marginX, y);
+  doc.text(`Camino B (+0.1 tacos/cliente): +$${Math.round(audGanB).toLocaleString('es-MX')}/mes`, pageW-marginX, y, {align:'right'});
+  y += 6;
+  doc.text(`Camino C (+1 día abierto/mes): +$${Math.round(audGanC).toLocaleString('es-MX')}/mes (se evalúa aparte, no compite con A/B)`, marginX, y);
+  y += 6;
+  doc.setTextColor(...azul);
+  doc.setFont(undefined,'bold');
+  doc.text('Conclusión de la auditoría:', marginX, y);
+  doc.setFont(undefined,'normal');
+  doc.setTextColor(30,36,48);
+  const concl = document.getElementById('conclusionAuditoria').value.trim() || '(sin completar)';
+  const conclLineas = doc.splitTextToSize(concl, usableW);
+  doc.text(conclLineas.slice(0,4), marginX, y+5);
+  y += 5 + (Math.min(conclLineas.length,4)*4.6) + 8;
 
   // ---- Fuentes ----
-  nuevaPaginaSi(20);
   doc.setDrawColor(...linea);
   doc.setLineWidth(0.3);
   doc.line(marginX, y, pageW-marginX, y);
@@ -1381,6 +1316,7 @@ function generarPDF(){
 // Inicialización
 recalcularAuditoria();
 recalcularFicha();
+seleccionarMetrica();
 actualizarProgresoReflexion();
 
 window.addEventListener('beforeunload', function(e){
@@ -1389,13 +1325,7 @@ window.addEventListener('beforeunload', function(e){
     document.getElementById('fPrecio').value,
     document.getElementById('fClientes').value,
     document.getElementById('fUnidadesCliente').value,
-    document.getElementById('p1Valor').value,
-    document.getElementById('p3Valor').value,
-    document.getElementById('p2Obs').value,
-    document.getElementById('tuViabilidad').value,
-    document.getElementById('r1').value,
-    document.getElementById('r2').value,
-    document.getElementById('r3').value,
+    document.getElementById('metricaJustif').value,
     document.getElementById('conclusionAuditoria').value
   ];
   const camposReflexion = Array.from(document.querySelectorAll('.reflexion-textarea')).map(ta => ta.value);

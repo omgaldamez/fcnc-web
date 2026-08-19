@@ -4,133 +4,324 @@
 
 ---
 
-## Lectura de apertura
+## Lo que quedó pendiente
 
-La regla de que la multiplicación y la división se resuelven antes que la suma y la resta no viene de un solo libro ni de una persona que la haya inventado de un día para otro. Los primeros indicios de esta jerarquía aparecen en la notación algebraica que se fue consolidando desde el siglo XVII, y durante casi 300 años matemáticos y autores de libros de texto la fueron aplicando de manera informal, cada quien con su propia notación, sin una regla escrita en ningún lado. No fue sino hasta el siglo XIX, cuando creció la industria del libro de texto y hacía falta que millones de estudiantes leyeran una expresión matemática exactamente de la misma manera, que esa costumbre se formalizó en una regla explícita: la que hoy se enseña como jerarquía de operaciones. Incluso así, el historiador de las matemáticas Florian Cajori documentó que, todavía en la década de 1920, había desacuerdo entre distintos autores sobre si la multiplicación debía resolverse antes que la división, o si ambas debían tratarse por igual.
+La semana pasada moviste tres palancas en el libro, una a la vez, y viste que cada movimiento cambiaba cuál camino quedaba primero. En uno de los pasos bajaste el camino que iba ganando, y el que pasó al primer lugar no fue el que esperabas: fue el que nunca se movió. El primer lugar no lo decide quién subió, lo decide quién quedó más alto.
+
+Pero los tres caminos midieron una sola cosa: cuánto entra. Ninguno preguntó cuánto cuesta conseguirlo. Traer clientes cuesta publicidad y tiempo. Vender una unidad más cuesta materiales. Abrir un día que antes se cerraba cuesta sueldos y renta. La hoja dijo cuánto suma cada camino y calló sobre cuánto sale.
+
+Esta sesión abre ese otro lado de la cuenta.
+
+---
+
+## Una lectura antes de empezar
+
+La regla de que la multiplicación y la división se resuelven antes que la suma y la resta no viene de un solo libro ni de una persona que la haya escrito de un día para otro. Los primeros indicios aparecen en la notación algebraica que se fue consolidando desde el siglo XVII, y durante casi 300 años cada autor la aplicó de manera informal, con su propia notación, sin que estuviera escrita en ningún lado.
+
+Se volvió una regla explícita hasta el siglo XIX, cuando creció la industria del libro de texto y hacía falta que millones de estudiantes leyeran una misma expresión exactamente de la misma manera. Incluso entonces siguió habiendo desacuerdo: el historiador Florian Cajori documentó que todavía en la década de 1920 los autores discutían si la multiplicación debía resolverse antes que la división, o si las dos debían tratarse por igual.
+
+Vale la pena detenerse ahí un momento. Lo que hoy se enseña como si fuera una ley de la naturaleza es en realidad un acuerdo, y bastante reciente. Se adoptó porque hacía falta que una misma expresión significara lo mismo para todos, no porque alguien la descubriera.
+
+*Fuente: Cajori, F. (1928). A History of Mathematical Notations, Vol. 1.*
 
 ---
 
 ## Pregunta de asombro
 
-Si una máquina calcula exactamente igual que uno a mano (las mismas sumas, las mismas divisiones), ¿por qué el orden en que le pides que opere puede cambiar el resultado? La máquina no se equivoca nunca; entonces, si dos personas le piden a la misma calculadora que resuelva el mismo problema y obtienen respuestas distintas, el error no está en la máquina. ¿Dónde está?
+Si una máquina calcula exactamente igual que uno a mano, ¿por qué el orden en que le pides que opere puede cambiar el resultado?
+
+La máquina no se equivoca nunca. Si dos personas le piden a la misma calculadora que resuelva el mismo problema, con los mismos números, y obtienen respuestas distintas, el error no está en la máquina. Guarda la pregunta: ¿dónde está?
+
+---
+
+## Antes de la explicación, tres cálculos
+
+Ninguna de las tres necesita nada de lo que vamos a ver hoy. Se hacen de cabeza o con la calculadora del teléfono. Resuélvelas y anota tus tres respuestas.
+
+| 1 | 2 | 3 |
+|---|---|---|
+| **9 + 15 ÷ 3 − 2** | **18 ÷ 3 × 2 + 4** | **(8 + 20) ÷ 4** |
+| A) 6 | A) 16 | A) 13 |
+| B) 12 | B) 7 | B) 5 |
+| C) 24 | C) 36 | C) 7 |
+
+Aquí no se está evaluando a nadie. Las tres opciones de cada columna salen de teclear exactamente los mismos números en la misma calculadora, y las tres se pueden defender. Esa es justo la parte rara.
+
+---
+
+## De dónde sale cada respuesta
+
+Todas las respuestas se calculan correctamente. Lo que cambia es el orden en que se aplican las operaciones.
+
+| 1 · 9 + 15 ÷ 3 − 2 | 2 · 18 ÷ 3 × 2 + 4 | 3 · (8 + 20) ÷ 4 |
+|---|---|---|
+| **B) 12**: Es la que va a aceptar cualquier calculadora. Resuelve la división primero (15 ÷ 3 = 5), luego suma (9 + 5 = 14) y finalmente resta (14 − 2 = 12). | **A) 16**: La división y la multiplicación se resuelven de izquierda a derecha (18 ÷ 3 = 6, 6 × 2 = 12), luego se suma (12 + 4 = 16). | **C) 7**: El paréntesis tiene prioridad (8 + 20 = 28), y luego se divide (28 ÷ 4 = 7). |
+| **6**: Se obtiene resolviendo de izquierda a derecha (9 + 15 = 24, 24 ÷ 3 = 8, 8 − 2 = 6). | **7**: Resulta de multiplicar antes de dividir, como si fuera 18 ÷ (3 × 2). | **13**: Sale de leerlo sin ver el paréntesis: 8 + 20 ÷ 4, que da 8 + 5 = 13. |
+| **24**: Implica una división de 15 entre la resta de 3 − 2, como si fuera 15 ÷ (3 − 2). | **36**: Se obtiene sumando antes de multiplicar, como si fuera 18 ÷ 3 × (2 + 4). | **5**: Al dividir solo 20 ÷ 4 y omitir el 8 inicial. |
+
+Fíjate en lo que no pasó: nadie se equivocó sumando, ni restando, ni dividiendo. Toda la aritmética de esta lámina está bien hecha, y aun así hay tres respuestas distintas para cada columna. Entonces, ¿quién tiene la razón, y sobre todo, quién lo decide?
+
+---
+
+## Lo mismo, pero con dinero
+
+La tercera cuenta de hace un momento, con dos ceros más y un negocio detrás.
+
+Un taller hace piezas por encargo. Cada pieza lleva $800 de material. Ese día el taller costó $2,000 entre renta, luz y herramienta, se venda lo que se venda. Salieron 4 piezas. ¿Cuánto costó hacer una pieza?
+
+| Interpretación 1 | Interpretación 2 |
+|---|---|
+| 800 + 2,000 ÷ 4 | (800 + 2,000) ÷ 4 |
+| **$1,300 por pieza** | **$700 por pieza** |
+
+La correcta es **$1,300**, y se puede ver sin saber ninguna regla, solo preguntando de quién es cada gasto. Los $800 de material son de una sola pieza: esa pieza ya se los gastó completos y no hay con quién repartirlos. Los $2,000 del día son de las cuatro juntas, así que esos sí se reparten: $2,000 ÷ 4 = $500 para cada una. Cada pieza carga entonces sus $800 propios más los $500 que le tocan del día. Por eso primero se divide y luego se suma.
+
+La otra manera suma antes de repartir, y al hacerlo reparte también los $800 entre las cuatro. Le deja a cada pieza $200 de material más $500 del día, y de ahí salen los $700. La falla se detecta sin calculadora: **una pieza que se llevó $800 de material no puede costar $700 hacerla.**
+
+Fíjate en el tamaño del error: **$600 por pieza**. En un taller que saca cuatro al día son $2,400 en un solo día, y nadie te avisa cuál de las dos maneras usaste.
 
 ---
 
 ## El problema de negocio
 
-La taquería que ya conoces de las semanas anteriores sabe, gracias a su tablero de supuestos, que vende 9,135 tacos al mes. Ahora se hace una pregunta distinta: no cuánto vende, sino cuánto le cuesta hacer un solo taco.
+| Lo que ya sabemos | La pregunta nueva |
+|---|---|
+| El referente vende **7,917 unidades al mes**: 87 clientes por día × 3.5 unidades por cliente × 26 días abiertos. Un número exacto y verificable. | No cuánto vende, sino **cuánto le cuesta hacer una sola unidad**. Alguien podría contestar lo mismo que en el taller de hace un momento, ahora con otros números: "sumo los $7.50 de insumos y los $60,000 de renta, luz y gas, y ya tengo mi costo". |
 
-Alguien podría intentar responder así: "el taco lleva $7.50 de tortilla, carne y extras, y al mes gasto $60,000 en renta, luz y gas: sumo los dos números y ya tengo mi costo". Esa cuenta suena razonable. Y sin embargo, produce un número que no corresponde a nada real, como se ve más abajo.
-
----
-
-## Un vistazo real: la cuenta que se come el margen
-
-Esta misma lógica (que dos números resueltos en distinto orden dan respuestas distintas) tiene consecuencias reales para miles de restaurantes mexicanos que venden a través de aplicaciones de entrega como Rappi, Uber Eats o DiDi Food. Cuando un restaurante vende por una de estas plataformas, no recibe el precio completo que paga el cliente: la plataforma le descuenta primero su comisión, y el impuesto correspondiente se calcula sobre esa comisión: no sobre el total del pedido.
+Esa cuenta suena razonable. Y sin embargo produce un número que no corresponde a nada real. El problema no está en los números, que son correctos. Está en el orden.
 
 ---
 
-## La cuenta detrás del pedido
+## Dos costos que no son de la misma naturaleza
 
-De cada $200 pesos que un cliente paga por un pedido en el menú de la aplicación, al restaurante mexicano le llegan entre $130 y $142 pesos netos, según datos de 2026 recopilados de Mordor Intelligence, Statista y la CANIRAC (Cámara Nacional de la Industria de Restaurantes y Alimentos Condimentados). La diferencia no es propina para quien reparte el pedido: es la comisión de la plataforma más el impuesto sobre esa comisión.
+| Costo directo (variable) por unidad | Costo fijo mensual |
+|---|---|
+| Lo que entra en cada unidad, una por una: materia prima, insumos, empaque de una sola pieza. | Lo que el negocio paga cada mes exista o no exista un solo cliente: la renta del local, la luz, el gas. |
+| Si no se produce ninguna unidad, no se gasta nada en esto. | Se paga completo una vez al mes, sin importar cuántas unidades se vendan. |
+| En este referente: **$7.50 por unidad**. | En este referente: **$60,000 al mes**. |
 
-Un restaurante que calcula su ganancia por pedido restando solo la comisión del total (sin darse cuenta de que el impuesto se suma después, sobre la comisión y no sobre el precio completo) llega a un número más optimista del que realmente recibe en su cuenta. Es el mismo tipo de error que separa el orden correcto del orden ingenuo en la cuenta de la taquería: el orden en que se resta, se suma o se reparte un costo no es un detalle de estilo, es lo que decide si el número final corresponde a algo real.
-
----
-
-## Costos directos y costos fijos
-
-Antes de resolver la cuenta, conviene separar los dos tipos de costo que trae cada taco.
-
-Los **costos directos** son los que entran en cada unidad, uno por uno: la tortilla, la carne, los extras de un solo taco. Si no se hace ningún taco, no se gasta nada en esto.
-
-Los **costos fijos** son los que la taquería paga cada mes exista o no exista un solo cliente: la renta del local, la luz, el gas. Se pagan una sola vez al mes, sin importar cuántos tacos se vendan ese mes.
-
-Para saber cuánto cuesta un taco, no basta con sumar estos dos números: hay que repartir primero el costo fijo entre todos los tacos que se hicieron ese mes, y ese reparto es una división.
+Uno viene pegado a cada unidad. El otro llega entero una vez al mes y no le pregunta a nadie cuánto se vendió. Por eso no se pueden sumar como si fueran lo mismo.
 
 ---
 
-## La misma cuenta, dos órdenes distintos
+## Por eso hay que repartir primero
 
-Con los números de la taquería: costo directo por taco $7.50, costos fijos del mes $60,000, y 9,135 tacos vendidos ese mes (87 clientes por día × 3.5 tacos por cada cliente × 30 días: el mismo cálculo de "por cada" de la Semana 2).
+Para saber cuánto cuesta una unidad, el costo fijo del mes tiene que repartirse entre todas las unidades del mes. Ese reparto es una división, y es la bisagra de toda la sesión.
 
-**Orden correcto: dividir antes de sumar:** primero se reparte el costo fijo entre las unidades del mes: 60,000 ÷ 9,135 = $6.57 por taco. Después se suma el costo directo: $7.50 + $6.57 = **$14.07**. Este número sí corresponde a algo real: cuánto le toca a cada taco, entre su propio costo directo y su parte del costo fijo del mes.
+Antes de repartir, ayuda ver cómo se comporta cada tipo de costo por separado según cuántas unidades se vendan ese mes:
+
+| Unidades vendidas | Costo fijo total | Costo variable total |
+|---|---|---|
+| 0 | $60,000 | $0 |
+| 2,000 | $60,000 | $15,000 |
+| 4,000 | $60,000 | $30,000 |
+| 7,917 | $60,000 | $59,377.50 |
+
+El costo fijo se queda plano en $60,000 pase lo que pase. El costo variable arranca en cero y sube $7.50 por cada unidad. Este referente vende 7,917, a solo 83 unidades de que su costo variable alcance a su costo fijo.
 
 ---
 
-## El orden ingenuo · y por qué importa
+## Antes de ver el resultado, predice
 
-**Orden ingenuo: sumar antes de dividir:** primero se suman los $7.50 y los $60,000, como si fueran de la misma naturaleza: $60,007.50. Después se reparte ese total entre los 9,135 tacos: $60,007.50 ÷ 9,135 = **$6.57**. Este número no corresponde a nada: mezcla, dentro de un mismo reparto, el costo de un solo taco con el costo fijo de todo el mes, y el resultado no es el costo de nada identificable.
+Ya están los tres números sobre la mesa: $7.50 de costo directo por unidad, $60,000 de costo fijo al mes, 7,917 unidades vendidas ese mes. Y hay dos maneras de acomodarlos: una divide primero y suma después; la otra suma primero y divide después.
 
-Los dos órdenes usan exactamente los mismos tres números ($7.50, $60,000 y 9,135) y aun así llegan a respuestas muy distintas. Ahí está la respuesta a la pregunta de asombro: la máquina no decide el orden, lo decide quien la usa. Por eso el orden en que se opera no es una preferencia de estilo, es lo que hace que la cuenta signifique algo real o no signifique nada.
+En el taller ya viste hacia dónde se va: sumar antes de repartir encoge el material. Aquí los números son otros, y la pregunta ya no es cuál gana, es de cuánto. Antes de hacer ninguna cuenta, anticipa: ¿de qué tamaño crees que va a ser la diferencia entre las dos maneras? El razonamiento que empuja a decir "de poco" es que $7.50 al lado de $60,000 casi no pesan. Fíjate en lo que les pasa a esos $7.50.
 
 ---
 
-## La notación: jerarquía de operaciones
+## Los mismos tres números, dos órdenes
 
-A esta regla (que la multiplicación y la división se resuelven antes que la suma y la resta, salvo que los paréntesis digan otra cosa) se le llama **jerarquía de operaciones**. No es una convención arbitraria que alguien inventó para complicar las cuentas: es lo que garantiza que una expresión con varias operaciones tenga un único significado posible, sin importar quién la calcule o con qué herramienta.
+Costo directo: $7.50 · Costos fijos: $60,000 · Unidades vendidas: 7,917. Son los mismos tres números en las dos cuentas. Lo único que cambia es cuál operación va primero.
 
-Escrita con paréntesis para que no haya ambigüedad, la cuenta correcta de la taquería es:
+| Orden correcto: dividir antes de sumar | Orden ingenuo: sumar antes de dividir |
+|---|---|
+| Primero se reparte el costo fijo: 60,000 ÷ 7,917 = $7.58 por unidad | Primero se suman $7.50 + $60,000 = $60,007.50 |
+| Después se suma el costo directo: $7.50 + $7.58 | Después se reparte: 60,007.50 ÷ 7,917 |
+| **$15.08** | **$7.58** |
 
-7.50 + (60,000 ÷ 9,135) = 7.50 + 6.57 = **$14.07**
+El primero corresponde a algo real: lo que le toca a cada unidad entre su costo directo y su parte del costo fijo. El segundo no corresponde a nada.
 
-El paréntesis no cambia la regla: solo la hace visible. Aunque no se escribiera, la división debe resolverse primero.
+---
+
+## Fíjate en algo
+
+Los dos $7.58 son el mismo número en pantalla, y no es casualidad.
+
+Los $7.50 del costo directo, repartidos entre 7,917 unidades, se vuelven nueve centésimas de un centavo. Sumarlos antes de dividir no los agregó al resultado: los desapareció.
+
+Por eso el orden ingenuo no da el costo de una unidad. Da el costo fijo repartido, y nada más: se comió el costo directo en el camino. Meter los $60,000 completos al principio no engorda el resultado, porque enseguida se dividen entre casi ocho mil unidades junto con todo lo demás.
+
+---
+
+## Dónde estaba el error
+
+Volvamos a la pregunta del principio. Dos personas, la misma calculadora, los mismos tres números, dos respuestas distintas. La máquina no se equivocó ninguna de las dos veces: hizo exactamente lo que se le pidió, en el orden en que se le pidió.
+
+El error no estaba en la máquina ni en los números. Estaba en la decisión de cuál operación va primero, que es una decisión humana y que casi siempre se toma sin darse cuenta de que se está tomando. El orden en que se opera no es una preferencia de estilo. Es lo que hace que la cuenta signifique algo real o no signifique nada.
+
+---
+
+## Jerarquía de operaciones
+
+Ya con la idea puesta, la regla tiene nombre: **jerarquía de operaciones**. La multiplicación y la división se resuelven antes que la suma y la resta, salvo que los paréntesis digan otra cosa.
+
+No es una convención arbitraria para complicar las cuentas, ni una manía de los libros de texto. Es lo que garantiza que una expresión con varias operaciones tenga un único significado posible, sin importar quién la calcule, en qué país, con qué herramienta o en qué año. Es el acuerdo del que hablaba la lectura del principio, y esta cuenta es la razón por la que hizo falta.
+
+---
+
+## El paréntesis solo la hace visible
+
+Escrita sin ambigüedad, la cuenta correcta de este referente es:
+
+7.50 + (60,000 ÷ 7,917) = 7.50 + 7.58 = **$15.08**
+
+El paréntesis no cambia la regla ni le da poderes nuevos a la división. Aunque no se escribiera, la división iría primero de todos modos. Lo que hace el paréntesis es volver visible una decisión que ya estaba tomada, para que quien lea la expresión no tenga que confiar en que se acuerda de la regla.
+
+Por eso conviene escribirlos aunque sobren. Un paréntesis de más no cuesta nada; uno de menos cuesta $7.50 por unidad.
+
+---
+
+## Ya lo viviste la semana pasada
+
+Esto no es nuevo para ti, aunque no tuviera nombre todavía. Cuando calculamos cuánto tendría que subir cada cliente para empatar con traer uno nuevo, repartimos las 3.5 unidades del cliente nuevo entre los 87 que ya entran.
+
+| Escrito así: | Escrito así: |
+|---|---|
+| 3.5 ÷ 87 × 22 | 3.5 ÷ (87 × 22) |
+| Resultado: **$0.885** | Resultado: **$0.0018** |
+
+La misma frase en español, dicha con las mismas palabras, y dos números que no se parecen en nada. Uno son casi ochenta y nueve centavos y el otro no llega a dos décimas de centavo. Cualquiera de los dos se puede teclear sin que la calculadora proteste.
 
 ---
 
 ## Costo unitario y ganancia por unidad
 
-Al número que resulta de sumar el costo directo más la parte que le toca del costo fijo se le llama **costo unitario**: $14.07 en el caso de la taquería. Y a la diferencia entre lo que se cobra y lo que cuesta se le llama **ganancia por unidad**, siempre en pesos, no como margen:
+Al número que resulta de sumar el costo directo más la parte del costo fijo que le toca a cada unidad se le llama **costo unitario**. A la diferencia entre lo que se cobra y lo que cuesta se le llama **ganancia por unidad**, siempre en pesos.
 
-ganancia por unidad = precio − costo unitario = $22 − $14.07 = **$7.93**
+| La cuenta que parecía | La cuenta que es |
+|---|---|
+| ganancia = precio − costo directo | ganancia por unidad = precio − costo unitario |
+| $22 − $7.50 = **$14.50** | $22 − $15.08 = **$6.92** |
+| No reparte el costo fijo: lo deja fuera. | Reparte el costo fijo y se lo cobra a cada unidad. |
 
-Antes de esta cuenta, alguien podía pensar que la ganancia era precio menos costo directo ($22 − $7.50 = $14.50). El costo unitario correcto muestra que la ganancia real es bastante menor, porque el costo fijo también le toca a cada taco, no solo a la taquería en general.
-
----
-
-## Café Andante: la misma lógica en otro negocio
-
-Café Andante (el negocio de ejemplo que ya conoces) tiene costos directos de $14 por unidad, costos fijos de $18,000 al mes, y vende 780 unidades al mes.
-
-Costo fijo por unidad = 18,000 ÷ 780 = $23.08. Costo unitario = $14 + $23.08 = **$37.08**. Con un precio de $40, su ganancia por unidad es $40 − $37.08 = **$2.92**.
-
-Café Andante cobra un precio que suena alto ($40 por café), pero su ganancia por unidad es de apenas $2.92. La razón no está en el precio: está en que vende poco (780 unidades al mes), así que sus $18,000 de costos fijos se reparten entre pocas unidades, y cada una carga $23.08 solo de costo fijo. El mismo negocio que en la Semana 2 identificó su volumen como la palanca más sensible de su ingreso, aquí se ve por qué ese volumen también es crítico del lado del costo: vender poco encarece cada unidad que se vende.
+El primero hace parecer la ganancia más del doble de lo que es. El costo fijo también le toca a cada unidad, no solo al negocio en general, y no desaparece por no escribirlo.
 
 ---
 
-## Conexión con el laboratorio de hoy
+## Lo que se queda la plataforma
 
-En la auditoría de esta sesión vas a mover los costos fijos, los clientes por día y los tacos por cliente de la misma taquería, y vas a ver en vivo cómo el orden correcto y el orden ingenuo se mantienen separados sin importar qué tanto cambien los números: porque la diferencia no viene de los valores, viene del orden.
+Esta lógica tiene consecuencias para miles de restaurantes mexicanos que venden por aplicaciones como Rappi, Uber Eats o DiDi Food. La plataforma descuenta primero su comisión, y el impuesto se calcula sobre esa comisión, no sobre el total del pedido. El orden en que se aplican esos descuentos cambia el resultado final.
 
-Después vas a construir tu propia calculadora de costo unitario: capturas tus costos directos por unidad, tus costos fijos del mes, y tus unidades por mes (las mismas que ya calculaste en tu tablero de la Semana 2). Tu modelo no reinicia esta semana: crece sobre el mismo tablero, y le agrega el lado del costo que la Semana 2 todavía no tocaba.
+| $200 | $130 a $142 | $70 |
+|---|---|---|
+| **Paga el cliente** | **Le llega al restaurante** | **Diferencia retenida** |
+| Lo que aparece en la aplicación. | Lo que le queda después de la comisión y del impuesto sobre esa comisión. | Comisión de la plataforma más el impuesto sobre esa comisión. |
+
+Ese último renglón no es propina para quien reparte. Es un costo que el restaurante descubre después de fijar su precio, cuando ya es tarde para repartirlo entre sus unidades.
+
+*Fuente: Tracción Media (may 2026), con cifras de Mordor Intelligence, Statista y CANIRAC (2025-2026).*
+
+---
+
+## Una joyería, con otros números
+
+Los mismos conceptos, otro negocio, otra escala. Esta joyería es un ejemplo construido para la clase, no un negocio auditado. Sus cifras son plausibles para un taller pequeño de producción propia. Vende sus piezas a $1,800. Cada una lleva $620 de material. El taller cuesta $42,000 al mes y salen 40 piezas.
+
+| Concepto | El referente | La joyería |
+|---|---|---|
+| Unidades al mes | 7,917 | 40 |
+| Costo directo por unidad | $7.50 | $620 |
+| Costo fijo repartido | $7.58 | $1,050 |
+| Costo unitario | $15.08 | $1,670 |
+| Precio | $22 | $1,800 |
+| Ganancia por unidad | $6.92 | $130 |
+
+---
+
+## Por qué $1,800 dejan $130
+
+El referente reparte sus costos fijos entre 7,917 unidades. La joyería, entre 40. Por eso cada pieza carga $1,050 de costo fijo, contra los $7.58 que carga cada unidad del otro.
+
+Sin repartir, la joyería creería ganar $1,180 por pieza: nueve veces su ganancia real. Y no es un error de aritmética, es un error de orden, el mismo de la primera cuenta de la sesión.
+
+El precio alto no es lo que decide. Vender poco encarece cada unidad que se vende, y eso no aparece hasta que el costo fijo se reparte. Casi cualquier negocio que produce piezas propias vive de este lado de la comparación, no del de las 7,917 unidades.
+
+---
+
+## El número que nunca movimos
+
+El tablero de la semana pasada tenía cuatro números: cuántos clientes entran, cuánto se lleva cada uno, cuántos días abres y a cuánto vendes la unidad. Movimos tres. El precio se quedó quieto a propósito: era la única forma de ver el efecto de la proporción sin que otra cosa lo tapara.
+
+Hoy que ya sabes lo que te cuesta una unidad, ese cuarto número se puede mover, y no se parece a los otros tres.
+
+| Palanca | Qué arrastra consigo |
+|---|---|
+| Traer un cliente nuevo | Publicidad, tiempo y las unidades que ese cliente se lleva. |
+| Vender una unidad más por cliente | El costo directo de cada una de esas unidades. |
+| Abrir un día más | Sueldos y servicios de ese día, y el costo de lo que se venda. |
+| **Subir el precio** | **No hay una sola unidad más que producir. Cada peso que se suma llega entero.** |
+
+---
+
+## Cuánto no puedes cobrar
+
+Subir el precio no mueve el costo directo ni un peso, así que cada peso que le sumas a la unidad llega entero. Ahí está su fuerza. Y ahí está también su riesgo, el que ninguna celda del libro conoce: es la única palanca que puede hacer que entre menos gente.
+
+Por eso el costo unitario no te dice qué precio poner. Te dice cuál no. Con un costo unitario de $15.08, cobrar $14 pierde dinero en cada unidad que sale, y vender más solo hace que se pierda más rápido. La joyería tiene el mismo límite en $1,670.
+
+La aritmética marca el piso del precio; el resto es decisión, y se defiende con argumentos: lo que cobra el referente, lo que el cliente está dispuesto a pagar y cuántos clientes estás dispuesto a perder.
 
 ---
 
 ## Lo que cambió hoy
 
-La Semana 2 mostró que un dato aislado no decide, que hace falta una proporción. Esta semana muestra algo distinto, pero conectado: incluso con los números correctos, el orden en que se opera puede convertir una cuenta real en una cuenta que no significa nada. La jerarquía de operaciones no es un obstáculo entre tú y el resultado: es lo que asegura que el resultado sea el que realmente buscabas.
+La Semana 2 mostró que un dato aislado no decide, que hace falta una proporción. Esta semana muestra algo distinto y conectado: incluso con los números correctos y la proporción bien armada, el orden en que se opera puede convertir una cuenta real en una cuenta que no significa nada.
+
+La jerarquía de operaciones no es un obstáculo entre tú y el resultado. Es lo que asegura que el resultado sea el que realmente buscabas.
+
+---
+
+## Conexión con el laboratorio
+
+El laboratorio de esta semana agrega el lado del costo sobre el mismo tablero, sin empezar de nuevo. Vas a capturar tres números tuyos: cuánto cuesta el material de una sola unidad, cuánto pagas al mes exista o no exista un cliente, y cuántas unidades vendes al mes.
+
+Tus tres números → Tu costo unitario → Tu ganancia por unidad
+
+Es probable que el número te sorprenda, sobre todo si produces poco: la joyería de hace un momento no es un caso extremo, es el caso típico de un negocio que hace piezas propias. Y cuando el costo entra en la cuenta, la palanca que conviene empujar no tiene por qué seguir siendo la misma que era la semana pasada. Eso, ya con tus números y tu argumento, es el artefacto que se queda en tu portafolio.
+
+Tu modelo no reinicia esta semana: crece.
 
 ---
 
 ## Glosario de esta semana
 
-**Costo directo (variable) por unidad**: lo que entra en una sola unidad producida: materiales o ingredientes.
+Cinco términos nuevos se agregan al glosario acumulativo del curso:
+
+**Costo directo (variable) por unidad**: lo que entra en una sola unidad producida: materiales, insumos, empaque.
 
 **Costo fijo mensual**: lo que un negocio paga cada mes exista o no exista un cliente: renta, sueldos fijos, servicios.
 
 **Costo unitario**: costo directo por unidad más la parte del costo fijo mensual que le toca a cada unidad.
 
-**Jerarquía de operaciones**: la regla que dice que multiplicación y división se resuelven antes que suma y resta (salvo paréntesis), y que garantiza que una expresión tenga un único significado.
+**Jerarquía de operaciones**: la regla que garantiza que una expresión tenga un único significado: multiplicación y división antes que suma y resta, salvo paréntesis.
 
 **Ganancia por unidad**: precio menos costo unitario, en pesos.
 
-(Proporción/razón, tasa, la métrica que importa, palanca y tablero de supuestos ya están en el glosario desde la Semana 2 y no se vuelven a explicar aquí.)
+(Proporción/razón, tasa, la métrica que importa, palanca, tablero de supuestos, valor y unidad ya están en el glosario desde la Semana 2 y no se vuelven a explicar aquí.)
 
 ---
 
 ## Objetivos de la sesión
 
-Al cerrar esta sesión, cada alumno puede: distinguir un costo directo de un costo fijo; explicar por qué el orden de las operaciones cambia el resultado aunque los números sean los mismos; calcular el costo unitario y la ganancia por unidad de su propio negocio; y detectar cuándo un costo fijo no se ha repartido correctamente entre las unidades del mes.
+**01 · Distinguir costos.** Separar un costo directo de un costo fijo con claridad.
+
+**02 · Explicar el orden.** Argumentar por qué el orden de las operaciones cambia el resultado aunque los números sean los mismos.
+
+**03 · Calcular el costo unitario.** Repartir el costo fijo entre las unidades del mes, en el orden correcto.
+
+**04 · Identificar el piso de precio.** Decir cuál es el precio por debajo del cual cada unidad vendida pierde dinero.
+
+**05 · Reconocer el límite de la aritmética.** Entender por qué la aritmética no alcanza para decidir cuánto por arriba de ese piso de precio conviene cobrar.
 
 ---
 
@@ -140,9 +331,9 @@ Al cerrar esta sesión, cada alumno puede: distinguir un costo directo de un cos
 
 **Pensamiento de negocio**: la ganancia por unidad se interpreta en el contexto del volumen del negocio, no solo como un número aislado.
 
-**Comunicación honesta**: la calculadora muestra costos directos y fijos por separado, sin mezclarlos para que el costo unitario parezca menor.
+**Comunicación honesta**: los costos directos y los fijos se presentan por separado, sin mezclarlos para que el costo unitario parezca menor.
 
-**Autonomía y curiosidad**: el alumno explora qué pasa con su costo unitario si cambia sus unidades por mes, más allá de solo capturar sus costos actuales.
+**Autonomía y curiosidad**: el alumno se pregunta qué pasaría con su costo unitario si vendiera más o menos unidades ese mes, más allá de capturar sus costos actuales.
 
 ---
 
@@ -150,21 +341,40 @@ Al cerrar esta sesión, cada alumno puede: distinguir un costo directo de un cos
 
 **Caso real (comisiones de plataformas de entrega, México, 2026):**
 
-- Tracción Media, «De los $200 que pagas por un pedido en Rappi, Uber Eats o DiDi Food, al restaurante mexicano le llegan $130: y la diferencia no es propina» (7 de mayo de 2026). [traccionmedia.com/de-los-200-que-pagas-por-un-pedido-en-rappi-uber-eats-o-didi-food-al-restaurante-mexicano-le-llegan-130-y-la-diferencia-no-es-propina](https://traccionmedia.com/de-los-200-que-pagas-por-un-pedido-en-rappi-uber-eats-o-didi-food-al-restaurante-mexicano-le-llegan-130-y-la-diferencia-no-es-propina/). Cifras originales de Mordor Intelligence (México Foodservice Market Report 2026), Statista (Online Food Delivery México 2025) y CANIRAC (Reporte de Margen Operativo 2025); cálculos de comisión más IVA sobre un pedido típico de $200 son de la propia publicación.
+- Tracción Media, «De los $200 que pagas por un pedido en Rappi, Uber Eats o DiDi Food, al restaurante mexicano le llegan $130: y la diferencia no es propina» (7 de mayo de 2026). [traccionmedia.com/de-los-200-que-pagas-por-un-pedido-en-rappi-uber-eats-o-didi-food-al-restaurante-mexicano-le-llegan-130-y-la-diferencia-no-es-propina](https://traccionmedia.com/de-los-200-que-pagas-por-un-pedido-en-rappi-uber-eats-o-didi-food-al-restaurante-mexicano-le-llegan-130-y-la-diferencia-no-es-propina/). Cifras originales de Mordor Intelligence (México Foodservice Market Report 2026), Statista (Online Food Delivery México 2025) y CANIRAC (Reporte de Margen Operativo 2025).
 
-**Auditoría de la taquería (continuidad con Semanas 1 y 2):**
+**Auditoría del referente (continuidad con Semanas 1 y 2):**
 
 - INEGI/DENUE: más de 145,000 puestos de tacos y antojitos registrados en México; mercado superior a $200 mil millones de pesos al año.
 - Caso de evolución de precio de Los Cocuyos, Centro Histórico, CDMX ($10 en 2015 a $22 actual).
 
-Los valores de la auditoría (costos directos $7.50, costos fijos $60,000, 87 clientes/día, 3.5 tacos/cliente) son ilustrativos dentro de estos rangos, no la contabilidad de un negocio específico.
+Los valores del referente (costo directo $7.50, costos fijos $60,000, 87 clientes por día, 3.5 unidades por cada cliente, 26 días abiertos al mes) son ilustrativos dentro de estos rangos, no la contabilidad de un negocio específico.
 
-**Café Andante:** negocio de ejemplo ficticio, ya usado en las Semanas 1 y 2; no requiere fuente externa.
+**Joyería artesanal y taller de piezas por encargo:** ejemplos construidos para la clase, con cifras ilustrativas de un taller pequeño de producción propia; no requieren fuente externa.
 
 **Lectura de apertura:**
 
 - Florian Cajori, *A History of Mathematical Notations*, Vol. 1 (1928): fuente académica primaria sobre la formalización de la notación algebraica y el orden de operaciones entre los siglos XVII y XX. [books.google.com/books?id=_byqAAAAQBAJ&pg=PA182](https://books.google.com/books?id=_byqAAAAQBAJ&pg=PA182)
-- Dave Peterson, «Order of Operations: Historical Caveats», The Math Doctors (blog especializado en historia y didáctica de las matemáticas), resumen accesible de los hallazgos de Cajori. [themathdoctors.org/order-of-operations-historical-caveats](https://www.themathdoctors.org/order-of-operations-historical-caveats/)
-- «History and Background of the Order of Operations», Utah State University, Department of Mathematics and Statistics: panorama educativo de la evolución de la regla. [5010.mathed.usu.edu/Fall2013/PJensen/History.html](https://5010.mathed.usu.edu/Fall2013/PJensen/History.html)
-- «Order of operations», Wikipedia (en inglés, con aparato de referencias): resumen tertiario de consulta rápida. [en.wikipedia.org/wiki/Order_of_operations](https://en.wikipedia.org/wiki/Order_of_operations)
-- «Clase digital 7. Jerarquía de operaciones y signos de agrupación», Recursos Educativos Abiertos, Universidad de Guanajuato: explicación didáctica en español, de una universidad mexicana. [blogs.ugto.mx/rea/clase-digital-7-jerarquia-de-operaciones-y-signos-de-agrupacion](https://blogs.ugto.mx/rea/clase-digital-7-jerarquia-de-operaciones-y-signos-de-agrupacion/)
+- Dave Peterson, «Order of Operations: Historical Caveats», The Math Doctors. [themathdoctors.org/order-of-operations-historical-caveats](https://www.themathdoctors.org/order-of-operations-historical-caveats/)
+- «History and Background of the Order of Operations», Utah State University, Department of Mathematics and Statistics. [5010.mathed.usu.edu/Fall2013/PJensen/History.html](https://5010.mathed.usu.edu/Fall2013/PJensen/History.html)
+- «Order of operations», Wikipedia (en inglés, con aparato de referencias). [en.wikipedia.org/wiki/Order_of_operations](https://en.wikipedia.org/wiki/Order_of_operations)
+- «Clase digital 7. Jerarquía de operaciones y signos de agrupación», Recursos Educativos Abiertos, Universidad de Guanajuato. [blogs.ugto.mx/rea/clase-digital-7-jerarquia-de-operaciones-y-signos-de-agrupacion](https://blogs.ugto.mx/rea/clase-digital-7-jerarquia-de-operaciones-y-signos-de-agrupacion/)
+
+---
+
+## Registro de generación
+
+*Esta sección es documentación interna, no una lámina. Se borra antes de pegar en Gamma.*
+
+**Deck publicado el 19 de agosto de 2026:** `https://gamma.app/docs/ogt3xmop7h4c0k5` · embed `https://gamma.app/embed/ogt3xmop7h4c0k5` · 29 láminas.
+
+**Correcciones hechas a mano sobre el Gamma generado**, porque Gamma las introdujo por su cuenta y no estaban en este Markdown:
+
+1. **Inventó un valor intermedio a partir de un rango.** Convirtió «entre $130 y $142» en un titular de «$136», que no aparece en ninguna fuente y que descuadraba la propia lámina ($200 − $136 = $64, no los $70 del tercer bloque). Corregido al rango. **Riesgo recurrente: revisar cada rango que se le entregue.**
+2. **Adelantó vocabulario técnico.** Usó la palabra «jerarquía» en la lámina de respuestas, nueve láminas antes de que el deck la presente como nombre nuevo. Corregido.
+3. **Le dio agencia a la calculadora** («la calculadora estándar resuelve la división primero»), contradiciendo la lámina «Dónde estaba el error». Corregido.
+4. **Borró premisas y dejó conclusiones sueltas** en «Lo que quedó pendiente» y en «Lo mismo, pero con dinero», donde se perdió el diagnóstico completo de por qué los $700 están mal. Restaurados.
+5. **Agregó bloques visuales vacíos de contenido** (un flujo de tres pasos con los verbos «Capturar · Calcular · Analizar»). Reemplazado por la cadena real de salidas del laboratorio.
+6. **Mezcló ÷ y / como signo de división.** Unificado en ÷.
+
+**Nota de arrastre:** al mover el bloque de los tres cálculos al inicio, la lámina «Antes de ver el resultado, predice» dejó de poder preguntar cuál orden gana, porque «Lo mismo, pero con dinero» ya lo revela. Su pregunta se cambió a la magnitud de la diferencia.

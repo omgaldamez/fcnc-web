@@ -44,19 +44,19 @@ Ochenta y siete personas, multiplicadas por 0.2 unidades más cada una, dan **17
 
 Ahí está toda la explicación. El Camino B mueve casi cinco veces más mercancía que el Camino A, así que deja casi cinco veces más dinero.
 
-No es que la palanca sea mejor. Es que la movimos cinco veces más fuerte. Elegimos un cliente para el primer camino y dos décimas de unidad para el segundo, y esos dos movimientos no son del mismo tamaño, aunque los dos suenen igual de modestos al decirlos en voz alta.
+No es que la palanca sea mejor. Es que la movimos casi cinco veces más fuerte. Elegimos un cliente para el primer camino y dos décimas de unidad para el segundo, y esos dos movimientos no son del mismo tamaño, aunque los dos suenen igual de modestos al decirlos en voz alta.
 
 ---
 
 ## Entonces, ¿de cuánto tendría que ser para empatar?
 
-Si el cliente nuevo trae 3.5 unidades al día, la pregunta se puede voltear y se vuelve fácil: esas 3.5 unidades, **repartidas entre los 87 clientes que ya tienes**, ¿a cuánto tocan cada uno?
+Si el cliente nuevo trae 3.5 unidades al día, la pregunta se puede voltear, y así se contesta con una sola división: esas 3.5 unidades, **repartidas entre los 87 clientes que ya tienes**, ¿a cuánto tocan cada uno?
 
-3.5 unidades entre 87 clientes son **0.04 unidades por cada cliente**.
+3.5 unidades entre 87 clientes son **0.0402 unidades por cada cliente**, o sea cuatro centésimas y una pizca.
 
-Traer un cliente entero equivale a convencer a cada una de las personas que ya vienen de llevarse cuatro centésimas de unidad más. Puesto así, el 0.2 que habíamos elegido deja de sonar modesto: es cinco veces ese empate.
+Traer un cliente entero equivale a convencer a cada una de las personas que ya vienen de llevarse unas cuatro centésimas de unidad más. Puesto así, el 0.2 que habíamos elegido deja de sonar modesto: es casi cinco veces ese empate.
 
-Se comprueba en la hoja. Al escribir 0.04 en la celda verde de "unidades adicionales por cliente", los dos caminos dan **$2,002.00**, exactamente lo mismo.
+Se comprueba en la hoja, y conviene hacerlo con cuidado. En el bloque 6 hay una celda verde de ensayo, aparte de los supuestos del modelo, para probar sin descuadrar nada. Si escribes ahí **0.04** redondeado, el Camino B da **$1,990.56** contra los $2,002.00 del A: quedan a once pesos y medio de distancia, cerca pero no igual. El empate exacto es el que calcula sola la celda del bloque 6, **0.040229885**, y con ese valor los dos caminos coinciden al centavo. Es un buen momento para notar que redondear tiene consecuencias, aunque se vean chicas.
 
 ---
 

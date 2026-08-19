@@ -6,14 +6,23 @@
 
 ---
 
-## 0. Lo primero que hay que saber
+## 0. Estado del paso 0, cerrado el 19 de agosto
 
-Dos entregables de esta sesión están **sin probar** y pueden cambiar:
+Los tres puntos del paso 0 quedaron así:
 
-- **`sesiones/S02-Lab/S02-Lab-resuelto.xlsx`** — Omar todavía no lo abre ni lo recorre. Puede haber ajustes de contenido, de formato o de estructura.
-- **`sesiones/S02-Lab/gamma-S02-Lab-el-empate.md`** — todavía no se pasa por Gamma. El resultado puede pedir cambios al Markdown.
+**a) `S02-Lab-resuelto.xlsx` · recorrido y rediseñado.** Se auditó contra el binario, no contra los documentos, y de ahí salió que el archivo reestructurado del 18 de agosto nunca había llegado al disco. Se regeneró y después se rediseñó completo con Omar. Detalle en la sección 3 ter de la bitácora. **Aprobado.**
 
-No dar por cerrado ninguno de los dos. **Los dos se revisan como parte de la auditoría de S03**, no como un paso previo: son el primer punto de esa revisión.
+**b) `gamma-S02-Lab-el-empate.md` · corregido, falta Gamma.** Afirmaba que escribiendo 0.04 los dos caminos daban $2,002.00 exactos; da $1,990.56. El empate exacto es 3.5 ÷ 87 = 0.040229885. Ya dice el número exacto y usa el redondeo como lección. **Falta pasarlo por Gamma.**
+
+**c) La pestaña «Tu tablero de supuestos» de `semana-02/index.html` · sin tocar, con decisión tomada.** Se rediseña como **hoja de trabajo guiada**: el xlsx calcula, la app registra y produce el PDF. Hoy recalcula lo mismo que la hoja con sliders propios, y por eso nunca se ocupó en clase. Es el siguiente entregable.
+
+---
+
+## 0 bis. El archivo manda sobre el documento
+
+Entre el 17 y el 18 de agosto se reestructuró el resuelto, pero **el archivo nunca llegó al disco**: estaba abierto en Excel y las dos escrituras fueron rechazadas en silencio. Durante un día el handoff y la bitácora describieron con detalle un archivo que no existía.
+
+Regla que queda: cuando un documento describa un archivo, **la referencia es el archivo**. Abrirlo y comprobarlo antes de dar por buena cualquier afirmación. Y después de escribir al disco, confirmar que la escritura entró comparando tamaño y fecha.
 
 ---
 
@@ -47,19 +56,21 @@ No dar por cerrado ninguno de los dos. **Los dos se revisan como parte de la aud
 
 **El hallazgo más útil, y salió después de clase.** Con los números de la taquería gana el Camino B (subirle a cada cliente), y con el negocio de ejemplo del alumno gana el Camino A (traer clientes), porque tiene pocos clientes y consumo alto. Esa contradicción aparente demuestra en una pantalla que la métrica que importa depende de la proporción de cada negocio y no de una regla fija. Está en el Panel.
 
+Los cuatro números del negocio de ejemplo que producen ese resultado, ya escritos en `Tu negocio`: precio $55, **18 clientes por día**, **5.6 unidades por cada cliente**, 26 días abiertos. Dan Camino A $8,008 contra Camino B $5,148. **La condición depende del movimiento, no es fija:** con «unidades adicionales por cliente» en 0.2, el Camino A gana cuando los clientes son menos de **5 ×** las unidades por cliente. La regla de «10 ×» que circuló antes valía cuando ese movimiento era 0.1 fijo; ya no aplica.
+
 ---
 
 ## 3. Estado real al cierre
 
-**S02-Lab quedó reestructurado en seis bloques**, sin porcentajes, con las tres celdas verdes de movimiento juntas en su propio bloque y las tres palancas escritas con la misma forma. El bloque 6 (el empate) reemplaza al de porcentajes: compara **3.5 contra 17.4 unidades al día** y calcula el empate como un reparto (3.5 entre 87 clientes = 0.04).
+**El libro quedó en cuatro pestañas para el alumno:** `Panel`, `S01-Lab`, `S02-Lab`, `Vocabulario`. El archivo del docente agrega `Comprobación`.
 
-**Nace el Panel**, primera pestaña del libro. Acumula una sección por sesión con columnas *Qué · La taquería · Tu negocio · Dónde se vio*, esta última con la celda exacta de donde sale cada número. Absorbió la leyenda de colores y el mapa de pestañas, y sustituyó a «Cómo usar este libro». Lo armamos nosotros; el alumno solo lo lee.
+**`S02-Lab` es el registro de la clase** y no se toca: los cuatro supuestos, los tres movimientos en verde, la cadena, los tres caminos con su columna «Cómo se calcula» y el bloque de escenarios completos, con un cierre que nombra al ganador y los tres puntos de quiebre en vivo. Cinco bloques; el sexto, el del empate, se retiró.
 
-**La pestaña `Tu negocio` no se tocó.** Omar la considera prematura. Queda con los números que usó en clase.
+**El `Panel` es el tablero**, no un registro: los dos negocios lado a lado en las mismas filas, con los mismos tres movimientos para que se comparen parejo, y los tres puntos de quiebre de cada uno. El referente se nombra en su propia celda y arranca en la taquería.
 
-**El bloque «tu negocio» ya no vive dentro de S02-Lab.** Se decidió no cargar la hoja ni obligar a scrollear: el negocio del alumno aparece en el Panel.
+**Números verificados por segundo método**, con 26 días y 0.2 unidades adicionales: mes $174,174 · Camino A $2,002 · Camino B $9,952.80 · Camino C $6,699 · escenarios $176,176 / $184,126.80 / $180,873. Puntos de quiebre de la taquería: 5 clientes, 0.14 unidades, 2 días. Del negocio de ejemplo: 1 cliente, 0.32 unidades, 2 días. Ochenta y seis fórmulas en el archivo del alumno, ciento veinticuatro en el del docente, cero errores de cálculo y 9 de 9 verificaciones en orden.
 
-**Números verificados por segundo método** con 26 días: mes $174,174 · Camino A $2,002 · Camino B $9,952.80 · Camino C $6,699 · escenarios $176,176 / $184,126.80 / $180,873 · empate en 0.0402 unidades. Sesenta y seis fórmulas, cero errores de cálculo.
+**Lo que se quitó y por qué está en la sección 3 ter de la bitácora**, incluida la comprobación contra la ficha de S01: se retiró porque no existe ninguna celda en el libro que guarde lo que el alumno declaró en la Semana 1, así que el chequeo era circular.
 
 ---
 
@@ -67,29 +78,31 @@ No dar por cerrado ninguno de los dos. **Los dos se revisan como parte de la aud
 
 | Entregable | Archivo | Estado |
 |---|---|---|
-| Registro de la hoja armada en clase | `sesiones/S02-Lab/S02-Lab-en-vivo.xlsx` | ✅ |
-| Libro resuelto, reestructurado, con Panel | `sesiones/S02-Lab/S02-Lab-resuelto.xlsx` | ⚠️ **sin probar** |
-| Mini deck del empate, para Gamma | `sesiones/S02-Lab/gamma-S02-Lab-el-empate.md` | ⚠️ **sin pasar por Gamma** |
-| Archivo con el que se entró a clase | `sesiones/S02-Lab/S02-Lab-clase.xlsx` | ✅ |
+| Libro del alumno, rediseñado | `sesiones/S02-Lab/S02-Lab-resuelto.xlsx` | ✅ **aprobado 19 ago** |
+| Libro del docente, con `Comprobación` | `sesiones/S02-Lab/S02-Lab-resuelto-docente.xlsx` | ✅ **aprobado 19 ago** |
+| Inventario de fórmulas, desde el binario | `sesiones/S02-Lab/inventario-formulas-S02-Lab-resuelto.md` | ✅ |
+| Mini deck del empate, para Gamma | `sesiones/S02-Lab/gamma-S02-Lab-el-empate.md` | ⚠️ **falta pasarlo por Gamma** |
+| Registro de la hoja armada en clase | `sesiones/S02-Lab/S02-Lab-en-vivo.xlsx` | ✅ no se toca |
+| Archivo con el que se entró a clase | `sesiones/S02-Lab/S02-Lab-clase.xlsx` | ✅ histórico |
+| Guía de recorrido del resuelto | `sesiones/S02-Lab/guia-recorrido-S02-Lab-resuelto.md` | ❌ **desfasada:** describe el Panel anterior |
 | Guía del facilitador | `sesiones/S02-Lab/guia-facilitador-S02-Lab.docx` | ❌ **desactualizada** |
 | Guía de leyendas de la app | `sesiones/S02-Lab/guia-leyendas-auditoria-S02-Lab.md` | ✅ |
 | Auditoría previa al laboratorio | `sesiones/S02-Lab/auditoria-laboratorio-semana-02.md` | ✅ |
-| Registro de clase de S01 | `sesiones/S01-Lab/registro-S01-Lab.md` | ✅ |
 | Regla nueva en el repo | `CLAUDE.md`, sección «Frontera del temario» | ✅ |
-
-**Cambios de estructura del repo hechos en esta sesión:** la raíz quedó solo con lo que se publica y todo el material de clase se movió a `sesiones/`, organizado en `_curso/`, `S0X-Teoria/` y `S0X-Lab/`. Ver `sesiones/README.md`. Se verificó que ningún HTML, CSS ni CSV del sitio referencia un `.md`, `.xlsx` o `.pdf`, así que la separación no rompió nada.
 
 ---
 
 ## 5. Deuda acumulada
 
-1. **Recorrer `S02-Lab-resuelto.xlsx`.** Decidido el 18 de agosto: **no se prueba aparte, se incorpora a la auditoría de S03** como primer punto de esa revisión.
-2. **Pasar `gamma-S02-Lab-el-empate.md` por Gamma.** Igual que el anterior: **entra en la auditoría de S03**, no antes.
-3. **La guía del facilitador de S02-Lab está desactualizada.** Se escribió para la distribución de celdas anterior, la de cinco bloques con porcentajes. Regenerarla solo cuando el resuelto esté aprobado, y no antes: se rehace sobre el layout final.
-4. **`Tu negocio` tiene un problema conocido y aplazado.** `unidades por cliente` es una fórmula derivada (`=C8/C13`), lo que vuelve tautológico su bloque de comprobación contra S01: siempre dirá "se parecen". Omar decidió no tocarlo por ahora. Revisar cuando se retome esa pestaña.
-5. **La regla «Frontera del temario» falta en las instrucciones del proyecto.** Ya está en `CLAUDE.md` y en memoria; las instrucciones del proyecto las edita Omar.
-6. ~~La bitácora del semestre no incluye todavía S02-Lab.~~ **Cerrado el 18 de agosto:** `_curso/bitacora-fcnc-semestre.md` ya tiene la sección «3 bis. S02-Lab», la tabla de avance corregida, los pendientes nuevos y seis convenciones agregadas.
-7. **`_to_delete/` tiene cuatro archivos** esperando que Omar la vacíe. No se pueden borrar desde esta herramienta.
+1. **Rediseñar `semana-02/index.html`** como hoja de trabajo guiada. Es el siguiente entregable y hay dos cosas por acordar: si los pasos nombran la celda tal cual (`B13`) o la describen, y si el PDF lleva los tres escenarios además de las tres preguntas. **Aclaración del 19 de agosto: el ejercicio guiado no se construye desde cero, ya existe.** Vive en la pestaña «Tu tablero de supuestos» (`panelFicha`), tarjeta «Ejercicio guiado: mueve una palanca a la vez», y ya tiene los tres pasos completos: instrucción de celda (`B15`, luego `B16`, luego `B17`), campos de captura (camino que ganó, cuánto sumó, una pregunta abierta en el paso 2), una tabla «Lo mismo, con tus números» que jala de los cuatro supuestos del alumno, y tres preguntas de reflexión — todo ya conectado al generador de PDF (función `seccion('EJERCICIO GUIADO · pestaña S02-Lab del libro')` en el script). **El problema es que sus tres celdas ya no aplican al xlsx que se cerró hoy:** `B15` significaba «clientes adicionales por día» y ahora es «clientes nuevos esperados al mes» — escribir 5 ahí ya no es «5 más al día», es «5 en total en el mes», un orden de magnitud distinto. Y `B16` era la segunda celda verde («unidades adicionales por cliente») y ahora es una celda **gris, calculada** (`=B15/B10`); el paso 2 le pide al alumno escribir 0.1 encima, lo que rompe la fórmula. La celda que hoy corresponde a «unidades adicionales por cliente» es `B17`, y «días adicionales al mes» es `B18`. No es un rediseño de cero: es una tarea de re-mapeo de celdas y de valores de ejemplo sobre una estructura que ya funciona bien.
+2. **Pasar `gamma-S02-Lab-el-empate.md` por Gamma.**
+3. **`guia-recorrido-S02-Lab-resuelto.md` quedó desfasada.** Sus paradas 1 y 2 describen el Panel anterior. Rehacerla cuando el HTML esté listo, para no escribirla dos veces.
+4. **`guia-facilitador-S02-Lab.docx` sigue desactualizada.** Se escribió para el layout de cinco bloques con porcentajes. Ahora sí hay layout final sobre el cual regenerarla.
+5. **El alumno no tiene su ficha de S01 en el libro.** Por eso se quitó la comprobación contra la Semana 1: no había contra qué comparar. Si se quiere validar el modelo contra lo declarado al inicio, hay que traer esa ficha al archivo.
+6. **El libro vivo de `_curso/` quedó atrasado.** `FCNC-Modelo-de-tu-negocio.xlsx` y su `-RESUELTO` son anteriores a todo esto. Decidir si se refresca desde el resuelto aprobado o si el último `S0X-Lab-resuelto` hace esa función.
+7. **La regla «Frontera del temario» falta en las instrucciones del proyecto.** Ya está en `CLAUDE.md` y en memoria; las edita Omar.
+8. **El aviso de fuera de rango en los deslizadores de la app**, que S01 tenía y S02 perdió, sigue sin aplicarse.
+9. **`_to_delete/`** espera que Omar la vacíe.
 
 ---
 
@@ -108,3 +121,11 @@ No dar por cerrado ninguno de los dos. **Los dos se revisan como parte de la aud
 **El laboratorio se construye, no se reparte.** `S03-Lab-clase.xlsx` lleva su pestaña vacía y se arma en vivo desde el proyector; la versión limpia llega la clase siguiente. El libro acumulativo gana una pestaña `S03-Lab` y el Panel gana una sección.
 
 **Lo que ya funcionó y conviene repetir.** La columna «Qué número NO aparece» del bloque de palancas resolvió una duda que se había llevado media sesión. El patrón general: cuando una fórmula omite algo a propósito, decirlo en la hoja en vez de esperar la pregunta.
+
+**El arranque concreto de S03, ya diseñado — y ya construido en HTML, ver sección 5 punto 1.** Se devuelve el resuelto y lo primero es el ejercicio guiado que ya vive en `semana-02/index.html`, tres movimientos en la pestaña `S02-Lab`, uno por camino, donde cada uno cambia el ganador. **Los pasos y valores de abajo están en el sistema viejo (movimiento diario, celdas `B15`/`B16`/`B17`) y hay que recalcularlos para el campo mensual (`B15` mensual, `B17`, `B18`) antes de reusarlos — no sirven tal cual.** Como referencia de lo que se probó entonces: paso 1 escribir 5 en clientes adicionales, gana A con $10,010 contra $9,952.80; paso 2 regresar a 1 y escribir 0.1 en unidades adicionales, gana C con $6,699; paso 3 regresar a 0.2 y escribir 2 en días adicionales, gana C con $13,398. El paso 2 es el que enseña, porque bajaste el Camino B y el que subió fue C y no A: A nunca se movió — ese hallazgo pedagógico sigue siendo válido, solo hay que encontrar los valores nuevos que lo repliquen. Después, tres preguntas de reflexión que se evalúan por el argumento y no por el número; esas sí siguen sirviendo tal cual, no dependen de la estructura de celdas.
+
+**El puente a costos sale del propio ejercicio.** Ninguno de los tres caminos preguntó cuánto cuesta conseguirlo. Traer clientes cuesta publicidad y tiempo; abrir un día cuesta sueldos y renta. La hoja dice cuánto entra y calla sobre cuánto sale.
+
+**Ejemplo de jerarquía de operaciones, verificado y listo.** Las 3.5 unidades repartidas entre 87 clientes son 3.5 ÷ 87. Escrito `3.5 ÷ 87 × 22` da 0.885; escrito `3.5 ÷ (87 × 22)` da 0.0018. Misma frase en español, números distintos.
+
+**El referente propio, como tarea.** Se plantea en S03-Teoría para que llegue armada al siguiente laboratorio: cada quien investiga un referente real de su producto y sustituye nombre y números en el Panel. Las celdas ya están listas. Falta darles criterio de elección, porque si eligen un referente muy parecido a su negocio las dos columnas dicen lo mismo y el contraste no aparece.

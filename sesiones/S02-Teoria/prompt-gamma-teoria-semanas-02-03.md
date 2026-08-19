@@ -12,7 +12,9 @@ Vas a generar el **Markdown de la presentación teórica** de una semana del cur
 3. `contexto-fcnc-semestre.md`
 4. `bitacora-fcnc-semestre.md`: **manda donde haya conflicto**
 
-Fíjate en cómo quedó la teoría de Semana 1 (misma lógica: Markdown detallado que Gamma sintetiza; abre con lectura + pregunta de asombro; ~18–21 secciones/slides).
+Fíjate en cómo quedó la teoría de Semana 1 (misma lógica: Markdown detallado que Gamma sintetiza; abre con lectura + pregunta de asombro).
+
+> **Actualización del 19 de agosto de 2026.** La indicación original decía «~18–21 secciones/slides». Ese número venía del tope de 20 diapositivas que Gamma tenía entonces y **ya no aplica**: Gamma quitó el límite. No fusiones ideas por espacio. El criterio es que cada sección cargue una idea con su desarrollo, y el único techo real es el tiempo de la sesión.
 
 ## 1. Reglas no negociables (perfil de audiencia)
 - **Nada de operador `%`** hasta Semana 4. Toda proporción va en lenguaje llano ("por cada") y en pesos/conteos.

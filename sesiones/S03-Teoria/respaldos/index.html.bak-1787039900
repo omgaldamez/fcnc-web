@@ -315,8 +315,8 @@
     <div class="grid-two grid-two-parejo" style="margin-top:14px;">
       <div class="card">
         <h3>La misma cuenta, dos órdenes distintos</h3>
-        <p>Ya conoces esta taquería: en Semana 1 auditamos su volumen de ventas y en Semana 2, su proporción de clientes y unidades. Esta semana miramos algo distinto: cuánto le <strong>cuesta</strong> hacer una sola unidad, y cómo una sola diferencia en el orden en que se calcula puede cambiar la respuesta.</p>
-        <p>Cada unidad trae dos tipos de costo. Los <strong>costos directos</strong> son los que entran en cada unidad: la tortilla, la carne, los extras. Los <strong>costos fijos</strong> son los que la taquería paga cada mes exista o no exista un solo cliente: la renta, la luz, el gas. Para saber cuánto cuesta una unidad, hay que repartir ese costo fijo entre todas las unidades del mes y sumarlo al costo directo.</p>
+        <p>Ya conoces esta taquería: en Semana 1 auditamos su volumen de ventas y en Semana 2, su proporción de clientes y tacos. Esta semana miramos algo distinto: cuánto le <strong>cuesta</strong> hacer un solo taco, y cómo una sola diferencia en el orden en que se calcula puede cambiar la respuesta.</p>
+        <p>El taco tiene dos tipos de costo. Los <strong>costos directos</strong> son los que entran en cada taco: la tortilla, la carne, los extras. Los <strong>costos fijos</strong> son los que la taquería paga cada mes exista o no exista un solo cliente: la renta, la luz, el gas. Para saber cuánto cuesta un taco, hay que repartir ese costo fijo entre todos los tacos del mes y sumarlo al costo directo.</p>
         <p style="font-size:13px;">Este mismo tipo de error le pasa a restaurantes reales: cuando venden por Rappi, Uber Eats o DiDi Food, de cada $200 de un pedido reciben entre $130 y $142, porque el impuesto se calcula sobre la comisión de la plataforma, no sobre el total (Tracción Media, 2026).</p>
         <div class="fuente">Fuente (rango de referencia): INEGI/DENUE y caso Los Cocuyos, ya citados en la auditoría de Semana 1. Los valores de abajo son ilustrativos dentro de ese rango, no la contabilidad de un negocio específico.</div>
       </div>
@@ -324,15 +324,15 @@
       <div class="card">
         <span class="ejemplo-tag">De dato a decisión</span>
         <h3 style="margin-top:6px;">Por qué el orden importa</h3>
-        <p>Repartir el costo fijo entre las unidades del mes es una <strong>división</strong>. Sumarle el costo directo es una <strong>suma</strong>. Si divides primero y sumas después, el resultado es uno. Si sumas primero y divides después, el resultado es otro, aunque uses exactamente los mismos tres números.</p>
-        <p>No es una elección de estilo: solo un orden reparte el costo fijo entre todas las unidades correctamente. El otro reparte una mezcla de costo directo y costo fijo entre las unidades, lo cual no corresponde a nada real. Mueve los deslizadores y observa cómo cambian ambos resultados, y qué tan distintos se mantienen entre sí.</p>
+        <p>Repartir el costo fijo entre los tacos del mes es una <strong>división</strong>. Sumarle el costo directo es una <strong>suma</strong>. Si divides primero y sumas después, el resultado es uno. Si sumas primero y divides después, el resultado es otro, aunque uses exactamente los mismos tres números.</p>
+        <p>No es una elección de estilo: solo un orden reparte el costo fijo entre todos los tacos correctamente. El otro reparte una mezcla de costo directo y costo fijo entre los tacos, lo cual no corresponde a nada real. Mueve los deslizadores y observa cómo cambian ambos resultados, y qué tan distintos se mantienen entre sí.</p>
       </div>
     </div>
 
     <div class="grid-two" style="margin-top:14px;">
       <div class="card">
         <h3>Tus supuestos de costo</h3>
-        <p style="font-size:12.5px;color:var(--gris-nota);margin-bottom:8px;">Costo directo por unidad fijo en $7.50 (tortilla $1.50 + carne $5.00 + extras $1.00) y precio de venta fijo en $22, para aislar el efecto del orden de operaciones.</p>
+        <p style="font-size:12.5px;color:var(--gris-nota);margin-bottom:8px;">Costo directo por taco fijo en $7.50 (tortilla $1.50 + carne $5.00 + extras $1.00) y precio de venta fijo en $22, para aislar el efecto del orden de operaciones.</p>
 
         <div class="slider-row">
           <div class="valores">
@@ -357,17 +357,17 @@
             <span class="num" id="audTacosValor">3.5</span>
           </div>
           <input type="range" id="audTacosSlider" min="1" max="6" step="0.1" value="3.5" oninput="recalcularAuditoria()">
-          <div class="banda">Con 26 días abiertos al mes (fijo, los mismos del libro de cálculo), esto produce las unidades por mes que reparten el costo fijo.</div>
+          <div class="banda">Con 30 días abiertos al mes (fijo), esto produce las unidades por mes que reparten el costo fijo.</div>
         </div>
 
         <div class="ticket-wrap">
           <div class="ticket ticket-editable">
             <div class="titulo-ticket">Lo que produce esa proporción</div>
-            <div class="fila"><span>Unidades por mes</span><span class="num" id="audUnidadesMes">7,917</span></div>
+            <div class="fila"><span>Unidades por mes</span><span class="num" id="audUnidadesMes">9,135</span></div>
             <div class="fila"><span>Costo total del mes (fijo + variable)</span><span class="num" id="audCostoTotalMes">$128,512.50</span></div>
-            <div class="fila total"><span>Costo unitario (orden correcto)</span><span class="num" id="audCostoUnitario">$15.08</span></div>
-            <div class="fila"><span>Ganancia por unidad</span><span class="num" id="audGanancia">$6.92</span></div>
-            <div class="formula">unidades por mes = clientes por día × unidades por cada cliente × 26 días · ganancia por unidad = precio − costo unitario · costo total = costo fijo + (costo directo × unidades)</div>
+            <div class="fila total"><span>Costo unitario (orden correcto)</span><span class="num" id="audCostoUnitario">$14.07</span></div>
+            <div class="fila"><span>Ganancia por taco</span><span class="num" id="audGanancia">$7.93</span></div>
+            <div class="formula">unidades por mes = clientes por día × tacos por cada cliente × 30 días · ganancia por taco = precio − costo unitario · costo total = costo fijo + (costo directo × unidades)</div>
           </div>
         </div>
       </div>
@@ -380,18 +380,18 @@
             <div class="orden-box correcto" id="ordenCorrecto">
               <div class="etiqueta-orden">Orden correcto · dividir antes de sumar</div>
               <div class="expresion">
-                <span class="paso" id="ordenCorrectoExpr">7.50 + (60,000 ÷ 7,917)</span>
-                <span class="paso" id="ordenCorrectoPaso">= 7.50 + 7.58</span>
+                <span class="paso" id="ordenCorrectoExpr">7.50 + (60,000 ÷ 9,135)</span>
+                <span class="paso" id="ordenCorrectoPaso">= 7.50 + 6.57</span>
               </div>
-              <div class="resultado" id="ordenCorrectoValor">$15.08</div>
+              <div class="resultado" id="ordenCorrectoValor">$14.07</div>
             </div>
             <div class="orden-box ingenuo" id="ordenIngenuo">
               <div class="etiqueta-orden">Orden ingenuo · sumar antes de dividir</div>
               <div class="expresion">
-                <span class="paso" id="ordenIngenuoExpr">(7.50 + 60,000) ÷ 7,917</span>
-                <span class="paso" id="ordenIngenuoPaso">= 60,007.50 ÷ 7,917</span>
+                <span class="paso" id="ordenIngenuoExpr">(7.50 + 60,000) ÷ 9,135</span>
+                <span class="paso" id="ordenIngenuoPaso">= 60,007.50 ÷ 9,135</span>
               </div>
-              <div class="resultado" id="ordenIngenuoValor">$7.58</div>
+              <div class="resultado" id="ordenIngenuoValor">$6.57</div>
             </div>
           </div>
           <div class="orden-veredicto" id="ordenVeredicto"></div>
@@ -412,8 +412,8 @@
             <text id="etiquetaFijo" x="388" y="73" text-anchor="end" class="costos-etiqueta costos-etiqueta-fijo">$60,000</text>
             <text id="etiquetaTotal" x="255" y="30" text-anchor="middle" class="costos-etiqueta costos-etiqueta-total">$128,513</text>
             <text id="etiquetaVariable" x="255" y="80" text-anchor="middle" class="costos-etiqueta costos-etiqueta-variable">$68,513</text>
-            <text x="46" y="156" class="costos-eje-texto">0 unidades</text>
-            <text id="etiquetaEjeX" x="255" y="156" class="costos-eje-texto" text-anchor="middle">7,917 unidades</text>
+            <text x="46" y="156" class="costos-eje-texto">0 tacos</text>
+            <text id="etiquetaEjeX" x="255" y="156" class="costos-eje-texto" text-anchor="middle">9,135 tacos</text>
           </svg>
           <div class="costos-leyenda">
             <span><i class="costos-punto-leyenda costos-punto-leyenda-fijo"></i> Costo fijo del mes</span>
@@ -426,7 +426,7 @@
 
     <div class="card reflexion-card">
       <h3>Conclusión</h3>
-      <label class="field-label">Con los valores que dejaste, ¿por cuántos pesos se equivocaría la taquería si usara el orden ingenuo para fijar su costo unitario? ¿Ese error la haría cobrar de más o de menos por cada unidad, y qué le pasaría a su ganancia si no se da cuenta?
+      <label class="field-label">Con los valores que dejaste, ¿por cuántos pesos se equivocaría la taquería si usara el orden ingenuo para fijar su costo unitario? ¿Ese error la haría cobrar de más o de menos por cada taco, y qué le pasaría a su ganancia si no se da cuenta?
         <span class="hint">No hay una única forma de explicarlo; lo que importa es que la respuesta use los dos resultados, no solo uno.</span>
       </label>
       <textarea id="conclusionAuditoria" oninput="actualizarProgreso()"></textarea>
@@ -445,32 +445,30 @@
 
     <div class="grid-two" style="margin-top:14px;">
       <div class="card">
-        <span class="ejemplo-tag">Segundo negocio</span>
+        <span class="ejemplo-tag">Ejemplo resuelto</span>
         <span class="propuesta-tag" style="margin-left:6px;">◇ Propuesta reemplazable</span>
-        <h3 style="margin-top:8px;">Una joyería artesanal</h3>
-        <p>Otra escala, la misma cuenta. Sirve para ver qué pasa cuando se vende poco:</p>
+        <h3 style="margin-top:8px;">Café Andante</h3>
+        <p>El mismo negocio de ejemplo de Semanas 1 y 2, ahora con su costo unitario:</p>
         <div class="ticket-wrap">
           <div class="ticket ticket-fijo">
-            <div class="titulo-ticket">Calculadora de la joyería</div>
-            <div class="fila"><span>Precio por pieza</span><span class="num">$1,800</span></div>
-            <div class="fila"><span>Costos directos por unidad</span><span class="num">$620</span></div>
-            <div class="fila"><span>Costos fijos del mes</span><span class="num">$42,000</span></div>
-            <div class="fila"><span>Unidades por mes</span><span class="num">40</span></div>
-            <div class="fila"><span>Costo fijo por unidad</span><span class="num">$1,050</span></div>
-            <div class="fila"><span>Costo unitario</span><span class="num">$1,670</span></div>
-            <div class="fila total"><span>Ganancia por unidad</span><span class="num">$130</span></div>
+            <div class="titulo-ticket">Calculadora de Café Andante</div>
+            <div class="fila"><span>Costos directos por unidad</span><span class="num">$14.00</span></div>
+            <div class="fila"><span>Costos fijos del mes</span><span class="num">$18,000</span></div>
+            <div class="fila"><span>Unidades por mes</span><span class="num">780</span></div>
+            <div class="fila"><span>Costo fijo por unidad</span><span class="num">$23.08</span></div>
+            <div class="fila"><span>Costo unitario</span><span class="num">$37.08</span></div>
+            <div class="fila total"><span>Ganancia por unidad</span><span class="num">$2.92</span></div>
           </div>
         </div>
-        <p style="margin-top:8px;">La joyería vende cada pieza en <span class="num">$1,800</span>, un precio que suena holgado frente a los <span class="num">$620</span> que cuestan la plata, las piedras y el empaque. Pero vende <span class="num">40</span> piezas al mes, así que sus $42,000 de costos fijos se reparten entre muy pocas: <span class="num">$1,050</span> carga cada pieza, solo de costo fijo. Por eso su ganancia real es de <span class="num">$130</span>, y no los $1,180 que parecería si solo restara el costo directo.</p>
-        <p style="margin-top:8px;">Compáralo con el referente: la taquería reparte sus costos fijos entre <span class="num">7,917</span> unidades y la joyería entre <span class="num">40</span>. Vender poco encarece cada unidad que se vende, y eso no se ve hasta que el costo fijo se reparte.</p>
-        <div class="fuente">Nota: negocio de ejemplo, con cifras ilustrativas de un taller pequeño de producción propia; no requiere validación de fuente como la auditoría.</div>
+        <p style="margin-top:8px;">Café Andante vende su café a <span class="num">$40</span>, un precio que suena cómodo. Pero sus 780 unidades al mes son pocas, así que sus $18,000 de costos fijos se reparten entre poca gente: $23.08 por cada café, solo en costo fijo. Por eso, aunque su precio es alto, su ganancia por unidad queda en apenas <span class="num">$2.92</span>. El mismo negocio que en Semana 2 identificó su volumen como su métrica más sensible, aquí se ve por qué: vender poco encarece cada unidad.</p>
+        <div class="fuente">Nota: negocio de ejemplo ficticio; sus números no requieren validación de fuente como la auditoría.</div>
       </div>
 
       <div class="card">
         <h3>Tu calculadora</h3>
 
         <label class="field-label">Precio por unidad
-          <span class="hint">Cuánto cobras por una sola unidad de lo que vendes.</span>
+          <span class="hint">El que definiste en tus fichas anteriores.</span>
         </label>
         <input type="number" id="fPrecio" min="0" step="1" oninput="recalcularFicha(); actualizarProgreso()">
 
@@ -608,31 +606,24 @@
       <!-- Reflexión: video -->
       <div class="acordeon acordeon-col">
         <details open>
-          <summary>Reflexión y preguntas · Video: "El Precio Correcto"</summary>
+          <summary>Reflexión y preguntas · Video: "Orden de Operaciones"</summary>
           <div class="acordeon-contenido">
-            <p>El video parte de una cuenta compartida en una comida para cuatro personas: si sumas tu plato de $800 al total antes de dividir, los demás terminan pagando una parte de lo que tú te comiste. De ahí salta al taller de la sesión, donde los mismos tres números ($800 de material por pieza, $2,000 de costos del día y 4 piezas) dan $1,300 o $700 según el orden en que se resuelvan.</p>
-            <p>Cierra con una prueba de sentido común para detectar el error sin calculadora, porque una pieza que se llevó $800 de material no puede costar $700 hacerla, y con la idea de que los paréntesis no son un adorno matemático sino la manera de volver visible una decisión humana: quién carga con cada gasto.</p>
-            <div class="reflexion-bloque" data-bloque="Video · El Precio Correcto">
-              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres. No hay respuesta correcta: lo que se califica es el argumento. Referirte a algo concreto del material le da peso a lo que digas.</p>
+            <p>El video usa la analogía de una receta (agregar el azúcar después de hornear el pastel en vez de antes) para mostrar que el orden en que se hacen las operaciones cambia el resultado, tanto en la cocina como en las finanzas de un negocio. Aplica esa idea al pedido de $200 de un restaurante que solo recibe entre $130 y $142 después de una cadena de operaciones que debe resolverse en un orden específico.</p>
+            <p>Explica que la notación (los paréntesis) no cambia la regla, sino que hace visible el flujo correcto del dinero, y compara el costo "ingenuo" de $6.57 contra el costo real de $14.07 para mostrar cómo un error de orden puede llevar a un dueño de negocio a creer que tiene más margen del que realmente tiene, poniendo en riesgo su liquidez.</p>
+            <div class="reflexion-bloque" data-bloque="Video · Orden de Operaciones">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
               <div class="reflexion-item">
-                <label class="reflexion-pregunta">1. El video separa dos tipos de gasto: el que va pegado a cada pieza y el que llega igual, se venda o no. Piensa en tu negocio, en el que trabajaste en clase, o en una marca que conozcas bien, y decláralo al empezar. Ahora clasifica estos gastos en los dos grupos: la renta del local o del taller, el material de una pieza, el almacenaje, el envío cuando te compran de otra ciudad, el Uber para ir a entregar, y la luz. ¿Hubo alguno que no supiste dónde poner? Di cuál y por qué.</label>
+                <label class="reflexion-pregunta">1. ¿En qué parte de tu contabilidad estás "agregando el azúcar después de hornear el pastel" al ignorar la jerarquía de tus operaciones? Da un ejemplo concreto, aunque sea hipotético.</label>
                 <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
                 <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
               </div>
               <div class="reflexion-item">
-                <label class="reflexion-pregunta">2. El video dice que una pieza que se llevó $800 de material no puede costar $700 hacerla: el resultado salió más chico que algo que ya sabías, y eso se detecta sin hacer ninguna operación. Aquí hay cuatro frases que podría decir un negocio. Tres deberían encender la alarma y una es normal. Di cuáles son cuáles y explica qué está mal en las que elijas.
-                  <span style="display:block; margin-top:8px; padding-left:14px; border-left:2px solid #c9cdd3; font-style:italic;">
-                    «Mi costo por pieza es el mismo si vendo 10 que si vendo 500.»<br>
-                    «Este mes vendí la mitad y me salió más barato producir cada pieza.»<br>
-                    «Mi ganancia por unidad es mayor que el precio al que la vendo.»<br>
-                    «Mi costo por pieza subió este mes porque me subieron el material.»
-                  </span>
-                </label>
+                <label class="reflexion-pregunta">2. ¿El número que guía tus decisiones diarias es un dato real o es un espejismo matemático causado por un error de orden? Justifica tu respuesta con un cálculo.</label>
                 <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
                 <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
               </div>
               <div class="reflexion-item">
-                <label class="reflexion-pregunta">3. En la comida, repartir mal la cuenta es injusto con tus amigos: ellos terminan pagando parte de tu plato. Pero en un negocio no hay nadie más sentado en la mesa. Si repartes mal tus costos, ¿quién acaba pagando ese error, y en qué momento se entera? Contesta pensando en un negocio concreto, el tuyo o uno que conozcas bien.</label>
+                <label class="reflexion-pregunta">3. ¿Qué cambios inmediatos en tu tablero de supuestos realizarás para asegurar que tus costos fijos estén correctamente repartidos entre tus ventas mensuales? Describe el cambio paso a paso.</label>
                 <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
                 <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
               </div>
@@ -644,24 +635,24 @@
       <!-- Reflexión: audio -->
       <div class="acordeon acordeon-col">
         <details open>
-          <summary>Reflexión y preguntas · Audio: "Por qué estás quebrado aunque vendas mucho"</summary>
+          <summary>Reflexión y preguntas · Audio: "El error matemático que quiebra"</summary>
           <div class="acordeon-contenido">
-            <p>El audio explica cómo un negocio puede vender mucho y estar perdiendo dinero en cada unidad sin enterarse, porque el orden en que calcula sus costos le esconde la pérdida. Desglosa el costo unitario con las cifras de la sesión: $7.50 de costo directo y $60,000 de costo fijo repartidos entre 7,917 unidades dan $15.08, no los $7.58 del cálculo ingenuo.</p>
-            <p>Después compara las palancas del negocio y señala que subir el precio es la única que no arrastra costos de producción, a diferencia de traer más clientes o de vender más unidades por cliente. Cierra dimensionando el error con un dato real: un trabajador artesanal en México gana en promedio unos $6,580 al mes.</p>
-            <div class="reflexion-bloque" data-bloque="Audio · Por qué estás quebrado aunque vendas mucho">
-              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres. No hay respuesta correcta: lo que se califica es el argumento. Referirte a algo concreto del material le da peso a lo que digas.</p>
+            <p>Este audio sitúa la jerarquía de operaciones no como una regla escolar arbitraria, sino como una convención histórica que se fue consolidando desde el siglo XVII y se formalizó en el siglo XIX para estandarizar los libros de texto. A partir de ahí usa el caso de las comisiones de delivery en México (Rappi, Uber Eats, DiDi Food) para mostrar cómo un restaurante pierde margen cuando no calcula que el impuesto se aplica sobre la comisión de la plataforma y no sobre el total del pedido.</p>
+            <p>Analiza después la diferencia entre costos directos y costos fijos: sumar el costo fijo mensual ($60,000) directamente al costo de un taco ($7.50) antes de dividir entre el volumen de ventas es un error de orden que produce una cifra sin sentido operativo. Presenta el costo unitario real ($14.07) como la cifra que evita una falsa sensación de ganancia, frente al cálculo "ingenuo" que sobreestima la utilidad casi al doble.</p>
+            <div class="reflexion-bloque" data-bloque="Audio · El error matemático que quiebra">
+              <p class="reflexion-instruccion">Responde cada pregunta con al menos 150 caracteres (un ejemplo o número concreto de tu negocio ayuda).</p>
               <div class="reflexion-item">
-                <label class="reflexion-pregunta">1. El audio se llama «Por qué estás quebrado aunque vendas mucho». Después de escucharlo, ¿te parece un título exagerado o justo? Contesta con lo que el audio explica, y di si te movió alguna idea que traías sobre lo que significa vender mucho.</label>
+                <label class="reflexion-pregunta">1. Si una calculadora nunca se equivoca, ¿por qué dos personas pueden pedirle la misma cuenta y obtener resultados distintos? Explica el error de orden con un ejemplo numérico propio.</label>
                 <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
                 <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
               </div>
               <div class="reflexion-item">
-                <label class="reflexion-pregunta">2. El audio dice que subir el precio es la única palanca que no arrastra costos adicionales de producción. Explica por qué es así. Ahora la parte difícil: si a tu alrededor hay otros vendiendo algo parecido, ¿qué tendría que tener lo tuyo para que subir el precio se sostenga y no te quedes sin clientes? Nombra algo concreto que justifique cobrar más.</label>
+                <label class="reflexion-pregunta">2. ¿Estás calculando tu ganancia restando solo la comisión de la plataforma, o estás considerando el orden real de las retenciones antes de llegar a tu número final? Desarrolla tu respuesta con las cifras de tu propio negocio o de un caso que conozcas.</label>
                 <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
                 <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
               </div>
               <div class="reflexion-item">
-                <label class="reflexion-pregunta">3. El audio dice que el costo unitario no te dice qué precio poner, sino cuál no. Entonces, ¿quién o qué decide lo que va por arriba de ese piso? El propio audio menciona tres cosas: lo que cobra tu referente, lo que el cliente está dispuesto a pagar y cuántos clientes estás dispuesto a perder. Di cuál de las tres pesaría más en tu caso, y sé honesto sobre qué parte de esa decisión todavía no sabes cómo tomar.</label>
+                <label class="reflexion-pregunta">3. ¿Tu análisis de costos mezcla el gasto de un solo taco con el costo fijo de todo el mes de forma "ingenua", o repartes primero la carga fija entre tus unidades vendidas? Explica cuál de los dos haces y qué cambiarías.</label>
                 <textarea class="reflexion-textarea" minlength="150" oninput="onReflexionInput(this)"></textarea>
                 <div class="reflexion-contador">0 / 150 caracteres mínimo</div>
               </div>
@@ -685,7 +676,7 @@
 <script>
 const DIRECTO_TACO = 7.5;
 const PRECIO_TACO = 22;
-const DIAS_MES_AUD = 26;
+const DIAS_MES_AUD = 30;
 let contadorFilas = 0;
 
 const CODIGO_SESION = 'S03';
@@ -807,14 +798,7 @@ function generarPDFReflexion(){
       const bajoMinimo = valorReal.length < minCaracteres;
       const respuesta = valorReal || '(sin responder)';
 
-      // Cada bloque se mide con la MISMA tipografía con la que se va a dibujar.
-      // splitTextToSize usa el tamaño de fuente activo en el momento de llamarlo:
-      // si se mide con uno y se dibuja con otro más grande, las líneas se salen del margen.
-      doc.setFont(undefined, 'bold');
-      doc.setFontSize(10);
       const preguntaLineas = doc.splitTextToSize(pregunta, usableW);
-      doc.setFont(undefined, 'normal');
-      doc.setFontSize(9.5);
       const respLineas = doc.splitTextToSize(respuesta, usableW);
       const alturaAviso = bajoMinimo ? 6 : 0;
       if(y + preguntaLineas.length*4.6 + respLineas.length*4.6 + alturaAviso + 10 > 280){ doc.addPage(); y = 20; }
@@ -963,7 +947,7 @@ function actualizarGraficaCostos(fijos, unidadesMes){
   document.getElementById('etiquetaTotal').textContent = fmtMoney0(totalActual);
 
   document.getElementById('etiquetaEjeX').setAttribute('x', xActualPx);
-  document.getElementById('etiquetaEjeX').textContent = `${Math.round(unidadesMes).toLocaleString('es-MX')} unidades`;
+  document.getElementById('etiquetaEjeX').textContent = `${Math.round(unidadesMes).toLocaleString('es-MX')} tacos`;
 }
 
 /* ---------------- FICHA: filas de costos directos ---------------- */
@@ -1305,10 +1289,10 @@ function generarPDF(){
 
   doc.setFontSize(8.5);
   doc.setTextColor(30,36,48);
-  doc.text(`Supuestos: $${audFijos.toLocaleString('es-MX')} fijos/mes · ${audClientes} clientes/día · ${audTacos.toFixed(1)} unidades/cliente · directo $${DIRECTO_TACO.toFixed(2)}/unidad.`, marginX, y);
+  doc.text(`Supuestos: $${audFijos.toLocaleString('es-MX')} fijos/mes · ${audClientes} clientes/día · ${audTacos.toFixed(1)} tacos/cliente · directo $${DIRECTO_TACO.toFixed(2)}/taco.`, marginX, y);
   y += 6;
-  doc.text(`Orden correcto: $${audCostoCorrecto.toFixed(2)}/unidad`, marginX, y);
-  doc.text(`Orden ingenuo: $${audCostoIngenuo.toFixed(2)}/unidad`, pageW-marginX, y, {align:'right'});
+  doc.text(`Orden correcto: $${audCostoCorrecto.toFixed(2)}/taco`, marginX, y);
+  doc.text(`Orden ingenuo: $${audCostoIngenuo.toFixed(2)}/taco`, pageW-marginX, y, {align:'right'});
   y += 6;
   const audCostoTotalMes = audFijos + DIRECTO_TACO*audUnidadesMes;
   doc.text(`Costo total del mes (fijo + variable): $${audCostoTotalMes.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})}`, marginX, y);

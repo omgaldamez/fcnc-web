@@ -1,6 +1,6 @@
 # Bitácora del semestre · Fundamentos Cuantitativos para Negocios Creativos
 **CENTRO: Negocios e Industrias Creativas, Ciudad de México**
-*Documento vivo. Se reemplaza después de cada sesión con la versión que sale de esa conversación. Última actualización: cierre de S02-Lab (18 de agosto de 2026).*
+*Documento vivo. Se reemplaza después de cada sesión con la versión que sale de esa conversación. Última actualización: rediseño del libro de S02-Lab y cierre del paso 0 de la auditoría de S03 (19 de agosto de 2026).*
 
 ---
 
@@ -78,9 +78,53 @@ Impartido el 17 de agosto de 2026. **Salió más confuso de lo previsto** y conv
 
 **Omar generalizó el modelo en vivo**, agregando celdas para días adicionales y para la relación de unidad extra. Fue una mejora: es lo que permitió reescribir los tres caminos con la misma forma. También cambió el vocabulario de "tacos" a **unidades** y los días abiertos de la taquería de 30 a 26, y agregó un bloque de escenarios completos que no estaba planeado.
 
-**Nace el Panel**, primera pestaña del libro acumulativo. Acumula una sección por sesión con columnas *Qué · La taquería · Tu negocio · Dónde se vio*, la última con la celda exacta de donde sale cada número. Lo arma el equipo docente y el alumno solo lo lee. Sustituyó a «Cómo usar este libro». Ahí aparece el negocio del alumno sin obligar a scrollear, y ahí surgió el mejor hallazgo de la sesión: con los números de la taquería gana el Camino B y con los del negocio de ejemplo gana el Camino A, porque tiene pocos clientes y consumo alto. La métrica que importa depende de la proporción de cada negocio, no de una regla fija.
+**Nace el Panel**, primera pestaña del libro acumulativo. Acumula una sección por sesión con columnas *Qué · La taquería · Tu negocio · Dónde se vio*, la última con la celda exacta de donde sale cada número. Lo arma el equipo docente y el alumno solo lo lee. Sustituyó a «Cómo usar este libro». Ahí aparece el negocio del alumno sin obligar a scrollear, y ahí surgió el mejor hallazgo de la sesión: con los números de la taquería gana el Camino B y con los del negocio de ejemplo gana el Camino A (precio $55, 18 clientes por día, 5.6 unidades por cada cliente, 26 días: $8,008 contra $5,148), porque tiene pocos clientes y consumo alto. La métrica que importa depende de la proporción de cada negocio, no de una regla fija. Con el movimiento de unidades en 0.2, el Camino A gana cuando los clientes son menos de 5 × las unidades por cliente.
 
 **Reorganización del repo.** La raíz quedó solo con lo que se publica; todo el material de clase se movió a `sesiones/`, en `_curso/`, `S0X-Teoria/` y `S0X-Lab/`. Cada laboratorio guarda tres fotos de su hoja: `-clase` (con la pestaña vacía, la que se construye), `-en-vivo` (cómo salió, sin corregir) y `-resuelto` (la limpia que se devuelve después). Ver `sesiones/README.md`.
+
+---
+
+## 3 ter. El rediseño del libro (19 de agosto de 2026)
+
+Al recorrer `S02-Lab-resuelto.xlsx` con Omar salió que el archivo cargaba más de lo que la clase necesitaba, y de ahí salió un rediseño completo. Se registra aquí porque de él salieron seis convenciones nuevas.
+
+**Empezó con un archivo que no existía.** El handoff y esta bitácora describían un resuelto reestructurado que nunca llegó al disco: estaba abierto en Excel y las escrituras se rechazaron en silencio. Se detectó abriendo el binario, no leyendo los documentos. De ahí la primera regla nueva: **cuando un documento describe un archivo, la referencia es el archivo.**
+
+**El bloque del empate se fue.** Comparaba los caminos A y B en unidades por día y dejaba fuera al C, porque un día entero no cabe en ese eje. Esa asimetría hacía pensar que las unidades eran la vara. El cierre pasó al bloque 5, donde los tres totales sí se comparan parejo, y **el empate se quedó a vivir solo en el deck**, que es donde funciona.
+
+**Los puntos de quiebre.** Se descubrió una identidad que explica por qué el Camino C ganaba casi siempre: cada camino rinde el ingreso del mes multiplicado por qué tan grande es su movimiento **comparado con su propia base**. Con el 0.1 original, un día entre 26 le ganaba a 0.1 entre 3.5, y por eso siempre salía C. Con 0.2 gana B. Quien decide cuál gana es quien elige los tres movimientos, no el modelo. La hoja ahora calcula y muestra los tres puntos de quiebre en vivo: con la taquería, el Camino A ganaría con 5 clientes adicionales, al B le bastarían 0.14 unidades por cliente, y el C ganaría con 2 días.
+
+**El Panel dejó de ser un registro vertical y se volvió un tablero.** Los dos negocios lado a lado, en las mismas filas, con los mismos tres movimientos para que se comparen parejo. Se le quitaron el resumen, el párrafo narrativo, el acumulado de S01, el mapa de pestañas y la comprobación contra la ficha de la Semana 1.
+
+**La comprobación contra S01 se quitó porque no podía fallar.** No existe ninguna celda en el libro que guarde lo que el alumno declaró en la Semana 1: `S01-Lab` es la auditoría del referente, no su ficha. El número contra el que se comparaba estaba inventado y era editable por la misma persona, así que el chequeo era circular. **Queda pendiente traer la ficha de S01 al libro si en algún momento se quiere validar el modelo contra lo que se declaró al inicio.**
+
+**«La taquería» dejó de ser el encabezado.** El problema no era que fuera una taquería: era estar presentada como *el* referente y no como *un* referente, lo que se lee como "esto es lo normal y tú eres la desviación". Ahora hay una celda con el nombre del referente y otra con su fuente, y los encabezados las leen. Arranca en la taquería. La palabra «referente» ya estaba en el glosario desde la Semana 1, así que no mete vocabulario nuevo.
+
+**Dos archivos por laboratorio.** `S0X-Lab-resuelto.xlsx` para el alumno y `S0X-Lab-resuelto-docente.xlsx` con la pestaña `Comprobación`, que verifica cada resultado por una ruta algebraica distinta. Salen del mismo origen. Ocultar la pestaña no sirve: se desoculta con dos clics y además se nota que hay algo escondido.
+
+**Estado final del binario:** 86 fórmulas en el archivo del alumno (31 del Panel, 27 de `S02-Lab`, 28 del registro congelado de `S01-Lab`), 124 en el del docente. Toda la matemática verificada por segundo método; las 9 verificaciones de `Comprobación` en orden.
+
+---
+
+## 3 quater. Lo que sigue de S02-Lab, ya decidido
+
+**El cierre de S02-Lab es en realidad el arranque de S03.** Se les devuelve el resuelto y lo primero que hacen es un ejercicio guiado de tres movimientos, uno por camino, donde cada movimiento cambia el ganador:
+
+| Paso | Qué se escribe | Quién gana |
+|---|---|---|
+| 1 | 5 en clientes adicionales | A, $10,010 contra $9,952.80 |
+| 2 | de vuelta a 1, y 0.1 en unidades adicionales | C, $6,699 |
+| 3 | de vuelta a 0.2, y 2 en días adicionales | C, $13,398 |
+
+El paso 2 es el que enseña: bajaste el Camino B y el que subió al primer lugar fue C, no A, porque A nunca se movió.
+
+**Tres preguntas de reflexión**, que se evalúan por el argumento y no por el número: cuál movimiento le pedirías al referente y por qué; cuál de las tres palancas está más a tu alcance en tu negocio el mes que entra, dicho concretamente; y qué tendría que pasar para que cambiaras de palanca.
+
+**El puente a S03 sale solo:** ninguno de los tres caminos preguntó cuánto cuesta conseguirlo. Traer clientes cuesta publicidad y tiempo; abrir un día cuesta sueldos y renta. La hoja dice cuánto entra y calla sobre cuánto sale, que es exactamente el tema de S03.
+
+**Ejemplo de jerarquía de operaciones, ya verificado y listo para S03:** las 3.5 unidades repartidas entre 87 clientes son 3.5 ÷ 87. Escrito 3.5 ÷ 87 × 22 da 0.885; escrito 3.5 ÷ (87 × 22) da 0.0018. Misma frase en español, números distintos.
+
+**`semana-02/index.html` se rediseña** como hoja de trabajo guiada: el xlsx calcula, la app registra y produce el PDF. Hoy la app recalcula lo mismo que la hoja con sliders propios y por eso nunca se ocupó en clase: compite en vez de acompañar. Esto rompe la convención de que la app de S02 se queda como se dio, y se rompe a propósito.
 
 ---
 
@@ -97,7 +141,7 @@ Impartido el 17 de agosto de 2026. **Salió más confuso de lo previsto** y conv
 | Semana | Unidad | Estatus |
 |---|---|---|
 | 1 | U1 | **Cerrada.** Teoría, laboratorio, app, glosario y sitio desplegados. |
-| 2 | U1 | **Cerrada, con deuda.** Teoría y laboratorio impartidos; ver sección 3 bis. Pendiente: recorrer `S02-Lab-resuelto.xlsx`, pasar `gamma-S02-Lab-el-empate.md` por Gamma, y regenerar la guía del facilitador. ~~**App y teoría (Gamma) cerradas.** `semana-02/index.html` construido; `gamma-teoria-semana-02.md` cerrado con caso real, fuente del capítulo 1 y corrección del "0.1". Pendiente: generar el audio/video reales en NotebookLM (los prompts y la lista de fuentes ya están listos) y el glosario formal de los 5 términos nuevos.~~ |
+| 2 | U1 | **Libro cerrado y aprobado (19 de agosto).** Teoría y laboratorio impartidos; ver secciones 3 bis y 3 ter. Pendiente: rediseñar `semana-02/index.html`, pasar el deck del empate por Gamma y regenerar la guía del facilitador. ~~**Cerrada, con deuda.** Teoría y laboratorio impartidos; ver sección 3 bis. Pendiente: recorrer `S02-Lab-resuelto.xlsx`, pasar `gamma-S02-Lab-el-empate.md` por Gamma, y regenerar la guía del facilitador.~~ ~~**App y teoría (Gamma) cerradas.** `semana-02/index.html` construido; `gamma-teoria-semana-02.md` cerrado con caso real, fuente del capítulo 1 y corrección del "0.1". Pendiente: generar el audio/video reales en NotebookLM (los prompts y la lista de fuentes ya están listos) y el glosario formal de los 5 términos nuevos.~~ |
 | 3 | U2 | **App ya construida** (`semana-03/index.html`, ejecución mecánica ya aprobada, con `formulario-revision-semana-03.md` pendiente de que el área académica lo llene). **Teoría (Gamma) en curso**: ver sección 3 de este documento y el resto de la sesión. |
 | 4–5 | U2 | Pendiente de diseño. |
 | 6–8 | U3 | Pendiente de diseño. |
@@ -110,12 +154,14 @@ Impartido el 17 de agosto de 2026. **Salió más confuso de lo previsto** y conv
 
 **De S02-Lab (18 de agosto de 2026). Estos van primero:**
 
-1. **Recorrer `S02-Lab-resuelto.xlsx`.** Sin probar. Se incorpora a la auditoría de S03.
+1. ~~Recorrer `S02-Lab-resuelto.xlsx`.~~ **Cerrado el 19 de agosto:** validación celda por celda de Panel y S02-Lab, formatos corregidos, `Comprobación` reconstruida (10 de 10 en orden). Detalle en la sección 7.
 2. **Pasar `gamma-S02-Lab-el-empate.md` por Gamma** y ver si pide ajustes al Markdown. Se incorpora a la auditoría de S03.
-3. **`guia-facilitador-S02-Lab.docx` quedó desactualizada.** Se escribió para la distribución anterior, la de cinco bloques con porcentajes. Regenerarla **solo** cuando el resuelto esté aprobado, sobre el layout final, para no rehacerla dos veces.
-4. **`Tu negocio`, celda C14:** «unidades por cliente» quedó como fórmula derivada (`=C8/C13`), lo que vuelve tautológico su bloque de comprobación contra S01. Aplazado por prematuro.
+3. **`guia-facilitador-S02-Lab.docx` quedó desactualizada.** Ahora doblemente: ya no solo por la distribución de cinco bloques, también porque ya no menciona «la taquería» como referente fijo. Regenerarla **solo** cuando el layout esté aprobado y estable, para no rehacerla dos veces.
+4. ~~`Tu negocio`, celda C14.~~ **Cerrado el 19 de agosto:** «unidades por cliente» dejó de ser fórmula derivada y ahora es un valor escrito. La comprobación contra S01 vuelve a comprobar algo.
 5. **Subir «Frontera del temario» a las instrucciones del proyecto.** Ya está en `CLAUDE.md`; las instrucciones las edita Omar.
 6. **Vaciar `_to_delete/`** en la raíz del repo.
+7. **`registro-S02-Lab.md`, `guia-recorrido-S02-Lab-resuelto.md` y la tabla de números de referencia del handoff siguen citando «la taquería» con sus números viejos (87 · 3.5 · $22 · 26).** El Panel ya no la usa como referente fijo (ver convención nueva abajo); estos documentos quedan desactualizados hasta que se les dé una pasada.
+8. **Revisar `semana-02/index.html` contra el xlsx ya cerrado.** La pestaña «Auditoría de un referente» sigue con sus deslizadores en 30 días y 0.1, y dice «tacos» — el mismo problema que ya estaba anotado, ahora más urgente porque el xlsx cambió de fondo (campo mensual de clientes, sin taquería fija). Falta decidir cómo liga con S03.
 
 **Anteriores, sin cambio:**
 
@@ -127,7 +173,7 @@ Impartido el 17 de agosto de 2026. **Salió más confuso de lo previsto** y conv
 5. **Limpieza de CSS**: clases sin usar (`.rubrica-tabla`, `.bib-lista`) en `assets/styles.css`.
 6. **Documento de cierre pedagógico de Semana 1** (qué pasó realmente en clase vs. lo planeado): pendiente hasta que se imparta.
 7. **`glosario-fcnc.md`** (versión markdown portátil del glosario): pendiente de generar el espejo en Markdown de `glosario/index.html`.
-8. **Glosario de Semana 2**: los 5 términos nuevos (proporción/razón, tasa, la métrica que importa, palanca, tablero de supuestos) están validados en `gamma-teoria-semana-02.md` pero no se han agregado todavía a `glosario/index.html` ni a `glosario/terminos.csv`.
+8. **Glosario de Semana 2**: son ahora 7 términos, no 5 — «unidad» y «valor» (los nombres de las dos columnas numéricas del xlsx: el campo que mide y el que describe qué mide) se agregaron el 19 de agosto a `Vocabulario` del xlsx (ver convención nueva). Ninguno de los 7 se ha agregado todavía a `glosario/index.html` ni a `glosario/terminos.csv`, y estas dos definiciones también deben llegar al HTML.
 9. **Audio y video reales de NotebookLM de Semana 2**: los prompts y la lista de fuentes están listos (ver sección 3); falta generarlos en NotebookLM y subirlos a la pestaña "Recursos" (patrón ya visible como placeholder en `semana-03/index.html`).
 10. **Formulario de revisión de Semana 3**: `formulario-revision-semana-03.md` generado junto con la app; pendiente de que el área académica lo llene.
 11. **Acceso al libro para semanas futuras**: Omar no tiene el capítulo 2 («A mano y a máquina») ni versión digital del libro, y no hay certeza de que vaya a conseguir el ejemplar físico. `gamma-teoria-semana-03.md` ya no depende del libro (ver convención nueva arriba); probable que varias de las semanas con lectura "por confirmar" en `contexto-fcnc-semestre.md` (sem 4, 5, 6, 8, 9, 10, 11, 12, 14) enfrenten el mismo problema y necesiten el mismo tratamiento.
@@ -153,6 +199,17 @@ Impartido el 17 de agosto de 2026. **Salió más confuso de lo previsto** y conv
 - **(Nuevo, S02-Lab)** Se dice **unidades**, no tacos. Aplica a material nuevo; la app y el Gamma de S02 se quedan como se dieron.
 - **(Nuevo, S02-Lab)** La hoja armada en vivo se guarda sin corregir como `S0X-Lab-en-vivo.xlsx`, porque la devolución de la sesión siguiente la necesita.
 - **(Nuevo, S02-Lab)** Una presentación se entrega siempre como `.md` para Gamma, nunca como HTML ni PPTX.
+
+- **(Nuevo, 19 ago)** Cuando un documento describa un archivo, la referencia es **el archivo**: hay que abrirlo y comprobarlo antes de dar por buena cualquier afirmación sobre su contenido. Y después de escribir al disco, confirmar que la escritura entró comparando tamaño y fecha, porque si el archivo está abierto en Excel la escritura falla en silencio.
+- **(Nuevo, 19 ago)** Los documentos que describen fórmulas se **regeneran desde el binario** cada vez que el binario cambia, nunca a mano. Si el inventario y el archivo no coinciden, gana el archivo.
+- **(Nuevo, 19 ago)** Si la hoja invita al alumno a mover una celda para explorar, esa celda no puede ser un supuesto que otra pestaña lee. Tres tipos de celda y no se mezclan: azul (dato del referente), verde de modelo (supuesto que otros leen), verde de ensayo (juega libre).
+- **(Nuevo, 19 ago)** Ningún texto de la hoja escribe a mano un valor que puede cambiar. Si dice «0.2», «26 días» o «los 87 clientes», se arma con fórmula. Un párrafo que afirma un resultado fijo queda mintiendo en cuanto alguien mueve un supuesto en el proyector.
+- **(Nuevo, 19 ago)** Matiz sobre el porcentaje: lo prohibido antes de S04 no es que aparezca el símbolo, es **operar** con él. Un porcentaje como etiqueta de un dato fijo («la ganancia es 10% de las ventas») está bien; convertir una razón a porcentaje para compararla contra otra, no. Por eso `S01-Lab` conserva su 10% y el bloque cortado de S02-Lab sí se tenía que ir.
+- **(Nuevo, 19 ago)** El referente no se nombra en los encabezados. Hay una celda con su nombre y otra con su fuente, y todo lo demás las lee. Así el alumno lo puede sustituir por uno investigado sin rediseñar nada.
+- **(Nuevo, 19 ago)** Cada laboratorio entrega dos archivos: el del alumno y el `-docente`, este último con la pestaña `Comprobación`, que recalcula cada resultado por una ruta algebraica distinta y sin valores escritos a mano.
+- **(Nuevo, 19 ago) La taquería deja de ser el referente fijo del Panel.** Antes era el ejemplo obligatorio con sus propios números (87 clientes, 3.5 unidades, $22, 26 días); ahora esas celdas son verdes y quedan como ejemplo de arranque editable, con instrucción explícita de investigar un referente real del rubro del alumno (joyería, skincare, producción, lo que aplique). Motivo: comparar un negocio de $22 por unidad contra uno de $10,000 no dice nada. Queda planteado que S03 empiece pidiendo un referente, aunque sea prestado, y que cada quien avance hacia el suyo.
+- **(Nuevo, 19 ago) Excepción documentada a la regla de «sin enlaces entre pestañas».** Los cuatro supuestos de `S02-Lab` (`B7:B10`) ahora leen en vivo de `Panel!C8:C11` («Tu Negocio») en vez de traer valores propios. Es la única excepción: se decidió porque, sin la taquería como ancla fija, no tenía sentido que S02-Lab mantuviera su propia copia de los mismos cuatro números que ya vive en Panel. El referente del Panel (columna B) sigue sin enlazarse a nada — ahí sí aplica la regla original.
+- **(Nuevo, 19 ago) «La métrica que importa» es la única celda calculada que rompe el código gris = calculado.** Se resalta en naranja tenue a propósito, para dirigir la atención a la conclusión del tablero. Es una excepción de diseño, no un error de formato.
 
 ---
 
